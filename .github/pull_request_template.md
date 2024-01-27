@@ -1,12 +1,4 @@
-# 📛📛 Name of PR
-
-## About
-This pull request addresses issues #NUMBER_OF_THE_ISSUE and #NUMBER_OF_THE_ISSUE.
-
-## Title
-Leave this section empty.
-
-## Body
+## Title #ISSUE_NUMBER
 
 ### Description
 Please provide a concise summary of the changes made and/or specify the issue(s) being resolved.
