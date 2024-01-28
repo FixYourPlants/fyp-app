@@ -1,4 +1,4 @@
-package com.example.myapplication.sign_in
+package com.example.myapplication.domain.authentication.models
 
 data class SignInState(
     val isSignInSuccessful: Boolean = false,

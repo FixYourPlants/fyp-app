@@ -1,4 +1,4 @@
-package com.example.myapplication.screens
+package com.example.myapplication.domain.authentication.screens
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -14,7 +14,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.example.myapplication.sign_in.UserData
+import com.example.myapplication.domain.authentication.models.UserData
 
 @Composable
 fun ProfileScreen(

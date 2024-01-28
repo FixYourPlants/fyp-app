@@ -1,4 +1,4 @@
-package com.example.myapplication.screens
+package com.example.myapplication.domain.authentication.screens
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Box
@@ -12,7 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import com.example.myapplication.sign_in.SignInState
+import com.example.myapplication.domain.authentication.models.SignInState
 
 @Composable
 fun SignInScreen(

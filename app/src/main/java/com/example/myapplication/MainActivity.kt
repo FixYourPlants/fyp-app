@@ -10,26 +10,22 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.myapplication.screens.ProfileScreen
-import com.example.myapplication.screens.SignInScreen
-import com.example.myapplication.sign_in.SignInViewModel
-import com.example.myapplication.sign_in.GoogleAuthUiClient
+import com.example.myapplication.domain.authentication.screens.ProfileScreen
+import com.example.myapplication.domain.authentication.screens.SignInScreen
+import com.example.myapplication.domain.authentication.models.SignInViewModel
+import com.example.myapplication.network.services.GoogleAuthUiClient
 import com.example.myapplication.ui.theme.ComposeGoogleSignTheme
 import com.google.android.gms.auth.api.identity.Identity
 import kotlinx.coroutines.launch
-import kotlin.math.sign
 
 class MainActivity : ComponentActivity() {
 

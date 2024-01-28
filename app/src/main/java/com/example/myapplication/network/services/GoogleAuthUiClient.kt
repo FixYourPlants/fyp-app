@@ -1,4 +1,4 @@
-package com.example.myapplication.sign_in
+package com.example.myapplication.network.services
 
 import android.content.Context
 import android.content.Intent
@@ -10,6 +10,8 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.example.myapplication.R
+import com.example.myapplication.domain.authentication.models.SignInResult
+import com.example.myapplication.domain.authentication.models.UserData
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.tasks.await
 

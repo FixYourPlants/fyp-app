@@ -1,6 +1,8 @@
-package com.example.myapplication.sign_in
+package com.example.myapplication.domain.authentication.models
 
 import androidx.lifecycle.ViewModel
+import com.example.myapplication.domain.authentication.models.SignInResult
+import com.example.myapplication.domain.authentication.models.SignInState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
