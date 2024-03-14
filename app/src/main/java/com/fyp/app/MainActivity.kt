@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.fyp.app.ui.theme.OneTapComposeTheme
+import com.fyp.app.utils.GlobalErrorHandler
 import com.stevdzasan.onetap.GoogleUser
 import com.stevdzasan.onetap.OneTapSignInWithGoogle
 import com.stevdzasan.onetap.getUserFromTokenId
@@ -30,6 +31,7 @@ import com.stevdzasan.onetap.rememberOneTapSignInState
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Thread.setDefaultUncaughtExceptionHandler(GlobalErrorHandler(applicationContext))
         setContent {
             OneTapComposeTheme {
                 val state = rememberOneTapSignInState()
