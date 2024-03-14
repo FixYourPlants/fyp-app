@@ -1,4 +1,4 @@
-package com.example.myapplication.domain.home.componets
+package com.fyp.app.ui.components.buttons
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
