@@ -6,7 +6,7 @@ Aquí se detalla la estructura de carpetas sugerida para organizar un proyecto d
 
 ### Directorio `app`
 
-- **src/main/java/com/tuempresa/tuproject**: Directorio principal de código fuente de la aplicación.
+- **src/main/java/com/fyp/app**: Directorio principal de código fuente de la aplicación.
 
     - **data**: Contiene la capa de acceso a datos.
         - **model**: Modelos de datos utilizados en la aplicación.
