@@ -18,9 +18,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun ButtonAndImage(buttonText: String, imageResourceId: Int) {
+fun ButtonAndImage(buttonText: String, imageResourceId: Int, onClick: () -> Unit) {
     Button(
-        onClick = { /* Handle click */ },
+        onClick = { onClick() },
         modifier = Modifier
             .padding(8.dp),
         colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent)

@@ -15,15 +15,15 @@ import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.fyp.app.R
-import com.fyp.app.ui.components.buttons.ButtonAndImage
 import com.fyp.app.ui.components.Header
+import com.fyp.app.ui.components.buttons.ButtonAndImage
 
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(navController: NavController) {
     Header()
     Column(
         modifier = Modifier
@@ -46,12 +46,14 @@ fun HomeScreen() {
         ) {
             ButtonAndImage(
                 buttonText = "Enciclopedia de Virus",
-                imageResourceId = R.drawable.virus
+                imageResourceId = R.drawable.virus,
+                onClick = { navController.navigate("viruses") }
             )
 
             ButtonAndImage(
                 buttonText = "Anuncios de Plagas",
-                imageResourceId = R.drawable.grasshopper
+                imageResourceId = R.drawable.grasshopper,
+                onClick = { navController.navigate("pests") }
             )
         }
         Image(
@@ -71,12 +73,14 @@ fun HomeScreen() {
         ) {
             ButtonAndImage(
                 buttonText = "Enciclopedia de plantas",
-                imageResourceId = R.drawable.notes
+                imageResourceId = R.drawable.notes,
+                onClick = { navController.navigate("plants") }
             )
 
             ButtonAndImage(
                 buttonText = "Tus Diarios",
-                imageResourceId = R.drawable.virus
+                imageResourceId = R.drawable.virus,
+                onClick = { navController.navigate("diary") }
             )
         }
 
@@ -99,7 +103,8 @@ fun HomeScreen() {
         ) {
             ButtonAndImage(
                 buttonText = "Ayuda",
-                imageResourceId = R.drawable.help
+                imageResourceId = R.drawable.help,
+                onClick = { navController.navigate("help") }
             )
         }
 
@@ -116,8 +121,3 @@ fun HomeScreen() {
 
 
 
-@Preview(showBackground = true)
-@Composable
-fun HomeScreenPreview() {
-    HomeScreen()
-}

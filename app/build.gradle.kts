@@ -71,4 +71,6 @@ dependencies {
     // News dependencies
     implementation("com.github.stevdza-san:OneTapCompose:1.0.12") // Para iniciar sesión con la cuenta de Google
     implementation("com.github.cdimascio:java-dotenv:5.1.3") // Para cargar las variables de entorno
+
+    implementation("androidx.navigation:navigation-compose:2.7.7")
 }
