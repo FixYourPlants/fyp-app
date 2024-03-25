@@ -1,4 +1,4 @@
-package com.example.myapplication.domain.authentication.screens
+package com.fyp.app.ui.screens
 
 import android.util.Log
 import androidx.compose.foundation.layout.Box
@@ -64,7 +64,7 @@ fun LoginGoogleScreen() {
 }
 
 @Composable
-@Preview(showBackground = true)
+@Preview(showSystemUi = true)
 fun LoginGoogleScreenPreview() {
     LoginGoogleScreen()
 }
