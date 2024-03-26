@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("com.google.devtools.ksp") version "1.9.21-1.0.15"
 }
 
 android {
@@ -49,6 +50,17 @@ android {
     }
 }
 
+kotlin {
+    sourceSets {
+        debug {
+            kotlin.srcDir("build/generated/ksp/debug/kotlin")
+        }
+        release {
+            kotlin.srcDir("build/generated/ksp/release/kotlin")
+        }
+    }
+}
+
 dependencies {
 
     implementation("androidx.core:core-ktx:1.12.0")
@@ -70,5 +82,7 @@ dependencies {
 
     // News dependencies
     implementation("com.github.stevdza-san:OneTapCompose:1.0.12") // Para iniciar sesión con la cuenta de Google
-    implementation("com.github.cdimascio:java-dotenv:5.1.3") // Para cargar las variables de entorno
+    implementation("com.github.cdimascio:java-dotenv:5.1.3") // Para cargar las variables de entorn
+    implementation("io.github.raamcosta.compose-destinations:core:1.10.2")
+    ksp("io.github.raamcosta.compose-destinations:ksp:1.10.2")
 }
