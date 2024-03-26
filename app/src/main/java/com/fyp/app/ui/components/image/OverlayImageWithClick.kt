@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 public fun OverlayImageWithClick(
     defaultImageUrl: Int,
     clickedImageUrl: Int,
+    notClickedImageUrl: Int,
     onClick: () -> Unit
 ) {
     var isImageClicked by remember { mutableStateOf(false) }
@@ -55,15 +56,14 @@ public fun OverlayImageWithClick(
                 },
         ) {
             // Ajusta el tamaño y la posición de la imagen superpuesta
-            val imageSize = if (isImageClicked) 100.dp else 50.dp
+            val imageSize = if (isImageClicked) 150.dp else 50.dp
             Image(
-                painter = painterResource(id = if (isImageClicked) clickedImageUrl else defaultImageUrl),
+                painter = painterResource(id = if (isImageClicked) clickedImageUrl else notClickedImageUrl),
                 contentDescription = null,
                 modifier = Modifier
                     .size(imageSize)
-                    .offset(16.dp, 16.dp)  // Ajusta la posición según tus necesidades
-                    .clip(CircleShape),  // Puedes ajustar la forma según tus necesidades
-                contentScale = ContentScale.Crop
+                    .offset(16.dp, 16.dp),  // Ajusta la posición según tus necesidades
+                contentScale = ContentScale.Fit
             )
         }
     }
