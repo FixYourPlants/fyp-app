@@ -6,7 +6,5 @@ data class Plant(
     val description: String,
     val imageUrl: String,
     val difficulty: Difficulty,
-    val care: Care,
-    val enfermedades:List<Illness>,
-    val characteristics: List<Characteristic>
+    val care: Care
 )
