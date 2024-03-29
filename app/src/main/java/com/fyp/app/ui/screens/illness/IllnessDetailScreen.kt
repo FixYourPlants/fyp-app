@@ -1,6 +1,8 @@
-package com.fyp.app.ui.screens
+package com.fyp.app.ui.screens.illness
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -10,87 +12,86 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fyp.app.R
-import com.fyp.app.ui.components.AddOpinionDialog
+import com.fyp.app.data.repository.Repository
 import com.fyp.app.ui.components.BoxTag
-import com.fyp.app.ui.components.OpinionsSection
-import com.fyp.app.ui.components.image.OverlayImageWithClick
+import com.fyp.app.ui.screens.plants.Opinion
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
-data class Plant(
+data class Illness(
     val name: String,
     val description: String,
     val imageUrl: Int,
     val characteristics: List<String>,
-    val dificulty: String = "Fácil",
     val treatments: List<String>,
     val sickness: List<String>,
     val opinions: List<Opinion>,
     val scienceName: String
 )
 
-data class Opinion(val title: String, val description: String, val userName: String)
-
-
-val plantDetails = Plant(
-    name = "Lirio de la paz",
-    description = "El lirio de la paz es una planta de interior popular por sus hojas verdes y brillantes.",
-    imageUrl = R.drawable.plant,
+val illnessDetails = Illness(
+    name = "Sickness name",
+    description = "Sickness description",
+    imageUrl = R.drawable.sickness,
     characteristics = listOf(
-        "Planta de interior",
-        "Fácil de cuidar",
-        "No necesita luz directa"
+        "Characteristic 1",
+        "Characteristic 2",
+        "Characteristic 3"
     ),
-    dificulty = "Fácil",
     treatments = listOf(
-        "Riego moderado",
-        "Evitar corrientes de aire",
-        "Fertilizar cada 2 semanas"
+        "Treatment 1",
+        "Treatment 2",
+        "Treatment 3"
     ),
     sickness = listOf(
-        "Hojas amarillas",
-        "Pudrición de raíces"
+        "Plantita 1",
+        "Plantita 2",
+        "Plantita 3"
     ),
     opinions = listOf(
         Opinion(
-            title = "Opinión 1",
-            description = "Esta es la primera opinión sobre la planta.",
-            userName = "Usuario1"
+            title = "Opinion 1",
+            description = "Opinion description",
+            userName = "User name"
         ),
         Opinion(
-            title = "Opinión 2",
-            description = "Esta es la segunda opinión sobre la planta.",
-            userName = "Usuario2"
+            title = "Opinion 2",
+            description = "Opinion description",
+            userName = "User name"
         ),
         Opinion(
-            title = "Opinión 3",
-            description = "Esta es la tercera opinión sobre la planta.",
-            userName = "Usuario3"
+            title = "Opinion 3",
+            description = "Opinion description",
+            userName = "User name"
+
         )
     ),
-    scienceName = "Spathiphyllum wallisii"
+    scienceName = "Science name"
 )
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PlantDetailsScreen(
-    plant: Plant
+@Destination
+fun IllnessDetailsScreen(
+    navigator: DestinationsNavigator,
+    illness: Illness
 ) {
     LazyColumn(
         modifier = Modifier
@@ -112,12 +113,21 @@ fun PlantDetailsScreen(
                     modifier = Modifier
                         .weight(0.5f)
                 ) {
-                    OverlayImageWithClick(
-                        defaultImageUrl = plant.imageUrl,
-                        clickedImageUrl = R.drawable.hearth,
-                        notClickedImageUrl = R.drawable.hearth_empty,
-                        onClick = { /* Acciones cuando se hace clic en la imagen */ }
-                    )
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(200.dp)
+                    ) {
+                        // Fondo: Imagen de la planta
+                        Image(
+                            painter = painterResource(id = illness.imageUrl),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .clip(shape = MaterialTheme.shapes.medium),
+                            contentScale = ContentScale.Crop
+                        )
+                    }
                 }
                 Spacer(modifier = Modifier.width(16.dp))
                 Column(
@@ -125,30 +135,21 @@ fun PlantDetailsScreen(
                         .weight(0.5f)
                 ) {
                     Text(
-                        text = plant.name,
+                        text = illness.name,
                         fontWeight = FontWeight.Bold,
                         fontSize = 24.sp,
                         color = Color.Black
                     )
                     Text(
-                        text = plant.scienceName,
+                        text = illness.scienceName,
                         fontStyle = FontStyle.Italic,
                         fontSize = 12.sp,
                         modifier = Modifier.padding(vertical = 8.dp),
                         color = Color.Black
                     )
                     Text(
-                        text = plant.description,
+                        text = illness.description,
                         modifier = Modifier.padding(vertical = 8.dp),
-                        color = Color.Black
-                    )
-                    Text(
-                        text = "Dificultad: ",
-                        fontWeight = FontWeight.Bold,
-                        color = Color.Black
-                    )
-                    Text(
-                        text = plant.dificulty,
                         color = Color.Black
                     )
                 }
@@ -157,7 +158,7 @@ fun PlantDetailsScreen(
 
         item {
             Spacer(modifier = Modifier.height(16.dp))
-            BoxTag(name = "Características", values = plant.characteristics)
+            BoxTag(name = "Características", values = illness.characteristics)
         }
 
         item {
@@ -175,7 +176,7 @@ fun PlantDetailsScreen(
                 color = Color(0xFFA5FFA9)
             ) {
                 Column {
-                    plant.treatments.forEach { treatment ->
+                    illness.treatments.forEach { treatment ->
                         Text(
                             text = "• $treatment",
                             modifier = Modifier.padding(vertical = 4.dp),
@@ -188,35 +189,12 @@ fun PlantDetailsScreen(
 
         item {
             Spacer(modifier = Modifier.height(16.dp))
-            BoxTag(name = "Enfermedades:", values = plant.sickness)
-        }
-
-        item {
-            var showDialog by remember { mutableStateOf(false) }
-
-            Column(modifier = Modifier.padding(16.dp)) {
-                OpinionsSection(opinions = plant.opinions)
-                Spacer(modifier = Modifier.height(16.dp))
-                Button(onClick = { showDialog = true }) {
-                    Text(text = "Añadir Opinión")
-                }
-            }
-
-            if (showDialog) {
-                AddOpinionDialog(onDismiss = { showDialog = false })
-            }
+            BoxTag(name = "Plantas:", values = illness.sickness)
         }
     }
 }
 
 
-
-
-@Composable
-@Preview
-fun PlantDetailsScreenPreview() {
-    PlantDetailsScreen(plant = plantDetails)
-}
 
 
 

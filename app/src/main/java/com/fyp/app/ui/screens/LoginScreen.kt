@@ -26,8 +26,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fyp.app.R
 import com.fyp.app.ui.components.buttons.LoginGoogleButton
+import com.ramcosta.composedestinations.annotation.Destination
 
 @Composable
+@Destination
 fun LoginScreen() {
     Column(
         modifier = Modifier.fillMaxSize(),

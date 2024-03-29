@@ -1,6 +1,7 @@
 package com.fyp.app.ui.components
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -28,7 +29,7 @@ import androidx.compose.ui.unit.sp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Header() {
+fun Header(onClickLogo: () -> Unit, onClickAccount: () -> Unit) {
     TopAppBar(
         title = {
             Row(
@@ -36,7 +37,7 @@ fun Header() {
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 // TODO: Si se pulsa te lleva a la pantalla principal
-                logo()
+                Logo(onClickLogo)
                 Text(
                     text = "Fix Your Plants",
                     color = Color.White,
@@ -57,7 +58,7 @@ fun Header() {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Spacer(modifier = Modifier.width(16.dp))
-                Icon(imageVector = Icons.Default.AccountCircle, contentDescription = null)
+                Icon(imageVector = Icons.Default.AccountCircle, contentDescription = null, modifier = Modifier.clickable { onClickAccount() })
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(
@@ -68,11 +69,4 @@ fun Header() {
             .statusBarsPadding()
             .border(width=3.dp, color = Color(0,120,0))
     )
-}
-
-
-@Preview(showBackground = true)
-@Composable
-fun HeaderPreview() {
-    Header()
 }

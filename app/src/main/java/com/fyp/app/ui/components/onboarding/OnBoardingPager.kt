@@ -27,6 +27,7 @@ fun OnBoardingPager(
     item: List<Animation>,
     pager: PagerState,
     modifier: Modifier = Modifier,
+    onClickFinalButton: () -> Unit
 ) {
     Box(modifier = Modifier) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -63,7 +64,7 @@ fun OnBoardingPager(
             }
             PagerIndicator(size = item.size, currentPage = pager.currentPage)
             Spacer(modifier = Modifier.height(20.dp))
-            ButtonFinish(currentPage = pager.currentPage, endPage = item.size - 1)
+            ButtonFinish(currentPage = pager.currentPage, endPage = item.size - 1, onClick = onClickFinalButton)
         }
     }
 }

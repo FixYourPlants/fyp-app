@@ -18,8 +18,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
+// TODO: Separa en un futuro en distintas clases que permitan añadir acciones si se pulsa uno de los botnoes
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
+
 fun BoxTag(name: String, values: List<String>) {
     Column(
         modifier = Modifier

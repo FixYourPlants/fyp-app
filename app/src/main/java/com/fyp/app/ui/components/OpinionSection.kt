@@ -26,7 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.fyp.app.ui.screens.Opinion
+import com.fyp.app.ui.screens.plants.Opinion
 
 
 @Composable

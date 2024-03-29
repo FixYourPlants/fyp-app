@@ -1,4 +1,4 @@
-package com.fyp.app.ui.components.onboarding
+package com.fyp.app.ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -6,14 +6,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import com.destinations.HomeScreenDestination
 import com.fyp.app.R
 import com.fyp.app.data.model.Animation
+import com.fyp.app.ui.components.onboarding.OnBoardingPager
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.annotation.RootNavGraph
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun MainOnBoarding() {
+@Destination
+fun HelpScreen(navigator: DestinationsNavigator) {
     val items = ArrayList<Animation>()
 
     items.add(Animation(
@@ -44,12 +50,7 @@ fun MainOnBoarding() {
 
     val pagerState = rememberPagerState(pageCount = items.size, initialOffscreenLimit = items.size-1, infiniteLoop = false, initialPage = 0)
 
-    OnBoardingPager(item = items, pager = pagerState, modifier = Modifier.fillMaxWidth().background(Color.White))
-
-}
-
-@Preview
-@Composable
-fun MainOnBoardingPreview() {
-    MainOnBoarding()
+    OnBoardingPager(item = items, pager = pagerState, modifier = Modifier.fillMaxWidth().background(Color.White), onClickFinalButton = {
+        navigator.navigate(HomeScreenDestination())
+    })
 }
