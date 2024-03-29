@@ -4,33 +4,38 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.tooling.preview.Preview
-import com.fyp.app.ui.components.ListBox
+import com.fyp.app.data.repository.Repository
+import com.fyp.app.ui.components.Header
+import com.fyp.app.ui.components.ListBoxAlerts
+import com.fyp.app.ui.components.ListBoxIllness
+import com.fyp.app.ui.components.ListBoxPlants
 
 @Composable
 fun PlantListScreen() {
-    val plants = remember { llamada_api() }
+    val plants = remember { Repository.plants }
     Column {
-        ListBox(content = plants, type="PLANTS")
+        Header()
+        ListBoxPlants(content = plants)
     }
 }
 @Composable
 fun IllnessListScreen() {
-    val illness = remember { llamada_api() }
+    val illness = remember { Repository.illness }
     Column {
-        ListBox(content = illness, type="ILLNESS")
+        Header()
+        ListBoxIllness(content = illness)
     }
 }
 @Composable
 fun PlaguesListScreen() {
-    val plagues = remember { llamada_api() }
+    val plagues = remember { getPlaguesList() }
     Column {
-        ListBox(content = plagues, type="PLAGUES")
+        Header()
+        ListBoxAlerts(content = plagues)
     }
 }
-fun llamada_api(): List<List<String>> {
-    val planta1= listOf("La Langosta come hombres","image","Si tienes insecticida esta easy", "Mi nombre es Iñigo Montoya y tu mataste a mi padre. Prepárate a morir (En idioma de insectos)")
-    val planta2= listOf("Chupame el orto","image","Difícil: no llego", "Soy Sagitario bby")
-    val content= listOf(planta1,planta2)
+fun getPlaguesList(): MutableList<MutableList<String>> {
+    val content = mutableListOf(mutableListOf("Alerta1","image1","Descripción 1"),mutableListOf("Alerta2","image2","Descripción 2"),mutableListOf("Alerta2","image2","Descripción 2"))
     return content
 }
 

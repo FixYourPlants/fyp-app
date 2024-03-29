@@ -24,93 +24,98 @@ import com.fyp.app.ui.components.Header
 
 @Composable
 fun HomeScreen() {
-    Header()
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-            .background(Color(0xFF804000))
-            .wrapContentSize(Alignment.BottomCenter)
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.up),
-            contentDescription = null,
-            modifier = Modifier
-                // .scale(1.243f)
-                .align(Alignment.CenterHorizontally)
-        )
-        Row(
-            horizontalArrangement = Arrangement.Center,
-            modifier = Modifier
-                .paint(painterResource(id = R.drawable.middle), contentScale = ContentScale.FillBounds)
-        ) {
-            ButtonAndImage(
-                buttonText = "Enciclopedia de Virus",
-                imageResourceId = R.drawable.virus
-            )
-
-            ButtonAndImage(
-                buttonText = "Anuncios de Plagas",
-                imageResourceId = R.drawable.grasshopper
-            )
-        }
-        Image(
-            painter = painterResource(id = R.drawable.down),
-            contentDescription = null,
-            modifier = Modifier
-                // .scale(1.243f)
-                .align(Alignment.CenterHorizontally)
-        )
-        Row(
+    Column{
+        Header()
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .paint(
-                    painterResource(id = R.drawable.middle),
-                    contentScale = ContentScale.FillBounds
-                )
+                .padding(16.dp)
+                .background(Color(0xFF804000))
+                .wrapContentSize(Alignment.BottomCenter)
         ) {
-            ButtonAndImage(
-                buttonText = "Enciclopedia de plantas",
-                imageResourceId = R.drawable.notes
+
+            Image(
+                painter = painterResource(id = R.drawable.up),
+                contentDescription = null,
+                modifier = Modifier
+                    // .scale(1.243f)
+                    .align(Alignment.CenterHorizontally)
+            )
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                modifier = Modifier
+                    .paint(painterResource(id = R.drawable.middle), contentScale = ContentScale.FillBounds)
+            ) {
+                ButtonAndImage(
+                    buttonText = "Enciclopedia de Virus",
+                    imageResourceId = R.drawable.virus
+                )
+
+                ButtonAndImage(
+                    buttonText = "Anuncios de Plagas",
+                    imageResourceId = R.drawable.grasshopper
+                )
+            }
+            Image(
+                painter = painterResource(id = R.drawable.down),
+                contentDescription = null,
+                modifier = Modifier
+                    // .scale(1.243f)
+                    .align(Alignment.CenterHorizontally)
+            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .paint(
+                        painterResource(id = R.drawable.middle),
+                        contentScale = ContentScale.FillBounds
+                    )
+            ) {
+                ButtonAndImage(
+                    buttonText = "Enciclopedia de plantas",
+                    imageResourceId = R.drawable.notes
+                )
+
+                ButtonAndImage(
+                    buttonText = "Tus Diarios",
+                    imageResourceId = R.drawable.virus
+                )
+            }
+
+            Image(
+                painter = painterResource(id = R.drawable.down),
+                contentDescription = null,
+                modifier = Modifier
+                    // .scale(1.243f)
+                    .align(Alignment.CenterHorizontally)
             )
 
-            ButtonAndImage(
-                buttonText = "Tus Diarios",
-                imageResourceId = R.drawable.virus
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .paint(
+                        painterResource(id = R.drawable.middle),
+                        contentScale = ContentScale.FillBounds
+                    )
+            ) {
+                ButtonAndImage(
+                    buttonText = "Ayuda",
+                    imageResourceId = R.drawable.help
+                )
+            }
+
+            Image(
+                painter = painterResource(id = R.drawable.down_down),
+                contentDescription = null,
+                modifier = Modifier
+                    // .scale(1.243f)
+                    .align(Alignment.CenterHorizontally)
             )
         }
 
-        Image(
-            painter = painterResource(id = R.drawable.down),
-            contentDescription = null,
-            modifier = Modifier
-                // .scale(1.243f)
-                .align(Alignment.CenterHorizontally)
-        )
-
-        Row(
-            horizontalArrangement = Arrangement.Center,
-            modifier = Modifier
-                .fillMaxWidth()
-                .paint(
-                    painterResource(id = R.drawable.middle),
-                    contentScale = ContentScale.FillBounds
-                )
-        ) {
-            ButtonAndImage(
-                buttonText = "Ayuda",
-                imageResourceId = R.drawable.help
-            )
-        }
-
-        Image(
-            painter = painterResource(id = R.drawable.down_down),
-            contentDescription = null,
-            modifier = Modifier
-                // .scale(1.243f)
-                .align(Alignment.CenterHorizontally)
-        )
     }
+
 }
 
 

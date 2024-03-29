@@ -22,6 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fyp.app.R
+import com.fyp.app.data.model.Difficulty
 
 @Composable
 fun ContainerIllness(title:String, image: String, description:String) {
@@ -96,7 +97,7 @@ fun ContainerPlague(title:String, image: String, description:String) {
 }
 
 @Composable
-fun ContainerPlants(title:String, image: String, difficulty:String, description:String) {
+fun ContainerPlants(title:String, image: String, difficulty: Difficulty, description:String) {
 
     Box(contentAlignment = Alignment.CenterStart,
         modifier = Modifier
@@ -127,7 +128,7 @@ fun ContainerPlants(title:String, image: String, difficulty:String, description:
                 maxLines=1)
             Text(text = description,
                 maxLines = 4)
-            Text(text = difficulty,
+            Text(text = difficulty.toString(),
                 color = Color.White,
                 maxLines=1)
         }
@@ -138,12 +139,12 @@ fun ContainerPlants(title:String, image: String, difficulty:String, description:
 @Preview()
 @Composable
 fun ContainerPlantsPreview() {
-    ContainerPlants("Soy una planta bb","image","Easy Peasy", "Soy una plantita y me voy a morir de sed. Necesito que me riegues con tu pis para sobrevivir.")
+    ContainerPlants("Soy una planta bb","image",Difficulty.FACIL, "Soy una plantita y me voy a morir de sed. Necesito que me riegues ya para sobrevivir.")
 }
 @Preview()
 @Composable
 fun ContainerPlantsIllness() {
-    ContainerIllness("Coronavirus plantil","image", "Te hace mierda.")
+    ContainerIllness("Coronavirus plantil","image", "Le quita el sentido del gusto a tus plantas :(.")
 }
 
 @Preview()
