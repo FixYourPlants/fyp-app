@@ -1,6 +1,8 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-android")
+    id("kotlin-parcelize")
     id("com.google.devtools.ksp") version "1.9.21-1.0.15"
 }
 
@@ -66,16 +68,17 @@ dependencies {
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
     implementation("androidx.activity:activity-compose:1.8.2")
-    implementation(platform("androidx.compose:compose-bom:2023.08.00"))
+    implementation(platform("androidx.compose:compose-bom:2024.03.00"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
     implementation("androidx.navigation:navigation-runtime-ktx:2.7.7")
+    implementation("com.google.android.gms:play-services-wallet:19.3.0")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-    androidTestImplementation(platform("androidx.compose:compose-bom:2023.08.00"))
+    androidTestImplementation(platform("androidx.compose:compose-bom:2024.03.00"))
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
@@ -83,6 +86,10 @@ dependencies {
     // News dependencies
     implementation("com.github.stevdza-san:OneTapCompose:1.0.12") // Para iniciar sesión con la cuenta de Google
     implementation("com.github.cdimascio:java-dotenv:5.1.3") // Para cargar las variables de entorn
+    implementation("androidx.navigation:navigation-compose:2.7.7")
     implementation("io.github.raamcosta.compose-destinations:core:1.10.2")
     ksp("io.github.raamcosta.compose-destinations:ksp:1.10.2")
+
+    implementation ("com.google.accompanist:accompanist-pager:0.15.0")
+    implementation ("com.airbnb.android:lottie-compose:5.2.0")
 }

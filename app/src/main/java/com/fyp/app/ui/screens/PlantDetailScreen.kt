@@ -32,8 +32,6 @@ import com.fyp.app.ui.components.AddOpinionDialog
 import com.fyp.app.ui.components.BoxTag
 import com.fyp.app.ui.components.OpinionsSection
 import com.fyp.app.ui.components.image.OverlayImageWithClick
-import com.fyp.app.ui.components.opinions
-import com.ramcosta.composedestinations.annotation.Destination
 
 data class Plant(
     val name: String,

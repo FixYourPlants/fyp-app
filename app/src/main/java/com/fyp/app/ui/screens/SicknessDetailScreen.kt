@@ -30,7 +30,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fyp.app.R
 import com.fyp.app.ui.components.BoxTag
-import com.fyp.app.ui.components.image.OverlayImageWithClick
 
 data class Sickness(
     val name: String,

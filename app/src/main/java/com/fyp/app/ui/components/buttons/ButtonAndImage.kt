@@ -18,7 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun ButtonAndImage(buttonText: String, imageResourceId: Int) {
+fun ButtonAndImage(buttonText: String, imageResourceId: Int, onClick: () -> Unit) {
     Button(
         onClick = { /* Handle click */ },
         modifier = Modifier
