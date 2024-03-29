@@ -42,15 +42,18 @@ fun getPlaguesList(): MutableList<MutableList<String>> {
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun PlantListScreenPreview(){
+    Repository.populate()
     PlantListScreen()
 }
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun PlaguesListScreenPreview(){
+    Repository.populate()
     PlaguesListScreen()
 }
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun IllnessListScreenPreview(){
+    Repository.populate()
     IllnessListScreen()
 }

@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fyp.app.R
 import com.fyp.app.data.model.Difficulty
+import com.fyp.app.data.model.obtainDifficulty
 
 @Composable
 fun ContainerIllness(title:String, image: String, description:String) {
@@ -127,8 +128,8 @@ fun ContainerPlants(title:String, image: String, difficulty: Difficulty, descrip
                 fontWeight = FontWeight.Bold,
                 maxLines=1)
             Text(text = description,
-                maxLines = 4)
-            Text(text = difficulty.toString(),
+                maxLines = 3)
+            Text(text = "Dificultad: "+ obtainDifficulty(difficulty),
                 color = Color.White,
                 maxLines=1)
         }
@@ -139,7 +140,7 @@ fun ContainerPlants(title:String, image: String, difficulty: Difficulty, descrip
 @Preview()
 @Composable
 fun ContainerPlantsPreview() {
-    ContainerPlants("Soy una planta bb","image",Difficulty.FACIL, "Soy una plantita y me voy a morir de sed. Necesito que me riegues ya para sobrevivir.")
+    ContainerPlants("Soy una planta bb","image",Difficulty.EASY, "Soy una plantita y me voy a morir de sed. Necesito que me riegues ya para sobrevivir.")
 }
 @Preview()
 @Composable

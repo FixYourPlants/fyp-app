@@ -18,6 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.fyp.app.R
+import com.fyp.app.data.repository.Repository
 import com.fyp.app.ui.components.buttons.ButtonAndImage
 import com.fyp.app.ui.components.Header
 
