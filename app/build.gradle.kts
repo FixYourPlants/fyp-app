@@ -4,6 +4,7 @@ plugins {
     id("kotlin-android")
     id("kotlin-parcelize")
     id("com.google.devtools.ksp") version "1.9.21-1.0.15"
+    id("com.google.gms.google-services") // Agrega este plugin para Firebase
 }
 
 android {
@@ -83,13 +84,17 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
-    // News dependencies
-    implementation("com.github.stevdza-san:OneTapCompose:1.0.12") // Para iniciar sesión con la cuenta de Google
     implementation("com.github.cdimascio:java-dotenv:5.1.3") // Para cargar las variables de entorn
     implementation("androidx.navigation:navigation-compose:2.7.7")
     implementation("io.github.raamcosta.compose-destinations:core:1.10.2")
     ksp("io.github.raamcosta.compose-destinations:ksp:1.10.2")
+    implementation("com.google.firebase:firebase-auth-ktx:21.1.0")
+    implementation("com.google.android.gms:play-services-auth:20.4.1")
 
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.0")
+    implementation("androidx.navigation:navigation-compose:2.5.3")
+    implementation("io.coil-kt:coil-compose:2.2.2")
     implementation ("com.google.accompanist:accompanist-pager:0.15.0")
     implementation ("com.airbnb.android:lottie-compose:5.2.0")
 }

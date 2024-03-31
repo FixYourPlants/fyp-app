@@ -1,5 +1,5 @@
 package com.fyp.app.ui.components.buttons
-
+/*
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -105,3 +105,4 @@ fun LoginGoogleButton() {
 fun LoginGoogleScreenPreview() {
     LoginGoogleButton()
 }
+*/
