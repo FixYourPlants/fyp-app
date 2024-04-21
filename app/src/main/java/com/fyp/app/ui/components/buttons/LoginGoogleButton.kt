@@ -1,5 +1,5 @@
 package com.fyp.app.ui.components.buttons
-/*
+
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -31,10 +31,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.fyp.app.R
 import com.fyp.app.ui.theme.OneTapComposeTheme
-import com.stevdzasan.onetap.GoogleUser
-import com.stevdzasan.onetap.OneTapSignInWithGoogle
-import com.stevdzasan.onetap.getUserFromTokenId
-import com.stevdzasan.onetap.rememberOneTapSignInState
+
 
 @Composable
 fun GoogleSignInButton(onClick: () -> Unit) {
@@ -72,37 +69,3 @@ fun GoogleSignInButton(onClick: () -> Unit) {
         }
     }
 }
-
-@Composable
-fun LoginGoogleButton() {
-    OneTapComposeTheme {
-        val state = rememberOneTapSignInState()
-        var user: GoogleUser? by remember { mutableStateOf(null) }
-        OneTapSignInWithGoogle(
-            state = state,
-            clientId = R.string.web_client_id.toString(),
-            rememberAccount = true,
-            onTokenIdReceived = {
-                user = getUserFromTokenId(tokenId = it)
-                Log.d("MainActivity", user.toString())
-            },
-            onDialogDismissed = {
-                Log.d("MainActivity", it)
-            }
-        )
-
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            GoogleSignInButton(onClick = { state.open() })
-        }
-    }
-}
-
-@Composable
-@Preview(showSystemUi = true)
-fun LoginGoogleScreenPreview() {
-    LoginGoogleButton()
-}
-*/

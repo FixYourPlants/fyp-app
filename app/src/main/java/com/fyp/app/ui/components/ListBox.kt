@@ -13,7 +13,7 @@ import com.fyp.app.data.model.Illness
 import com.fyp.app.data.model.Plant
 
 @Composable
-fun ListBoxPlants(content:List<Plant>){
+fun ListBoxPlants(content: MutableList<Plant>){
     LazyColumn(modifier = Modifier
         .padding(10.dp)
         .border(width = 2.dp, color = Color.Black)

@@ -1,8 +1,22 @@
 package com.fyp.app.data.model
 
+import com.google.gson.annotations.SerializedName
+
 data class User(
-    val name: String,
+    @SerializedName("pk")
+    val id:String,
+    @SerializedName("username")
+    val username: String,
+    @SerializedName("firstName")
+    val firstName: String,
+    @SerializedName("lastName")
+    val lastName: String,
+    @SerializedName("email")
     val email: String,
+    @SerializedName("password")
     val password: String,
-    val imageUrl: String
+    @SerializedName("image")
+    val imageUrl: String,
+    @SerializedName("favorite_plant")
+    val favoritePlants: List<Plant>
 )

@@ -7,8 +7,8 @@ import com.fyp.app.data.model.Difficulty
 import com.fyp.app.data.model.Illness
 import com.fyp.app.data.model.Opinion
 import com.fyp.app.data.model.Plant
-import com.fyp.app.data.model.PlantIllness
 import com.fyp.app.data.model.User
+import com.fyp.app.utils.createRetrofitService
 
 object Repository {
     val plants:MutableList<Plant> = mutableListOf()
@@ -16,7 +16,10 @@ object Repository {
     val opinions:MutableList<Opinion> = mutableListOf()
     val users:MutableList<User> = mutableListOf()
     val characteristics:MutableList<Characteristic> = mutableListOf()
-    val plantIllness:MutableList<PlantIllness> = mutableListOf()
+
+
+
+    /*
     fun populate() {
     /////////////////////// CUIDADOS /////////////////////////////
         val cuidadoManzana = Care(type = CareType.PLANT, actions = "Podar regularmente para mantener la forma y estimular el crecimiento. Proporcionar riego regular y protección contra plagas y enfermedades.")
@@ -124,14 +127,14 @@ object Repository {
         opinions.add(opinion6)
 
     /////////////////////// CHARACTERISTICS //////////////////////////////
-        val characteristic1= Characteristic(name = "Dulce", plant= listOf(plant4,plant5))
-        val characteristic2= Characteristic(name = "Arbusto", plant=listOf(plant4,plant5,plant6,plant10,plant12))
-        val characteristic3= Characteristic(name = "Árbol", plant=listOf(plant1,plant6,plant7))
-        val characteristic4= Characteristic(name = "Oriental", plant=listOf(plant9))
-        val characteristic5= Characteristic(name = "Tubérculo", plant=listOf(plant2,plant2,plant5,plant6,plant11))
-        val characteristic6= Characteristic(name = "Rojo", plant=listOf(plant4,plant5,plant6,plant10,plant12))
-        val characteristic7= Characteristic(name = "Mediterráneo", plant=listOf(plant2,plant5,plant8,plant11))
-        val characteristic8= Characteristic(name = "Mejor Zumo", plant=listOf(plant7))
+        val characteristic1= Characteristic(name = "Dulce", plants= listOf(plant4,plant5))
+        val characteristic2= Characteristic(name = "Arbusto", plants=listOf(plant4,plant5,plant6,plant10,plant12))
+        val characteristic3= Characteristic(name = "Árbol", plants=listOf(plant1,plant6,plant7))
+        val characteristic4= Characteristic(name = "Oriental", plants=listOf(plant9))
+        val characteristic5= Characteristic(name = "Tubérculo", plants=listOf(plant2,plant2,plant5,plant6,plant11))
+        val characteristic6= Characteristic(name = "Rojo", plants=listOf(plant4,plant5,plant6,plant10,plant12))
+        val characteristic7= Characteristic(name = "Mediterráneo", plants=listOf(plant2,plant5,plant8,plant11))
+        val characteristic8= Characteristic(name = "Mejor Zumo", plants=listOf(plant7))
 
         characteristics.add(characteristic1)
         characteristics.add(characteristic2)
@@ -141,7 +144,7 @@ object Repository {
         characteristics.add(characteristic6)
         characteristics.add(characteristic7)
         characteristics.add(characteristic8)
-
+/*
     /////////////////////// OPINIONS //////////////////////////////
         val plantIllness1= PlantIllness(plant = plant1, illness = sarna)
         val plantIllness2= PlantIllness(plant = plant1, illness = oxido)
@@ -174,6 +177,9 @@ object Repository {
         plantIllness.add(plantIllness12)
         plantIllness.add(plantIllness13)
         plantIllness.add(plantIllness14)
+*/
     }
 
+
+     */
 }

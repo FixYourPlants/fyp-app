@@ -19,10 +19,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.fyp.app.ui.screens.ProfileScreen
-import com.fyp.app.ui.screens.SignInScreen
+import com.fyp.app.ui.screens.users.ProfileScreen
+import com.fyp.app.ui.screens.users.SignInScreen
 import com.fyp.app.ui.theme.ComposeGoogleSignInCleanArchitectureTheme
-import com.fyp.app.ui.theme.ComposeGoogleSignTheme
 import com.fyp.app.viewmodel.SignInViewModel
 import com.google.android.gms.auth.api.identity.Identity
 import kotlinx.coroutines.launch

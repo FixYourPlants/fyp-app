@@ -1,5 +1,6 @@
-package com.fyp.app.ui.screens
+package com.fyp.app.ui.screens.users
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -14,29 +15,44 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fyp.app.R
-//import com.fyp.app.ui.components.buttons.LoginGoogleButton
-import com.ramcosta.composedestinations.annotation.Destination
+import com.fyp.app.data.model.SignInState
+import com.fyp.app.ui.components.buttons.GoogleSignInButton
 
 @Composable
-@Destination
-fun LoginScreen() {
+fun SignInScreen(
+    state: SignInState,
+    onSignInClick: () -> Unit
+) {
+    val context = LocalContext.current
+    LaunchedEffect(key1 = state.signInError) {
+        state.signInError?.let { error ->
+            Toast.makeText(
+                context,
+                error,
+                Toast.LENGTH_LONG
+            ).show()
+        }
+    }
+
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Image(painter = painterResource(id = R.drawable.logo), contentDescription = "Login image",
+        Image(
+            painter = painterResource(id = R.drawable.logo), contentDescription = "Login image",
             modifier = Modifier
                 .fillMaxSize(0.3f)
                 .clip(CircleShape)
@@ -44,8 +60,13 @@ fun LoginScreen() {
             contentScale = ContentScale.Crop
 
         )
-        Text(text = "Welcome Back", fontSize = 28.sp, fontWeight = FontWeight.Bold,modifier = Modifier.padding(16.dp))
-        
+        Text(
+            text = "Welcome Back",
+            fontSize = 28.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(16.dp)
+        )
+
         Spacer(modifier = Modifier.height(4.dp))
 
         Text(text = "Login to your account")
@@ -75,14 +96,6 @@ fun LoginScreen() {
         Text(text = "Or sign in with")
 
         Spacer(modifier = Modifier.height(4.dp))
-
-        //LoginGoogleButton()
+        GoogleSignInButton(onClick = onSignInClick)
     }
-
-}
-
-@Composable
-@Preview
-fun LoginScreenPreview() {
-    LoginScreen()
 }

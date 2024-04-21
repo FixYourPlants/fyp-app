@@ -64,6 +64,7 @@ kotlin {
     }
 }
 
+
 dependencies {
 
     implementation("androidx.core:core-ktx:1.12.0")
@@ -96,4 +97,7 @@ dependencies {
     implementation("io.coil-kt:coil-compose:2.2.2")
     implementation ("com.google.accompanist:accompanist-pager:0.15.0")
     implementation ("com.airbnb.android:lottie-compose:5.2.0")
+    implementation ("com.squareup.retrofit2:retrofit:2.11.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.11.0")
+
 }

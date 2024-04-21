@@ -1,4 +1,4 @@
-package com.fyp.app.ui.screens
+package com.fyp.app.ui.screens.users
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
