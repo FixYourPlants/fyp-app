@@ -103,6 +103,6 @@ fun LoginGoogleButton() {
 @Composable
 @Preview(showSystemUi = true)
 fun LoginGoogleScreenPreview() {
-    LoginGoogleButton()
+    GoogleSignInButton(onClick = {})
 }
 */

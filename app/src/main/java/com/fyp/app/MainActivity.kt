@@ -43,6 +43,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            /*
             //DestinationsNavHost(navGraph = NavGraphs.root)
             ComposeGoogleSignTheme {
                 // A surface container using the 'background' color from the theme
@@ -123,6 +124,8 @@ class MainActivity : ComponentActivity() {
                     }
                 }
             }
+             */
+            DestinationsNavHost(navGraph = NavGraphs.root)
         }
     }
 }
