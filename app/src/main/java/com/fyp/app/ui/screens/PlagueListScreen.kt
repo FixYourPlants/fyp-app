@@ -3,6 +3,7 @@ package com.fyp.app.ui.screens
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.tooling.preview.Preview
 import com.fyp.app.ui.components.Header
 import com.fyp.app.ui.components.ListBoxAlerts
 import com.fyp.app.ui.screens.destinations.HomeScreenDestination
@@ -31,4 +32,3 @@ fun getPlaguesList(): MutableList<MutableList<String>> {
     val content = mutableListOf(mutableListOf("Alerta1","image1","Descripción 1"),mutableListOf("Alerta2","image2","Descripción 2"),mutableListOf("Alerta2","image2","Descripción 2"))
     return content
 }
-

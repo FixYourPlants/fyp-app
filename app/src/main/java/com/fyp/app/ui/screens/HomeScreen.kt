@@ -1,4 +1,4 @@
-package com.example.myapplication.domain.home.screens
+package com.fyp.app.ui.screens
 
 import android.util.Log
 import androidx.compose.foundation.Image
@@ -17,15 +17,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.destinations.HelpScreenDestination
-import com.destinations.HomeScreenDestination
-import com.destinations.IllnessListScreenDestination
-import com.destinations.PlaguesListScreenDestination
-import com.destinations.PlantListScreenDestination
-import com.destinations.UserDetailsScreenDestination
+
 import com.fyp.app.R
 import com.fyp.app.ui.components.Header
 import com.fyp.app.ui.components.buttons.ButtonAndImage
+import com.fyp.app.ui.screens.destinations.HelpScreenDestination
+import com.fyp.app.ui.screens.destinations.HomeScreenDestination
+import com.fyp.app.ui.screens.destinations.IllnessListScreenDestination
+import com.fyp.app.ui.screens.destinations.LoginScreenDestination
+import com.fyp.app.ui.screens.destinations.PlaguesListScreenDestination
+import com.fyp.app.ui.screens.destinations.PlantListScreenDestination
+import com.fyp.app.ui.screens.destinations.UserDetailsScreenDestination
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -41,7 +43,7 @@ fun HomeScreen(navigator: DestinationsNavigator) {
                 navigator.navigate(HomeScreenDestination())
             },
             onClickAccount = {
-                navigator.navigate(UserDetailsScreenDestination())
+                navigator.navigate(LoginScreenDestination())
             }
         )
         Column(
