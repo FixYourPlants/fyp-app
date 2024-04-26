@@ -27,6 +27,7 @@ import com.fyp.app.ui.screens.destinations.IllnessListScreenDestination
 import com.fyp.app.ui.screens.destinations.LoginScreenDestination
 import com.fyp.app.ui.screens.destinations.PlaguesListScreenDestination
 import com.fyp.app.ui.screens.destinations.PlantListScreenDestination
+import com.fyp.app.ui.screens.destinations.SignInScreenDestination
 import com.fyp.app.ui.screens.destinations.UserDetailsScreenDestination
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
@@ -43,7 +44,7 @@ fun HomeScreen(navigator: DestinationsNavigator) {
                 navigator.navigate(HomeScreenDestination())
             },
             onClickAccount = {
-                navigator.navigate(LoginScreenDestination())
+                navigator.navigate(SignInScreenDestination())
             }
         )
         Column(

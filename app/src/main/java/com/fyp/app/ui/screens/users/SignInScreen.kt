@@ -1,6 +1,10 @@
 package com.fyp.app.ui.screens.users
 
 import android.widget.Toast
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.IntentSenderRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -16,6 +20,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -28,22 +33,28 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fyp.app.R
 import com.fyp.app.data.model.SignInState
+import com.fyp.app.domain.authenticationGoogle.GoogleAuthUiClient
 import com.fyp.app.ui.components.buttons.GoogleSignInButton
+import com.google.android.gms.auth.api.identity.Identity
+import androidx.lifecycle.lifecycleScope
+import com.fyp.app.ui.screens.destinations.ProfileScreenDestination
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import kotlinx.coroutines.launch
 
 @Composable
-fun SignInScreen(
-    state: SignInState,
-    onSignInClick: () -> Unit
-) {
+@Destination
+fun SignInScreen(navigator: DestinationsNavigator) {
+
+
     val context = LocalContext.current
-    LaunchedEffect(key1 = state.signInError) {
-        state.signInError?.let { error ->
-            Toast.makeText(
-                context,
-                error,
-                Toast.LENGTH_LONG
-            ).show()
-        }
+    val coroutineScope = rememberCoroutineScope()
+
+    val googleAuthUiClient by lazy {
+        GoogleAuthUiClient(
+            context = context,
+            oneTapClient = Identity.getSignInClient(context)
+        )
     }
 
     Column(
@@ -96,6 +107,29 @@ fun SignInScreen(
         Text(text = "Or sign in with")
 
         Spacer(modifier = Modifier.height(4.dp))
-        GoogleSignInButton(onClick = onSignInClick)
+
+        val launcher = rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.StartIntentSenderForResult(),
+            onResult = { result ->
+                if(result.resultCode == ComponentActivity.RESULT_OK) {
+                    coroutineScope.launch {
+                        val signInResult = googleAuthUiClient.signInWithIntent(
+                            intent = result.data ?: return@launch
+                        )
+                        navigator.navigate(ProfileScreenDestination(googleAuthUiClient.getSignedInUser()))
+                    }
+                }
+            }
+        )
+        GoogleSignInButton(onClick = {
+            coroutineScope.launch {
+                val signInIntentSender = googleAuthUiClient.signIn()
+                launcher.launch(
+                    IntentSenderRequest.Builder(
+                        signInIntentSender ?: return@launch
+                    ).build()
+                )
+            }
+        })
     }
 }

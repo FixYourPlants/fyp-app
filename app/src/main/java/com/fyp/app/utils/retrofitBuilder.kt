@@ -5,7 +5,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 fun createRetrofitService(): ApiService {
-    val urlBase="http://192.168.1.26:8000/"
+    val urlBase="http://10.0.2.2:8000/"
     var retrofit = Retrofit.Builder()
         .baseUrl(urlBase)
         .addConverterFactory(GsonConverterFactory.create())

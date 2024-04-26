@@ -82,9 +82,8 @@ class LoginGoogleActivity : ComponentActivity() {
                                     viewModel.resetState()
                                 }
                             }
-
+/*
                             SignInScreen(
-                                state = state,
                                 onSignInClick = {
                                     lifecycleScope.launch {
                                         val signInIntentSender = googleAuthUiClient.signIn()
@@ -96,7 +95,11 @@ class LoginGoogleActivity : ComponentActivity() {
                                     }
                                 }
                             )
+
+ */
                         }
+
+/*
                         composable("profile") {
                             ProfileScreen(
                                 userData = googleAuthUiClient.getSignedInUser(),
@@ -114,6 +117,9 @@ class LoginGoogleActivity : ComponentActivity() {
                                 }
                             )
                         }
+
+ */
+
                     }
                 }
             }
