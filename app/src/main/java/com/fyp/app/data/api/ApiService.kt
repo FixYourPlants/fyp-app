@@ -8,7 +8,7 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface ApiService {
-    @GET("plants/list")
+    @GET("api/v1/plants/")
     suspend fun getPlants():ArrayList<Plant>
     @GET("plants/{plantId}")
     suspend fun getPlantById(@Path("plantId") plantId:Int): Plant

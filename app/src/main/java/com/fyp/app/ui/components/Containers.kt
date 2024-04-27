@@ -1,5 +1,6 @@
 package com.fyp.app.ui.components
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -14,10 +15,19 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.paint
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.StrokeJoin
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -99,20 +109,20 @@ fun ContainerPlague(title:String, image: String, description:String) {
 
 @Composable
 fun ContainerPlants(title:String, image: String, difficulty: Difficulty, description:String) {
-
     Box(contentAlignment = Alignment.CenterStart,
         modifier = Modifier
             .fillMaxWidth(1f)
             .height(100.dp)
             .background(color = Color(146, 208, 80))
-            .border(width = 0.5.dp, color = Color.Black)){
+            .border(width = 0.5.dp, color = Color.Black)
+            .paint(painter = painterResource(id =R.drawable.fondo_listado_plantas), contentScale = ContentScale.FillBounds)){
         Column(Modifier.padding(horizontal = 5.dp)) {
             Surface(
                 modifier = Modifier
                     .size(84.dp)
                     .border(width = 1.dp, color = Color.Black)
             ) {
-                Image(painter = painterResource(id = R.drawable.plants),
+                Image(painter = painterResource(id = R.drawable.inyigomontoya),
                     contentDescription = "Image description",
                     contentScale= ContentScale.Crop,
                     modifier = Modifier
@@ -128,7 +138,16 @@ fun ContainerPlants(title:String, image: String, difficulty: Difficulty, descrip
                 fontWeight = FontWeight.Bold,
                 maxLines=1)
             Text(text = description,
-                maxLines = 3)
+                maxLines = 3,
+                color = Color(125, 143, 124, 255),
+                overflow = TextOverflow.Ellipsis,
+                style = TextStyle.Default.copy(
+                    drawStyle = Stroke(
+                        miter = 10f,
+                        width = 5f,
+                        join = StrokeJoin.Round
+                    ))
+            )
             Text(text = "Dificultad: "+ obtainDifficulty(difficulty),
                 color = Color.White,
                 maxLines=1)
