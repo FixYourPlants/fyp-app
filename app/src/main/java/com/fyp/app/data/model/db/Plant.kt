@@ -3,7 +3,7 @@ package com.fyp.app.data.model.db
 import com.google.gson.annotations.SerializedName
 
 data class Plant(
-    @SerializedName("plantId")
+    @SerializedName("id")
     val id:String,
     @SerializedName("name")
     val name: String,
