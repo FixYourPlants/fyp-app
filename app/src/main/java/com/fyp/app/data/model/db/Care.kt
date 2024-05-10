@@ -1,4 +1,4 @@
-package com.fyp.app.data.model
+package com.fyp.app.data.model.db
 
 import com.google.gson.annotations.SerializedName
 

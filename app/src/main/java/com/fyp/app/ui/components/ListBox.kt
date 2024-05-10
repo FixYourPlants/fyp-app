@@ -9,8 +9,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.fyp.app.data.model.Illness
-import com.fyp.app.data.model.Plant
+import com.fyp.app.data.model.db.Sickness
+import com.fyp.app.data.model.db.Plant
 
 @Composable
 fun ListBoxPlants(content: MutableList<Plant>){
@@ -25,7 +25,7 @@ fun ListBoxPlants(content: MutableList<Plant>){
 }
 
 @Composable
-fun ListBoxIllness(content:List<Illness>){
+fun ListBoxIllness(content:List<Sickness>){
     LazyColumn(modifier = Modifier
         .padding(10.dp)
         .border(width = 2.dp, color = Color.Black)

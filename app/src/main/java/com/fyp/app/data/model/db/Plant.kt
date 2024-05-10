@@ -1,4 +1,4 @@
-package com.fyp.app.data.model
+package com.fyp.app.data.model.db
 
 import com.google.gson.annotations.SerializedName
 
@@ -20,5 +20,5 @@ data class Plant(
     @SerializedName("characteristics")
     val characteristics: List<Characteristic>,
     @SerializedName("illness")
-    val illness: List<Illness>
+    val sicknesses: List<Sickness>
 )

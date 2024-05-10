@@ -1,9 +1,9 @@
-package com.fyp.app.data.model
+package com.fyp.app.data.model.db
 
 import com.google.gson.annotations.SerializedName
 
-data class Illness(
-    @SerializedName("illnessId")
+data class Sickness(
+    @SerializedName("sicknessId")
     val id:String,
     @SerializedName("name")
     val name: String,

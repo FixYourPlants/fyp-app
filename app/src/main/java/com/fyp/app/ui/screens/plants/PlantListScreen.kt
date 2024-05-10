@@ -5,14 +5,14 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
-import com.fyp.app.data.api.ApiModule
+import com.fyp.app.data.api.PlantServiceImp
 import com.fyp.app.ui.components.Header
 import com.fyp.app.ui.components.ListBoxPlants
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import com.fyp.app.data.model.Plant
+import com.fyp.app.data.model.db.Plant
 import com.fyp.app.ui.screens.destinations.HomeScreenDestination
 import com.fyp.app.ui.screens.destinations.UserDetailsScreenDestination
 
@@ -20,21 +20,17 @@ import com.fyp.app.ui.screens.destinations.UserDetailsScreenDestination
 @Destination
 fun PlantListScreen(navigator: DestinationsNavigator) {
     val plants = remember { mutableListOf<Plant>() }
-    val service = ApiModule.apiService
+    val service = PlantServiceImp.getInstance()
     LaunchedEffect(Unit) {
         val result = withContext(Dispatchers.IO) {
             try {
                 service.getPlants()
-                for (plant in service.getPlants()){
-                    Log.e("lista","Elemento: $plant.name")
-                }
             } catch (e: Exception) {
-                emptyList<Plant>() // Devolvemos una lista vacía en caso de error
+                emptyList() // Devolvemos una lista vacía en caso de error
             }
         }
         plants.clear()
-        Log.d("Result", result.toString())
-        plants.addAll(result as List<Plant>)
+        plants.addAll(result)
     }
 
     Column {

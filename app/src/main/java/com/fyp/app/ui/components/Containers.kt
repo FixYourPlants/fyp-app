@@ -22,8 +22,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fyp.app.R
-import com.fyp.app.data.model.Difficulty
-import com.fyp.app.data.model.obtainDifficulty
+import com.fyp.app.data.model.db.Difficulty
+import com.fyp.app.data.model.db.obtainDifficulty
 
 @Composable
 fun ContainerIllness(title:String, image: String, description:String) {
@@ -140,7 +140,7 @@ fun ContainerPlants(title:String, image: String, difficulty: Difficulty, descrip
 @Preview()
 @Composable
 fun ContainerPlantsPreview() {
-    ContainerPlants("Soy una planta bb","image",Difficulty.EASY, "Soy una plantita y me voy a morir de sed. Necesito que me riegues ya para sobrevivir.")
+    ContainerPlants("Soy una planta bb","image", Difficulty.EASY, "Soy una plantita y me voy a morir de sed. Necesito que me riegues ya para sobrevivir.")
 }
 @Preview()
 @Composable

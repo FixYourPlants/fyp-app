@@ -25,73 +25,19 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.fyp.app.R
-import com.fyp.app.data.repository.Repository
+import com.fyp.app.data.model.db.Sickness
 import com.fyp.app.ui.components.BoxTag
-import com.fyp.app.ui.screens.plants.Opinion
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-
-data class Illness(
-    val name: String,
-    val description: String,
-    val imageUrl: Int,
-    val characteristics: List<String>,
-    val treatments: List<String>,
-    val sickness: List<String>,
-    val opinions: List<Opinion>,
-    val scienceName: String
-)
-
-val illnessDetails = Illness(
-    name = "Sickness name",
-    description = "Sickness description",
-    imageUrl = R.drawable.sickness,
-    characteristics = listOf(
-        "Characteristic 1",
-        "Characteristic 2",
-        "Characteristic 3"
-    ),
-    treatments = listOf(
-        "Treatment 1",
-        "Treatment 2",
-        "Treatment 3"
-    ),
-    sickness = listOf(
-        "Plantita 1",
-        "Plantita 2",
-        "Plantita 3"
-    ),
-    opinions = listOf(
-        Opinion(
-            title = "Opinion 1",
-            description = "Opinion description",
-            userName = "User name"
-        ),
-        Opinion(
-            title = "Opinion 2",
-            description = "Opinion description",
-            userName = "User name"
-        ),
-        Opinion(
-            title = "Opinion 3",
-            description = "Opinion description",
-            userName = "User name"
-
-        )
-    ),
-    scienceName = "Science name"
-)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @Destination
 fun IllnessDetailsScreen(
     navigator: DestinationsNavigator,
-    illness: Illness
+    sickness: Sickness
 ) {
     LazyColumn(
         modifier = Modifier
@@ -120,7 +66,7 @@ fun IllnessDetailsScreen(
                     ) {
                         // Fondo: Imagen de la planta
                         Image(
-                            painter = painterResource(id = illness.imageUrl),
+                            painter = painterResource(id = sickness.imageUrl),
                             contentDescription = null,
                             modifier = Modifier
                                 .fillMaxSize()
@@ -135,20 +81,20 @@ fun IllnessDetailsScreen(
                         .weight(0.5f)
                 ) {
                     Text(
-                        text = illness.name,
+                        text = sickness.name,
                         fontWeight = FontWeight.Bold,
                         fontSize = 24.sp,
                         color = Color.Black
                     )
                     Text(
-                        text = illness.scienceName,
+                        text = sickness.scienceName,
                         fontStyle = FontStyle.Italic,
                         fontSize = 12.sp,
                         modifier = Modifier.padding(vertical = 8.dp),
                         color = Color.Black
                     )
                     Text(
-                        text = illness.description,
+                        text = sickness.description,
                         modifier = Modifier.padding(vertical = 8.dp),
                         color = Color.Black
                     )
@@ -158,7 +104,7 @@ fun IllnessDetailsScreen(
 
         item {
             Spacer(modifier = Modifier.height(16.dp))
-            BoxTag(name = "Características", values = illness.characteristics)
+            BoxTag(name = "Características", values = sickness.characteristics)
         }
 
         item {
@@ -176,7 +122,7 @@ fun IllnessDetailsScreen(
                 color = Color(0xFFA5FFA9)
             ) {
                 Column {
-                    illness.treatments.forEach { treatment ->
+                    sickness.treatments.forEach { treatment ->
                         Text(
                             text = "• $treatment",
                             modifier = Modifier.padding(vertical = 4.dp),
@@ -189,7 +135,7 @@ fun IllnessDetailsScreen(
 
         item {
             Spacer(modifier = Modifier.height(16.dp))
-            BoxTag(name = "Plantas:", values = illness.sickness)
+            BoxTag(name = "Plantas:", values = sickness.sickness)
         }
     }
 }

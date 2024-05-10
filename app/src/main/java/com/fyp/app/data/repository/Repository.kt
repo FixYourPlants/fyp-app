@@ -1,18 +1,14 @@
 package com.fyp.app.data.repository
 
-import com.fyp.app.data.model.Care
-import com.fyp.app.data.model.CareType
-import com.fyp.app.data.model.Characteristic
-import com.fyp.app.data.model.Difficulty
-import com.fyp.app.data.model.Illness
-import com.fyp.app.data.model.Opinion
-import com.fyp.app.data.model.Plant
-import com.fyp.app.data.model.User
-import com.fyp.app.utils.createRetrofitService
+import com.fyp.app.data.model.db.Characteristic
+import com.fyp.app.data.model.db.Sickness
+import com.fyp.app.data.model.db.Opinion
+import com.fyp.app.data.model.db.Plant
+import com.fyp.app.data.model.db.User
 
 object Repository {
     val plants:MutableList<Plant> = mutableListOf()
-    val illness:MutableList<Illness> = mutableListOf()
+    val sicknesses:MutableList<Sickness> = mutableListOf()
     val opinions:MutableList<Opinion> = mutableListOf()
     val users:MutableList<User> = mutableListOf()
     val characteristics:MutableList<Characteristic> = mutableListOf()

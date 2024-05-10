@@ -28,65 +28,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fyp.app.R
+import com.fyp.app.data.model.db.Plant
 import com.fyp.app.ui.components.AddOpinionDialog
 import com.fyp.app.ui.components.BoxTag
 import com.fyp.app.ui.components.OpinionsSection
 import com.fyp.app.ui.components.image.OverlayImageWithClick
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-
-data class Plant(
-    val name: String,
-    val description: String,
-    val imageUrl: Int,
-    val characteristics: List<String>,
-    val dificulty: String = "Fácil",
-    val treatments: List<String>,
-    val sickness: List<String>,
-    val opinions: List<Opinion>,
-    val scienceName: String
-)
-
-data class Opinion(val title: String, val description: String, val userName: String)
-
-
-val plantDetails = Plant(
-    name = "Lirio de la paz",
-    description = "El lirio de la paz es una planta de interior popular por sus hojas verdes y brillantes.",
-    imageUrl = R.drawable.plant,
-    characteristics = listOf(
-        "Planta de interior",
-        "Fácil de cuidar",
-        "No necesita luz directa"
-    ),
-    dificulty = "Fácil",
-    treatments = listOf(
-        "Riego moderado",
-        "Evitar corrientes de aire",
-        "Fertilizar cada 2 semanas"
-    ),
-    sickness = listOf(
-        "Hojas amarillas",
-        "Pudrición de raíces"
-    ),
-    opinions = listOf(
-        Opinion(
-            title = "Opinión 1",
-            description = "Esta es la primera opinión sobre la planta.",
-            userName = "Usuario1"
-        ),
-        Opinion(
-            title = "Opinión 2",
-            description = "Esta es la segunda opinión sobre la planta.",
-            userName = "Usuario2"
-        ),
-        Opinion(
-            title = "Opinión 3",
-            description = "Esta es la tercera opinión sobre la planta.",
-            userName = "Usuario3"
-        )
-    ),
-    scienceName = "Spathiphyllum wallisii"
-)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

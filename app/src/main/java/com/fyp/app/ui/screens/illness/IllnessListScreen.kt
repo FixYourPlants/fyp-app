@@ -4,8 +4,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
-import com.fyp.app.data.api.ApiModule
-import com.fyp.app.data.model.Illness
+import com.fyp.app.data.api.SicknessServiceImp
+import com.fyp.app.data.model.db.Sickness
 import com.fyp.app.ui.components.Header
 import com.fyp.app.ui.components.ListBoxIllness
 import com.fyp.app.ui.screens.destinations.HomeScreenDestination
@@ -18,19 +18,19 @@ import kotlinx.coroutines.withContext
 @Composable
 @Destination
 fun IllnessListScreen(navigator: DestinationsNavigator) {
-    val illness = remember { mutableListOf<Illness>() }
-    val service = ApiModule.apiService
+    val sicknesses = remember { mutableListOf<Sickness>() }
+    val service = SicknessServiceImp.getInstance()
 
     LaunchedEffect(Unit) {
         val result = withContext(Dispatchers.IO) {
             try {
-                service.getIllnesses()
+                service.getSicknesses()
             } catch (e: Exception) {
                 emptyList() // Devolvemos una lista vacía en caso de error
             }
         }
-        illness.clear()
-        illness.addAll(result)
+        sicknesses.clear()
+        sicknesses.addAll(result)
     }
 
     Column {
@@ -42,6 +42,6 @@ fun IllnessListScreen(navigator: DestinationsNavigator) {
                 navigator.navigate(UserDetailsScreenDestination())
             }
         )
-        ListBoxIllness(content = illness)
+        ListBoxIllness(content = sicknesses)
     }
 }
