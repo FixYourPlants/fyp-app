@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fyp.app.R
 import com.fyp.app.data.model.db.Plant
+import com.fyp.app.data.model.db.obtainDifficulty
 import com.fyp.app.ui.components.AddOpinionDialog
 import com.fyp.app.ui.components.BoxTag
 import com.fyp.app.ui.components.OpinionsSection
@@ -62,7 +63,7 @@ fun PlantDetailsScreen(
                         .weight(0.5f)
                 ) {
                     OverlayImageWithClick(
-                        defaultImageUrl = plant.imageUrl,
+                        defaultImageUrl = R.drawable.plants,
                         clickedImageUrl = R.drawable.hearth,
                         notClickedImageUrl = R.drawable.hearth_empty,
                         onClick = { /* Acciones cuando se hace clic en la imagen */ }
@@ -80,7 +81,7 @@ fun PlantDetailsScreen(
                         color = Color.Black
                     )
                     Text(
-                        text = plant.scienceName,
+                        text = plant.scientificName,
                         fontStyle = FontStyle.Italic,
                         fontSize = 12.sp,
                         modifier = Modifier.padding(vertical = 8.dp),
@@ -97,7 +98,7 @@ fun PlantDetailsScreen(
                         color = Color.Black
                     )
                     Text(
-                        text = plant.dificulty,
+                        text = obtainDifficulty(plant.difficulty),
                         color = Color.Black
                     )
                 }
@@ -106,7 +107,7 @@ fun PlantDetailsScreen(
 
         item {
             Spacer(modifier = Modifier.height(16.dp))
-            BoxTag(name = "Características", values = plant.characteristics)
+            BoxTag(name = "Características", values = plant.characteristics.map { it -> it.toString() })
         }
 
         item {
@@ -124,27 +125,25 @@ fun PlantDetailsScreen(
                 color = Color(0xFFA5FFA9)
             ) {
                 Column {
-                    plant.treatments.forEach { treatment ->
                         Text(
-                            text = "• $treatment",
+                            text = plant.treatment,
                             modifier = Modifier.padding(vertical = 4.dp),
                             color = Color.Black
                         )
-                    }
                 }
             }
         }
 
         item {
             Spacer(modifier = Modifier.height(16.dp))
-            BoxTag(name = "Enfermedades:", values = plant.sickness)
+            BoxTag(name = "Enfermedades:", values = plant.sicknesses.map { it -> it.toString() })
         }
 
         item {
             var showDialog by remember { mutableStateOf(false) }
 
             Column(modifier = Modifier.padding(16.dp)) {
-                OpinionsSection(opinions = plant.opinions)
+                OpinionsSection(opinions = mutableListOf())
                 Spacer(modifier = Modifier.height(16.dp))
                 Button(onClick = { showDialog = true }) {
                     Text(text = "Añadir Opinión")

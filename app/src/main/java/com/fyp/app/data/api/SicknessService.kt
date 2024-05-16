@@ -10,16 +10,16 @@ import retrofit2.http.Path
 
 interface SicknessService {
 
-    @GET("sickness/list")
+    @GET("/api/v1/sicknesses/list/")
     suspend fun getSicknesses(): List<Sickness>
 
-    @POST("sickness/create")
+    @POST("api/v1/sickness/create")
     suspend fun addSickness(@Body sickness: Sickness): Sickness
 
-    @GET("sickness/{sicknessId}")
+    @GET("api/v1/sickness/{sicknessId}/")
     suspend fun getSicknessById(@Path("sicknessId") sicknessId: Int): Sickness
 
-    @POST("sicknesses/{sicknessId}")
+    @POST("api/v1/sicknesses/{sicknessId}")
     suspend fun updateSickness(@Path("sicknessId") sicknessId: Int, @Body sickness: Sickness): Sickness
 }
 
@@ -37,5 +37,5 @@ object SicknessServiceImp {
         return instance!!
     }
 
-    private const val BASE_URL = "https://example.com/api/" // Reemplaza esto con tu URL base
+    private const val BASE_URL = "http://10.0.2.2:8000/" // Reemplaza esto con tu URL base
 }

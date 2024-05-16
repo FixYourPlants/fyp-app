@@ -115,7 +115,7 @@ fun ContainerPlants(title:String, image: String, difficulty: Difficulty, descrip
             .height(100.dp)
             .background(color = Color(146, 208, 80))
             .border(width = 0.5.dp, color = Color.Black)
-            .paint(painter = painterResource(id =R.drawable.fondo_listado_plantas), contentScale = ContentScale.FillBounds)){
+            .paint(painter = painterResource(id =R.drawable.fondo_listado_plantas3), contentScale = ContentScale.FillBounds)){
         Column(Modifier.padding(horizontal = 5.dp)) {
             Surface(
                 modifier = Modifier
@@ -137,17 +137,19 @@ fun ContainerPlants(title:String, image: String, difficulty: Difficulty, descrip
                 color = Color(0,176,80),
                 fontWeight = FontWeight.Bold,
                 maxLines=1)
-            Text(text = description,
-                maxLines = 3,
-                color = Color(125, 143, 124, 255),
-                overflow = TextOverflow.Ellipsis,
-                style = TextStyle.Default.copy(
-                    drawStyle = Stroke(
-                        miter = 10f,
-                        width = 5f,
-                        join = StrokeJoin.Round
-                    ))
-            )
+            Box{
+                Text(text = description,
+                    maxLines = 3,
+                    color = Color.White,
+                    overflow = TextOverflow.Ellipsis,
+                    style = TextStyle(drawStyle = Stroke(width = 2f, miter = 2f, join= StrokeJoin.Round))
+                )
+                Text(text = description,
+                    maxLines = 3,
+                    color = Color.Black,
+                    overflow = TextOverflow.Ellipsis,
+                )
+            }
             Text(text = "Dificultad: "+ obtainDifficulty(difficulty),
                 color = Color.White,
                 maxLines=1)

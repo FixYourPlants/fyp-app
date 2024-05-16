@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import com.fyp.app.data.api.PlantServiceImp
 import com.fyp.app.ui.components.Header
@@ -19,7 +20,7 @@ import com.fyp.app.ui.screens.destinations.UserDetailsScreenDestination
 @Composable
 @Destination
 fun PlantListScreen(navigator: DestinationsNavigator) {
-    val plants = remember { mutableListOf<Plant>() }
+    val plants = remember { mutableStateListOf<Plant>() }
     val service = PlantServiceImp.getInstance()
     LaunchedEffect(Unit) {
         val result = withContext(Dispatchers.IO) {
@@ -31,6 +32,7 @@ fun PlantListScreen(navigator: DestinationsNavigator) {
         }
         plants.clear()
         plants.addAll(result)
+        Log.e("PLANTAS",plants.toString())
     }
 
     Column {

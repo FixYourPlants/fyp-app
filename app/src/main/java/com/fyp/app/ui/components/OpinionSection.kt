@@ -26,8 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.fyp.app.ui.screens.plants.Opinion
-
+import com.fyp.app.data.model.db.Opinion
 
 @Composable
 fun OpinionsSection(opinions: List<Opinion>) {
@@ -66,7 +65,7 @@ fun OpinionCard(opinion: Opinion) {
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "Usuario: ${opinion.userName}",
+                text = "Usuario: ${opinion.user.username}",
                 style = TextStyle(fontSize = 14.sp, color = Color.Gray)
             )
         }
@@ -137,26 +136,26 @@ fun AddOpinionDialog(onDismiss: () -> Unit) {
     )
 }
 
-val opinions = listOf(
-    Opinion(
-        title = "Opinión 1",
-        description = "Esta es la primera opinión sobre la planta.",
-        userName = "Usuario1"
-    ),
-    Opinion(
-        title = "Opinión 2",
-        description = "Esta es la segunda opinión sobre la planta.",
-        userName = "Usuario2"
-    ),
-    Opinion(
-        title = "Opinión 3",
-        description = "Esta es la tercera opinión sobre la planta.",
-        userName = "Usuario3"
-    )
-)
+//val opinions = listOf(
+//    Opinion(
+//        title = "Opinión 1",
+//        description = "Esta es la primera opinión sobre la planta.",
+//        user = "Usuario1"
+//    ),
+//    Opinion(
+//        title = "Opinión 2",
+//        description = "Esta es la segunda opinión sobre la planta.",
+//        userName = "Usuario2"
+//    ),
+//    Opinion(
+//        title = "Opinión 3",
+//        description = "Esta es la tercera opinión sobre la planta.",
+//        userName = "Usuario3"
+//    )
+//)
 
-@Preview(showBackground = true)
-@Composable
-fun OpinionsSectionPreview() {
-    OpinionsSection(opinions = opinions)
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun OpinionsSectionPreview() {
+//    OpinionsSection(opinions = opinions)
+//}

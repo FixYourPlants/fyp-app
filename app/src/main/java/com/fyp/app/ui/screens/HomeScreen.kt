@@ -101,7 +101,7 @@ fun HomeScreen(navigator: DestinationsNavigator) {
             ) {
                 ButtonAndImage(
                     buttonText = "Enciclopedia de plantas",
-                    imageResourceId = R.drawable.notes,
+                    imageResourceId = R.drawable.plants,
                     onClick = {
                         navigator.navigate(PlantListScreenDestination())
                     }
@@ -109,7 +109,7 @@ fun HomeScreen(navigator: DestinationsNavigator) {
 
                 ButtonAndImage(
                     buttonText = "Tus Diarios",
-                    imageResourceId = R.drawable.virus,
+                    imageResourceId = R.drawable.notes,
                     onClick = {
                     }
                 )

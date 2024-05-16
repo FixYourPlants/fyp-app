@@ -42,5 +42,5 @@ object PageServiceSingleton {
         return instance!!
     }
 
-    private const val BASE_URL = "https://example.com/api/" // Reemplaza esto con tu URL base
+    private const val BASE_URL = "http://10.0.2.2:8000/" // Reemplaza esto con tu URL base
 }

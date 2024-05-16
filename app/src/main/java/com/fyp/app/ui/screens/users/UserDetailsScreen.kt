@@ -28,9 +28,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fyp.app.R
+import com.fyp.app.data.model.db.Plant
 import com.fyp.app.ui.components.BoxTag
-import com.fyp.app.ui.screens.plants.Opinion
-import com.fyp.app.ui.screens.plants.Plant
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
@@ -42,84 +41,84 @@ data class User(
     val email: String
 )
 
-val userDetails = User(
-    name = "Pepe el Papas",
-    about_me = "Zoy un cutivaó de papa profeziona de la provinzia de Huerva",
-    imageUrl = R.drawable.user,
-    my_plants = listOf(
-        Plant(
-            name = "Plant 1",
-            description = "Plant description",
-            imageUrl = R.drawable.plant,
-            characteristics = listOf(
-                "Plant characteristics"
-            ),
-            dificulty = "Plant dificulty",
-            treatments = listOf(
-                "Plant treatment"
-            ),
-            sickness = listOf(
-                "Plant sickness"
-            ),
-            opinions = listOf(
-                Opinion(
-                    title = "Opinion title",
-                    description = "Opinion description",
-                    userName = "Opinion user"
-                )
-            ),
-            scienceName = "Plant science name"
-        ),
-        Plant(
-            name = "Plant 2",
-            description = "Plant description",
-            imageUrl = R.drawable.plant,
-            characteristics = listOf(
-                "Plant characteristics"
-            ),
-            dificulty = "Plant dificulty",
-            treatments = listOf(
-                "Plant treatment"
-            ),
-            sickness = listOf(
-                "Plant sickness"
-            ),
-            opinions = listOf(
-                Opinion(
-                    title = "Opinion title",
-                    description = "Opinion description",
-                    userName = "Opinion user"
-                )
-            ),
-            scienceName = "Plant science name"
-        ),
-        Plant(
-            name = "Plant 1",
-            description = "Plant description",
-            imageUrl = R.drawable.plant,
-            characteristics = listOf(
-                "Plant characteristics"
-            ),
-            dificulty = "Plant dificulty",
-            treatments = listOf(
-                "Plant treatment"
-            ),
-            sickness = listOf(
-                "Plant sickness"
-            ),
-            opinions = listOf(
-                Opinion(
-                    title = "Opinion title",
-                    description = "Opinion description",
-                    userName = "Opinion user"
-                )
-            ),
-            scienceName = "Plant science name"
-        )
-    ),
-    email = "ejemplo@gmail.com"
-
-)
+//val userDetails = User(
+//    name = "Pepe el Papas",
+//    about_me = "Zoy un cutivaó de papa profeziona de la provinzia de Huerva",
+//    imageUrl = R.drawable.user,
+//    my_plants = listOf(
+//        Plant(
+//            name = "Plant 1",
+//            description = "Plant description",
+//            imageUrl = R.drawable.plant,
+//            characteristics = listOf(
+//                "Plant characteristics"
+//            ),
+//            dificulty = "Plant dificulty",
+//            treatments = listOf(
+//                "Plant treatment"
+//            ),
+//            sickness = listOf(
+//                "Plant sickness"
+//            ),
+//            opinions = listOf(
+//                Opinion(
+//                    title = "Opinion title",
+//                    description = "Opinion description",
+//                    userName = "Opinion user"
+//                )
+//            ),
+//            scienceName = "Plant science name"
+//        ),
+//        Plant(
+//            name = "Plant 2",
+//            description = "Plant description",
+//            imageUrl = R.drawable.plant,
+//            characteristics = listOf(
+//                "Plant characteristics"
+//            ),
+//            dificulty = "Plant dificulty",
+//            treatments = listOf(
+//                "Plant treatment"
+//            ),
+//            sickness = listOf(
+//                "Plant sickness"
+//            ),
+//            opinions = listOf(
+//                Opinion(
+//                    title = "Opinion title",
+//                    description = "Opinion description",
+//                    userName = "Opinion user"
+//                )
+//            ),
+//            scienceName = "Plant science name"
+//        ),
+//        Plant(
+//            name = "Plant 1",
+//            description = "Plant description",
+//            imageUrl = R.drawable.plant,
+//            characteristics = listOf(
+//                "Plant characteristics"
+//            ),
+//            dificulty = "Plant dificulty",
+//            treatments = listOf(
+//                "Plant treatment"
+//            ),
+//            sickness = listOf(
+//                "Plant sickness"
+//            ),
+//            opinions = listOf(
+//                Opinion(
+//                    title = "Opinion title",
+//                    description = "Opinion description",
+//                    userName = "Opinion user"
+//                )
+//            ),
+//            scienceName = "Plant science name"
+//        )
+//    ),
+//    email = "ejemplo@gmail.com"
+//
+//)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

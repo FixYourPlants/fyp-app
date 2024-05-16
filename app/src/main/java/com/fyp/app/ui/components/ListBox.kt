@@ -1,5 +1,6 @@
 package com.fyp.app.ui.components
 
+import android.util.Log
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -19,7 +20,7 @@ fun ListBoxPlants(content: MutableList<Plant>){
         .border(width = 2.dp, color = Color.Black)
     ) {
         items(content){ plant->
-            ContainerPlants(title = plant.name, image = plant.imageUrl, difficulty = plant.difficulty, description = plant.description)
+            ContainerPlants(title = plant.name, image = "plant.imageUrl", difficulty = plant.difficulty, description = plant.description)
         }
     }
 }
@@ -31,7 +32,7 @@ fun ListBoxIllness(content:MutableList<Sickness>){
         .border(width = 2.dp, color = Color.Black)
     ) {
         items(content){ illness->
-            ContainerIllness(title = illness.name, image = illness.imageUrl, description = illness.description)
+            ContainerIllness(title = illness.name, image = "illness.imageUrl", description = illness.description)
         }
     }
 }

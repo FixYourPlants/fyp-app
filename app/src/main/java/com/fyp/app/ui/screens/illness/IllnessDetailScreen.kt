@@ -27,6 +27,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.fyp.app.R
 import com.fyp.app.data.model.db.Sickness
 import com.fyp.app.ui.components.BoxTag
 import com.ramcosta.composedestinations.annotation.Destination
@@ -66,7 +67,7 @@ fun IllnessDetailsScreen(
                     ) {
                         // Fondo: Imagen de la planta
                         Image(
-                            painter = painterResource(id = sickness.imageUrl),
+                            painter = painterResource(id = R.drawable.virus),
                             contentDescription = null,
                             modifier = Modifier
                                 .fillMaxSize()
@@ -86,13 +87,13 @@ fun IllnessDetailsScreen(
                         fontSize = 24.sp,
                         color = Color.Black
                     )
-                    Text(
-                        text = sickness.scienceName,
-                        fontStyle = FontStyle.Italic,
-                        fontSize = 12.sp,
-                        modifier = Modifier.padding(vertical = 8.dp),
-                        color = Color.Black
-                    )
+//                    Text(
+//                        text = sickness.scienceName,
+//                        fontStyle = FontStyle.Italic,
+//                        fontSize = 12.sp,
+//                        modifier = Modifier.padding(vertical = 8.dp),
+//                        color = Color.Black
+//                    )
                     Text(
                         text = sickness.description,
                         modifier = Modifier.padding(vertical = 8.dp),
@@ -101,11 +102,11 @@ fun IllnessDetailsScreen(
                 }
             }
         }
-
-        item {
-            Spacer(modifier = Modifier.height(16.dp))
-            BoxTag(name = "Características", values = sickness.characteristics)
-        }
+//
+//        item {
+//            Spacer(modifier = Modifier.height(16.dp))
+//            BoxTag(name = "Características", values = sickness.characteristics)
+//        }
 
         item {
             Spacer(modifier = Modifier.height(16.dp))
@@ -122,21 +123,19 @@ fun IllnessDetailsScreen(
                 color = Color(0xFFA5FFA9)
             ) {
                 Column {
-                    sickness.treatments.forEach { treatment ->
                         Text(
-                            text = "• $treatment",
+                            text = sickness.treatment,
                             modifier = Modifier.padding(vertical = 4.dp),
                             color = Color.Black
                         )
-                    }
                 }
             }
         }
 
-        item {
-            Spacer(modifier = Modifier.height(16.dp))
-            BoxTag(name = "Plantas:", values = sickness.sickness)
-        }
+//        item {
+//            Spacer(modifier = Modifier.height(16.dp))
+//            BoxTag(name = "Plantas:", values = sickness.sickness)
+//        }
     }
 }
 

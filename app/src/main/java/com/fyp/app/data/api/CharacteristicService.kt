@@ -42,5 +42,5 @@ object CharacteristicServiceImp {
         return instance!!
     }
 
-    private const val BASE_URL = "https://example.com/api/" // Reemplaza esto con tu URL base
+    private const val BASE_URL = "http://192.168.1.26:8000/" // Reemplaza esto con tu URL base
 }

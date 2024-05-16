@@ -12,5 +12,5 @@ data class Sickness(
     @SerializedName("image")
     val imageUrl: String,
     @SerializedName("treatment")
-    val care: String,
+    val treatment: String,
 )

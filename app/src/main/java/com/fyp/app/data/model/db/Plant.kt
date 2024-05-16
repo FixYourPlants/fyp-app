@@ -16,7 +16,7 @@ data class Plant(
     @SerializedName("difficulty")
     val difficulty: Difficulty,
     @SerializedName("treatment")
-    val care: String,
+    val treatment: String,
     @SerializedName("characteristics")
     val characteristics: List<Characteristic>,
     @SerializedName("sicknesses")

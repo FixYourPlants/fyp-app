@@ -10,27 +10,27 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface PlantService {
-    @GET("plants/list")
+    @GET("api/v1/plants/list/")
     suspend fun getPlants():ArrayList<Plant>
 
-    @POST("plants/create")
+    @POST("api/v1/plants/create")
     suspend fun addPlant(@Body plant: Plant): Plant
 
-    @GET("plant/{plantId}")
-    suspend fun getPlantById(@Path("plantId") plantId:Int): Plant
+    @GET("api/v1/plant/{id}/")
+    suspend fun getPlantById(@Path("id") plantId:Int): Plant
 
-    @POST("plants/{plantId}")
-    suspend fun updatePlant(@Path("plantId") plantId:Int, @Body plant: Plant): Plant
+    @POST("api/v1/plants/{id}")
+    suspend fun updatePlant(@Path("id") plantId:Int, @Body plant: Plant): Plant
 
-    @DELETE("plants/{plantId}")
-    suspend fun deletePlant(@Path("plantId") plantId:Int): Plant
-    @GET("plants/fav")
+    @DELETE("api/v1/plants/{id}")
+    suspend fun deletePlant(@Path("id") plantId:Int): Plant
+    @GET("api/v1/plants/fav")
     suspend fun getFavPlants(@Path("userId") userId:Int):ArrayList<Plant>
 
-    @POST("plants/fav/add")
+    @POST("api/v1/plants/fav/add")
     suspend fun addFavPlant(@Body plant: Plant): Plant
 
-    @POST("plants/fav/remove")
+    @POST("api/v1/plants/fav/remove")
     suspend fun removeFavPlant(@Body plant: Plant): Plant
 }
 
@@ -49,5 +49,5 @@ object PlantServiceImp {
         return instance!!
     }
 
-    private const val BASE_URL = "https://example.com/api/" // Reemplaza esto con tu URL base
+    private const val BASE_URL = "http://10.0.2.2:8000/" // Reemplaza esto con tu URL base
 }

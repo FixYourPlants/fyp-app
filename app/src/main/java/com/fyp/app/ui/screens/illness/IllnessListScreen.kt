@@ -3,6 +3,7 @@ package com.fyp.app.ui.screens.illness
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import com.fyp.app.data.api.SicknessServiceImp
 import com.fyp.app.data.model.db.Sickness
@@ -18,7 +19,7 @@ import kotlinx.coroutines.withContext
 @Composable
 @Destination
 fun IllnessListScreen(navigator: DestinationsNavigator) {
-    val sicknesses = remember { mutableListOf<Sickness>() }
+    val sicknesses = remember { mutableStateListOf<Sickness>() }
     val service = SicknessServiceImp.getInstance()
 
     LaunchedEffect(Unit) {

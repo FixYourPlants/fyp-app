@@ -1,9 +1,10 @@
 package com.fyp.app.data.model.db
 
+import com.google.gson.annotations.SerializedName
+
 data class Characteristic(
-    // TODO
-    val id: Int,
-    val name: String,
-    val description: String,
-    val image: Int
+    @SerializedName("id")
+    val id: String,
+    @SerializedName("name")
+    val name: String
 )
