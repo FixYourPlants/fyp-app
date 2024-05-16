@@ -7,18 +7,18 @@ data class Plant(
     val id:String,
     @SerializedName("name")
     val name: String,
-    @SerializedName("scientificName")
+    @SerializedName("scientific_name")
     val scientificName: String,
     @SerializedName("description")
     val description: String,
-    @SerializedName("imageUrl")
+    @SerializedName("image")
     val imageUrl: String,
     @SerializedName("difficulty")
     val difficulty: Difficulty,
-    @SerializedName("care")
-    val care: Care,
+    @SerializedName("treatment")
+    val care: String,
     @SerializedName("characteristics")
     val characteristics: List<Characteristic>,
-    @SerializedName("illness")
+    @SerializedName("sicknesses")
     val sicknesses: List<Sickness>
 )

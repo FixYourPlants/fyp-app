@@ -25,7 +25,7 @@ fun ListBoxPlants(content: MutableList<Plant>){
 }
 
 @Composable
-fun ListBoxIllness(content:List<Sickness>){
+fun ListBoxIllness(content:MutableList<Sickness>){
     LazyColumn(modifier = Modifier
         .padding(10.dp)
         .border(width = 2.dp, color = Color.Black)

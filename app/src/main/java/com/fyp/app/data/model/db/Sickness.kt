@@ -3,16 +3,14 @@ package com.fyp.app.data.model.db
 import com.google.gson.annotations.SerializedName
 
 data class Sickness(
-    @SerializedName("sicknessId")
+    @SerializedName("id")
     val id:String,
     @SerializedName("name")
     val name: String,
     @SerializedName("description")
     val description: String,
-    @SerializedName("imageUrl")
+    @SerializedName("image")
     val imageUrl: String,
-    @SerializedName("care")
-    val care: Care,
-    @SerializedName("plants")
-    val plants:List<Plant>
+    @SerializedName("treatment")
+    val care: String,
 )
