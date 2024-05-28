@@ -1,6 +1,7 @@
 package com.fyp.app.data.model.db
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class Plant(
     @SerializedName("id")
@@ -21,4 +22,4 @@ data class Plant(
     val characteristics: List<Characteristic>,
     @SerializedName("sicknesses")
     val sicknesses: List<Sickness>
-)
+): Serializable

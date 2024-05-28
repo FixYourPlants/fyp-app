@@ -25,12 +25,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fyp.app.R
+import com.fyp.app.data.api.UserService
+import com.fyp.app.data.api.UserServiceImp
+import com.fyp.app.ui.screens.destinations.SignInScreenDestination
 //import com.fyp.app.ui.components.buttons.LoginGoogleButton
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.annotation.RootNavGraph
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @Composable
 @Destination
-fun LoginScreen() {
+fun LoginScreen(
+    navigator: DestinationsNavigator
+) {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -61,12 +68,14 @@ fun LoginScreen() {
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(onClick = { /*TODO*/ }) {
-            Text("Login")
+            // UserServiceImp.getInstance().
         }
 
         Spacer(modifier = Modifier.height(18.dp))
 
-        TextButton(onClick = { /*TODO*/ }) {
+        TextButton(onClick = {
+            navigator.navigate(SignInScreenDestination())
+        }) {
             Text("Don't have an account? Sign up")
         }
 
@@ -76,13 +85,7 @@ fun LoginScreen() {
 
         Spacer(modifier = Modifier.height(4.dp))
 
-        //LoginGoogleButton()
+        // LoginGoogleButton()
     }
 
-}
-
-@Composable
-@Preview
-fun LoginScreenPreview() {
-    LoginScreen()
 }

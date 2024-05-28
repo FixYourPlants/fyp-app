@@ -17,18 +17,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-
 import com.fyp.app.R
 import com.fyp.app.ui.components.Header
 import com.fyp.app.ui.components.buttons.ButtonAndImage
 import com.fyp.app.ui.screens.destinations.HelpScreenDestination
 import com.fyp.app.ui.screens.destinations.HomeScreenDestination
 import com.fyp.app.ui.screens.destinations.IllnessListScreenDestination
-import com.fyp.app.ui.screens.destinations.LoginScreenDestination
 import com.fyp.app.ui.screens.destinations.PlaguesListScreenDestination
 import com.fyp.app.ui.screens.destinations.PlantListScreenDestination
 import com.fyp.app.ui.screens.destinations.SignInScreenDestination
-import com.fyp.app.ui.screens.destinations.UserDetailsScreenDestination
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator

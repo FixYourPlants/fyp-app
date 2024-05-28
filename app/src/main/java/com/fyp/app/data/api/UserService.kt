@@ -1,5 +1,6 @@
 package com.fyp.app.data.api
 
+import com.fyp.app.BuildConfig
 import com.fyp.app.data.model.db.User
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -12,11 +13,19 @@ import retrofit2.http.Path
 
 interface UserService {
 
+    @GET("api-auth/registration/")
+    suspend fun registerUser(@Body user: User): User
+
+    @POST("api-token-auth/")
+    suspend fun tokenUser(@Body user: User): User
+
+    @POST("api-auth/login/")
+    suspend fun loginUser(@Body user: User): User
+
+    @POST("api-auth/logout/")
+
     @GET("users/list")
     suspend fun getUsers(): List<User>
-
-    @POST("users/create")
-    suspend fun addUser(@Body user: User): User
 
     @GET("user/{userId}")
     suspend fun getUserById(@Path("userId") userId: Int): User
@@ -28,19 +37,17 @@ interface UserService {
     suspend fun deleteUser(@Path("userId") userId: Int): User
 }
 
-object UserServiceImp {
+object  UserServiceImp {
     private var instance: UserService? = null
 
     fun getInstance(): UserService {
         if (instance == null) {
             instance = Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(BuildConfig.BACKEND_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
                 .create(UserService::class.java)
         }
         return instance!!
     }
-
-    private const val BASE_URL = "http://10.0.2.2:8000/" // Reemplaza esto con tu URL base
 }

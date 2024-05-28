@@ -42,5 +42,4 @@ fun ButtonAndImage(buttonText: String, imageResourceId: Int, onClick: () -> Unit
             Text(buttonText)
         }
     }
-
 }

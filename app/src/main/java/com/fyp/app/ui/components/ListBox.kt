@@ -1,6 +1,5 @@
 package com.fyp.app.ui.components
 
-import android.util.Log
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -10,32 +9,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.fyp.app.data.model.db.Sickness
 import com.fyp.app.data.model.db.Plant
+import com.fyp.app.data.model.db.Sickness
 
-@Composable
-fun ListBoxPlants(content: MutableList<Plant>){
-    LazyColumn(modifier = Modifier
-        .padding(10.dp)
-        .border(width = 2.dp, color = Color.Black)
-    ) {
-        items(content){ plant->
-            ContainerPlants(title = plant.name, image = "plant.imageUrl", difficulty = plant.difficulty, description = plant.description)
-        }
-    }
-}
-
-@Composable
-fun ListBoxIllness(content:MutableList<Sickness>){
-    LazyColumn(modifier = Modifier
-        .padding(10.dp)
-        .border(width = 2.dp, color = Color.Black)
-    ) {
-        items(content){ illness->
-            ContainerIllness(title = illness.name, image = "illness.imageUrl", description = illness.description)
-        }
-    }
-}
 @Composable
 fun ListBoxAlerts(content:List<List<String>>){
     LazyColumn(modifier = Modifier

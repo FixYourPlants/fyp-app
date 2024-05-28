@@ -1,6 +1,7 @@
 package com.fyp.app.ui.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -47,6 +48,7 @@ fun BoxTag(name: String, values: List<String>) {
     }
 }
 
+
 @Composable
 fun BoxContent(value: String) {
     Box(
@@ -65,25 +67,4 @@ fun BoxContent(value: String) {
             modifier = Modifier.padding(horizontal = 8.dp)
         )
     }
-}
-
-
-
-@Preview(showBackground = true)
-@Composable
-fun BoxTagPreview() {
-    BoxTag(
-        name = "Características: ",
-        values = listOf(
-            "Hojas verdes",
-            "Flores amarillas",
-            "Hojas verdes",
-            "Flores amarillas",
-            "Hojas verdes",
-            "Flores amarillas",
-            "Hojas verdes",
-            "Flores amarillas",
-            "H"
-        )
-    )
 }

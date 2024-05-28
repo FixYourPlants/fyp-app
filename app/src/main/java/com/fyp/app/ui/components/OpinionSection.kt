@@ -26,6 +26,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.fyp.app.data.api.OpinionService
+import com.fyp.app.data.api.OpinionServiceImp
+import com.fyp.app.data.api.UserServiceImp
 import com.fyp.app.data.model.db.Opinion
 
 @Composable
@@ -117,7 +120,7 @@ fun AddOpinionDialog(onDismiss: () -> Unit) {
         confirmButton = {
             Button(
                 onClick = {
-                    // Aquí deberías guardar la opinión y cerrar el diálogo
+                    // TODO: Add opinion
                     onDismiss()
                 }
             ) {

@@ -1,5 +1,6 @@
 package com.fyp.app.data.api
 
+import com.fyp.app.BuildConfig
 import com.fyp.app.data.model.db.Characteristic
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -34,13 +35,11 @@ object CharacteristicServiceImp {
     fun getInstance(): CharacteristicService {
         if (instance == null) {
             instance = Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(BuildConfig.BACKEND_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
                 .create(CharacteristicService::class.java)
         }
         return instance!!
     }
-
-    private const val BASE_URL = "http://192.168.1.26:8000/" // Reemplaza esto con tu URL base
 }

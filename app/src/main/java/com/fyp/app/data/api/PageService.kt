@@ -1,5 +1,6 @@
 package com.fyp.app.data.api
 
+import com.fyp.app.BuildConfig
 import com.fyp.app.data.model.db.Page
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -34,13 +35,11 @@ object PageServiceSingleton {
     fun getInstance(): PageService {
         if (instance == null) {
             instance = Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(BuildConfig.BACKEND_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
                 .create(PageService::class.java)
         }
         return instance!!
     }
-
-    private const val BASE_URL = "http://10.0.2.2:8000/" // Reemplaza esto con tu URL base
 }

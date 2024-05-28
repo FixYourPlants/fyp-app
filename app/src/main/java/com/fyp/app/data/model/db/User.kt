@@ -1,6 +1,7 @@
 package com.fyp.app.data.model.db
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class User(
     @SerializedName("pk")
@@ -19,4 +20,4 @@ data class User(
     val imageUrl: String,
     @SerializedName("favorite_plant")
     val favoritePlants: List<Plant>
-)
+): Serializable

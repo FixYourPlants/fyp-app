@@ -24,6 +24,14 @@ android {
         }
     }
 
+    buildTypes.forEach { buildType ->
+        buildType.buildConfigField("String", "BACKEND_URL", "\"http://10.0.2.2:8000/\"")
+    }
+
+    buildFeatures {
+        buildConfig = true
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -99,5 +107,6 @@ dependencies {
     implementation ("com.airbnb.android:lottie-compose:5.2.0")
     implementation ("com.squareup.retrofit2:retrofit:2.11.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.11.0")
+    implementation("io.coil-kt:coil-compose:2.4.0")
 
 }

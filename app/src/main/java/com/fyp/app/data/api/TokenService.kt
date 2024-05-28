@@ -1,5 +1,6 @@
 package com.fyp.app.data.api
 
+import com.fyp.app.BuildConfig
 import com.fyp.app.data.model.db.User
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -20,13 +21,11 @@ object TokenServiceImp {
     fun getInstance(): TokenService {
         if (instance == null) {
             instance = Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(BuildConfig.BACKEND_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
                 .create(TokenService::class.java)
         }
         return instance!!
     }
-
-    private const val BASE_URL = "http://10.0.2.2:8000/" // Reemplaza esto con tu URL base
 }

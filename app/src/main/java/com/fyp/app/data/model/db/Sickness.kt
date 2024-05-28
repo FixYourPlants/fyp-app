@@ -1,6 +1,7 @@
 package com.fyp.app.data.model.db
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class Sickness(
     @SerializedName("id")
@@ -13,4 +14,4 @@ data class Sickness(
     val imageUrl: String,
     @SerializedName("treatment")
     val treatment: String,
-)
+): Serializable

@@ -1,5 +1,6 @@
 package com.fyp.app.ui.components.image
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -19,10 +20,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
+import com.fyp.app.R
 
 @Composable
 public fun OverlayImageWithClick(
-    defaultImageUrl: Int,
+    defaultImageUrl: String,
     clickedImageUrl: Int,
     notClickedImageUrl: Int,
     onClick: () -> Unit
@@ -34,9 +37,10 @@ public fun OverlayImageWithClick(
             .fillMaxWidth()
             .height(200.dp)
     ) {
-        // Fondo: Imagen de la planta
-        Image(
-            painter = painterResource(id = defaultImageUrl),
+        AsyncImage(
+            model = defaultImageUrl,
+            placeholder = painterResource(id = R.drawable.down),
+            error = painterResource(id = R.drawable.down_down),
             contentDescription = null,
             modifier = Modifier
                 .fillMaxSize()
