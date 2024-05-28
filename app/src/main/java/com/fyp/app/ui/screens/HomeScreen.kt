@@ -1,13 +1,14 @@
 package com.fyp.app.ui.screens
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -35,115 +36,115 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @RootNavGraph(start = true)
 @Destination
 fun HomeScreen(navigator: DestinationsNavigator) {
-    Column{
+    Column {
         Header(
-            onClickLogo = {
-                navigator.navigate(HomeScreenDestination())
-            },
-            onClickAccount = {
-                navigator.navigate(SignInScreenDestination())
-            }
+            onClickLogo = { navigator.navigate(HomeScreenDestination()) },
+            onClickAccount = { navigator.navigate(SignInScreenDestination()) }
         )
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-                .background(Color(0xFF804000))
-                .wrapContentSize(Alignment.BottomCenter)
-        ) {
 
-            Image(
-                painter = painterResource(id = R.drawable.up),
-                contentDescription = null,
-                modifier = Modifier
-                    // .scale(1.243f)
-                    .align(Alignment.CenterHorizontally)
-            )
-            Row(
-                horizontalArrangement = Arrangement.Center,
-                modifier = Modifier
-                    .paint(painterResource(id = R.drawable.middle), contentScale = ContentScale.FillBounds)
-            ) {
-                ButtonAndImage(
-                    buttonText = "Enciclopedia de Virus",
-                    imageResourceId = R.drawable.virus,
-                    onClick = {
-                        Log.d("HomeScreen", "Enciclopedia de Virus")
-                        navigator.navigate(IllnessListScreenDestination())
-                    }
-                )
+        ContentColumn(navigator)
+    }
+}
 
-                ButtonAndImage(
-                    buttonText = "Anuncios de Plagas",
-                    imageResourceId = R.drawable.grasshopper,
-                    onClick = {
-                        navigator.navigate(PlaguesListScreenDestination())
-                    }
-                )
-            }
-            Image(
-                painter = painterResource(id = R.drawable.down),
-                contentDescription = null,
-                modifier = Modifier
-                    // .scale(1.243f)
-                    .align(Alignment.CenterHorizontally)
-            )
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .paint(
-                        painterResource(id = R.drawable.middle),
-                        contentScale = ContentScale.FillBounds
-                    )
-            ) {
-                ButtonAndImage(
-                    buttonText = "Enciclopedia de plantas",
-                    imageResourceId = R.drawable.plants,
-                    onClick = {
-                        navigator.navigate(PlantListScreenDestination())
-                    }
-                )
+@Composable
+fun ContentColumn(navigator: DestinationsNavigator) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+            .background(Color(0xFF804000))
+            .wrapContentSize(Alignment.BottomCenter)
+    ) {
 
-                ButtonAndImage(
-                    buttonText = "Tus Diarios",
-                    imageResourceId = R.drawable.notes,
-                    onClick = {
-                    }
-                )
-            }
+        CenteredImage(R.drawable.up)
 
-            Image(
-                painter = painterResource(id = R.drawable.down),
-                contentDescription = null,
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-            )
+        ButtonAndImageRow(
+            firstButtonText = "Enciclopedia de Virus",
+            firstImageResourceId = R.drawable.virus,
+            firstButtonClick = { navigator.navigate(IllnessListScreenDestination()) },
+            secondButtonText = "Anuncios de Plagas",
+            secondImageResourceId = R.drawable.grasshopper,
+            secondButtonClick = { navigator.navigate(PlaguesListScreenDestination()) }
+        )
 
-            Row(
-                horizontalArrangement = Arrangement.Center,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .paint(
-                        painterResource(id = R.drawable.middle),
-                        contentScale = ContentScale.FillBounds
-                    )
-            ) {
-                ButtonAndImage(
-                    buttonText = "Ayuda",
-                    imageResourceId = R.drawable.help,
-                    onClick = {
-                        navigator.navigate(HelpScreenDestination())
-                    }
-                )
-            }
+        CenteredImage(R.drawable.down)
 
-            Image(
-                painter = painterResource(id = R.drawable.down_down),
-                contentDescription = null,
-                modifier = Modifier
-                    // .scale(1.243f)
-                    .align(Alignment.CenterHorizontally)
-            )
-        }
+        ButtonAndImageRow(
+            firstButtonText = "Enciclopedia de Plantas",
+            firstImageResourceId = R.drawable.plants,
+            firstButtonClick = { navigator.navigate(PlantListScreenDestination()) },
+            secondButtonText = "Tus Diarios",
+            secondImageResourceId = R.drawable.notes,
+            secondButtonClick = {}
+        )
+
+        CenteredImage(R.drawable.down)
+
+        SingleButtonRow(
+            buttonText = "Ayuda",
+            imageResourceId = R.drawable.help,
+            onClick = { navigator.navigate(HelpScreenDestination()) }
+        )
+
+        CenteredImage(R.drawable.down_down)
+    }
+}
+
+@Composable
+fun CenteredImage(resourceId: Int) {
+    Row(
+        horizontalArrangement = Arrangement.Center,
+        modifier = Modifier
+            .fillMaxWidth()
+            .paint(painterResource(id = resourceId), contentScale = ContentScale.FillBounds)
+    ) {}
+}
+
+@Composable
+fun ButtonAndImageRow(
+    firstButtonText: String,
+    firstImageResourceId: Int,
+    firstButtonClick: () -> Unit,
+    secondButtonText: String,
+    secondImageResourceId: Int,
+    secondButtonClick: () -> Unit
+) {
+    Row(
+        horizontalArrangement = Arrangement.Center,
+        modifier = Modifier
+            .fillMaxWidth()
+            .paint(painterResource(id = R.drawable.middle), contentScale = ContentScale.FillBounds)
+    ) {
+        ButtonAndImage(
+            buttonText = firstButtonText,
+            imageResourceId = firstImageResourceId,
+            onClick = firstButtonClick
+        )
+
+        ButtonAndImage(
+            buttonText = secondButtonText,
+            imageResourceId = secondImageResourceId,
+            onClick = secondButtonClick
+        )
+    }
+}
+
+@Composable
+fun SingleButtonRow(
+    buttonText: String,
+    imageResourceId: Int,
+    onClick: () -> Unit
+) {
+    Row(
+        horizontalArrangement = Arrangement.Center,
+        modifier = Modifier
+            .fillMaxWidth()
+            .paint(painterResource(id = R.drawable.middle), contentScale = ContentScale.FillBounds)
+    ) {
+        ButtonAndImage(
+            buttonText = buttonText,
+            imageResourceId = imageResourceId,
+            onClick = onClick
+        )
     }
 }
