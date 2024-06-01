@@ -8,9 +8,9 @@ data class User(
     val id:String,
     @SerializedName("username")
     val username: String,
-    @SerializedName("firstName")
+    @SerializedName("first_name")
     val firstName: String,
-    @SerializedName("lastName")
+    @SerializedName("last_name")
     val lastName: String,
     @SerializedName("email")
     val email: String,
@@ -18,6 +18,8 @@ data class User(
     val password: String,
     @SerializedName("image")
     val imageUrl: String,
-    @SerializedName("favorite_plant")
-    val favoritePlants: List<Plant>
+    @SerializedName("favourite_plant")
+    val favoritePlants: List<Plant>,
+    @SerializedName("about_me")
+    val aboutMe: String
 ): Serializable

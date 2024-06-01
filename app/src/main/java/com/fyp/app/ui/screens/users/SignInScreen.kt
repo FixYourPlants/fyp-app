@@ -8,7 +8,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -48,7 +47,6 @@ import com.fyp.app.ui.components.buttons.GoogleSignInButton
 import com.fyp.app.ui.screens.destinations.HomeScreenDestination
 import com.fyp.app.ui.screens.destinations.LoginScreenDestination
 import com.fyp.app.ui.screens.destinations.ProfileScreenDestination
-import com.fyp.app.ui.screens.destinations.SignInScreenDestination
 import com.google.android.gms.auth.api.identity.Identity
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -86,7 +84,7 @@ fun SignInScreen(navigator: DestinationsNavigator) {
                     )
                 )
                 // Guardar el email y el token del usuario en SharedPreferences
-                UserServiceImp.getInstance().getUserIdByEmail(email)
+                UserServiceImp.getInstance().getUserIdByUsername(email)
 
                 // Navegar a la pantalla principal
                 navigator.navigate(HomeScreenDestination())

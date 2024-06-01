@@ -10,7 +10,13 @@ import retrofit2.http.POST
 interface TokenService {
 
     @POST("api-token-auth/")
-    suspend fun getToken(@Body user: User): User
+    suspend fun getToken(@Body user: Map<String, String>): User
+
+    @POST("/simple/token")
+    suspend fun getSimpleToken(@Body user: Map<String, String>): Map<String, String>
+
+    @POST("/simple/refresh")
+    suspend fun getSimpleRefresh(@Body token: Map<String, String>): Map<String, String>
 
 
 }
