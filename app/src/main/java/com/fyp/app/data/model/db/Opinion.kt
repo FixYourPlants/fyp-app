@@ -4,16 +4,16 @@ import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 data class Opinion(
-    @SerializedName("illnessId")
+    @SerializedName("id")
     val id:String,
-    @SerializedName("illnessId")
+    @SerializedName("title")
     val title: String,
-    @SerializedName("illnessId")
+    @SerializedName("description")
     val description: String,
-    @SerializedName("illnessId")
+    @SerializedName("email")
     val email: String,
-    @SerializedName("illnessId")
+    @SerializedName("plant")
     val plant: Plant,
-    @SerializedName("illnessId")
+    @SerializedName("user")
     val user: User
 ): Serializable

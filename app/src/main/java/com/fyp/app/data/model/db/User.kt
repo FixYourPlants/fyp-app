@@ -19,7 +19,7 @@ data class User(
     @SerializedName("image")
     val imageUrl: String,
     @SerializedName("favourite_plant")
-    val favoritePlants: List<Plant>,
+    val favouritePlants: List<String>,
     @SerializedName("about_me")
     val aboutMe: String
 ): Serializable

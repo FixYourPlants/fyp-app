@@ -27,7 +27,6 @@ import com.fyp.app.R
 public fun OverlayImageWithClick(
     defaultImageUrl: String,
     clickedImageUrl: Int,
-    notClickedImageUrl: Int,
     onClick: () -> Unit
 ) {
     var isImageClicked by remember { mutableStateOf(false) }
@@ -39,8 +38,6 @@ public fun OverlayImageWithClick(
     ) {
         AsyncImage(
             model = defaultImageUrl,
-            placeholder = painterResource(id = R.drawable.down),
-            error = painterResource(id = R.drawable.down_down),
             contentDescription = null,
             modifier = Modifier
                 .fillMaxSize()
@@ -54,14 +51,13 @@ public fun OverlayImageWithClick(
                 .fillMaxSize()
                 .clip(shape = MaterialTheme.shapes.medium)
                 .clickable {
-                    isImageClicked = !isImageClicked
                     onClick()
                 },
         ) {
             // Ajusta el tamaño y la posición de la imagen superpuesta
             val imageSize = if (isImageClicked) 150.dp else 50.dp
             Image(
-                painter = painterResource(id = if (isImageClicked) clickedImageUrl else notClickedImageUrl),
+                painter = painterResource(id = clickedImageUrl),
                 contentDescription = null,
                 modifier = Modifier
                     .size(imageSize)

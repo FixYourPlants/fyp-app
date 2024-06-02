@@ -1,5 +1,6 @@
 ﻿package com.fyp.app.ui.screens.plants
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -17,6 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fyp.app.R
+import com.fyp.app.data.api.PlantServiceImp
 import com.fyp.app.data.model.db.Plant
 import com.fyp.app.data.model.db.obtainDifficulty
 import com.fyp.app.ui.components.*
@@ -24,6 +26,10 @@ import com.fyp.app.ui.components.image.OverlayImageWithClick
 import com.fyp.app.ui.screens.destinations.IllnessDetailsScreenDestination
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -52,6 +58,20 @@ fun PlantDetailsScreen(
 
 @Composable
 fun PlantDetailsHeader(plant: Plant) {
+    val status = remember { mutableStateOf(false) }
+
+    // LaunchedEffect to check the favorite status of the plant
+    LaunchedEffect(Unit) {
+        val result = withContext(Dispatchers.IO) {
+            try {
+                PlantServiceImp.getInstance().statusFavPlant(plant.id)
+            } catch (e: Exception) {
+                false
+            }
+        }
+        status.value = result
+    }
+
     Row(
         modifier = Modifier
             .fillMaxWidth(),
@@ -60,9 +80,21 @@ fun PlantDetailsHeader(plant: Plant) {
         Column(modifier = Modifier.weight(0.5f)) {
             OverlayImageWithClick(
                 defaultImageUrl = plant.imageUrl,
-                clickedImageUrl = R.drawable.hearth,
-                notClickedImageUrl = R.drawable.hearth_empty,
-                onClick = { /* Acciones cuando se hace clic en la imagen */ }
+                clickedImageUrl = if (status.value) R.drawable.hearth else R.drawable.hearth_empty,
+                onClick = {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        val result = try {
+                            val value = PlantServiceImp.getInstance().toggleFavPlant(plant.id)
+                            Log.d("PlantDetailsScreen", "Favorite status: $value")
+                            value
+                        } catch (e: Exception) {
+                            false
+                        }
+                        withContext(Dispatchers.Main) {
+                            status.value = result
+                        }
+                    }
+                }
             )
         }
         Spacer(modifier = Modifier.width(16.dp))
