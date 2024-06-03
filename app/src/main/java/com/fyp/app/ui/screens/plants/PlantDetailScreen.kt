@@ -18,8 +18,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fyp.app.R
+import com.fyp.app.data.api.OpinionServiceImp
 import com.fyp.app.data.api.PlantServiceImp
+import com.fyp.app.data.api.UserServiceImp
+import com.fyp.app.data.model.db.CreateOpinion
+import com.fyp.app.data.model.db.Opinion
 import com.fyp.app.data.model.db.Plant
+import com.fyp.app.data.model.db.User
 import com.fyp.app.data.model.db.obtainDifficulty
 import com.fyp.app.ui.components.*
 import com.fyp.app.ui.components.image.OverlayImageWithClick
@@ -52,7 +57,7 @@ fun PlantDetailsScreen(
         item { PlantCharacteristicsSection(plant) }
         item { PlantCareSection(plant) }
         item { PlantSicknessesSection(plant, navigator) }
-        item { PlantOpinionsSection() }
+        item { PlantOpinionsSection(plant) }
     }
 }
 
@@ -84,9 +89,7 @@ fun PlantDetailsHeader(plant: Plant) {
                 onClick = {
                     CoroutineScope(Dispatchers.IO).launch {
                         val result = try {
-                            val value = PlantServiceImp.getInstance().toggleFavPlant(plant.id)
-                            Log.d("PlantDetailsScreen", "Favorite status: $value")
-                            value
+                            PlantServiceImp.getInstance().toggleFavPlant(plant.id)
                         } catch (e: Exception) {
                             false
                         }
@@ -205,19 +208,71 @@ fun PlantSicknessesSection(plant: Plant, navigator: DestinationsNavigator) {
 }
 
 @Composable
-fun PlantOpinionsSection() {
+fun PlantOpinionsSection(plant: Plant) {
     var showDialog by remember { mutableStateOf(false) }
+    val user: MutableState<User?> = remember { mutableStateOf(null) }
+    val opinions: MutableState<List<Opinion>> = remember { mutableStateOf(mutableListOf()) }
+
+    LaunchedEffect(Unit) {
+        val result = withContext(Dispatchers.IO) {
+            try {
+                UserServiceImp.getInstance().getLoggedInUser()
+            } catch (e: Exception) {
+                null
+            }
+        }
+        user.value = result
+    }
+
+    LaunchedEffect(Unit) {
+        val result = withContext(Dispatchers.IO) {
+            try {
+                OpinionServiceImp.getInstance().getOpinions(plant.id)
+            } catch (e: Exception) {
+                Log.e("PlantDetailsScreen", "Error getting opinions", e)
+                null
+            }
+        }
+        Log.d("PlantDetailsScreen", "Opinions: $result")
+        if (result != null) {
+            opinions.value = result
+        }
+    }
 
     Column(modifier = Modifier.padding(16.dp)) {
-        OpinionsSection(opinions = mutableListOf())
+
+        OpinionsSection(opinions = opinions.value)
         Spacer(modifier = Modifier.height(16.dp))
         Button(onClick = { showDialog = true }) {
             Text(text = "Añadir Opinión")
         }
     }
 
-    if (showDialog) {
-        AddOpinionDialog(onDismiss = { showDialog = false })
+    if (showDialog && user.value != null) {
+        AddOpinionDialog(onDismiss = { showDialog = false }, onSubmit = { title, description ->
+            CoroutineScope(Dispatchers.IO).launch {
+                try {
+                    val opinion = CreateOpinion(
+                        title = title,
+                        description = description,
+                        user = user.value!!,
+                        plantId = plant.id
+                    )
+                    OpinionServiceImp.getInstance().addOpinion(opinion)
+                } catch (e: Exception) {
+                    Log.e("PlantDetailsScreen", "Error adding opinion", e)
+                }
+            }
+
+
+        })
+    } else if (user.value == null) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(text = "Inicia sesión para añadir una opinión", color = Color.Red)
+        }
     }
 }
 

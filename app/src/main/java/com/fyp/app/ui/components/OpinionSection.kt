@@ -1,17 +1,18 @@
 package com.fyp.app.ui.components
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -26,10 +27,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.fyp.app.data.api.OpinionService
-import com.fyp.app.data.api.OpinionServiceImp
-import com.fyp.app.data.api.UserServiceImp
+import com.fyp.app.data.model.db.CreateOpinion
 import com.fyp.app.data.model.db.Opinion
+import com.fyp.app.data.model.db.User
 
 @Composable
 fun OpinionsSection(opinions: List<Opinion>) {
@@ -38,14 +38,18 @@ fun OpinionsSection(opinions: List<Opinion>) {
             title = "Opiniones",
         )
         Spacer(modifier = Modifier.height(16.dp))
-        Column {
-            opinions.forEach { opinion ->
-                OpinionCard(opinion = opinion)
-                Spacer(modifier = Modifier.height(8.dp))
+        Box(modifier = Modifier.height(128.dp).verticalScroll(rememberScrollState())) {
+            Column {
+                opinions.forEach { opinion ->
+                    OpinionCard(opinion = opinion)
+                    Spacer(modifier = Modifier.height(8.dp))
+                }
             }
         }
     }
 }
+
+
 
 @Composable
 fun OpinionCard(opinion: Opinion) {
@@ -88,8 +92,9 @@ fun SectionTitle(title: String) {
 }
 
 @Composable
-fun AddOpinionDialog(onDismiss: () -> Unit) {
-    var selectedUser by remember { mutableStateOf("Usuario1") }
+fun AddOpinionDialog(onDismiss: () -> Unit, onSubmit: (String, String) -> Unit) {
+    var title by remember { mutableStateOf("") }
+    var description by remember { mutableStateOf("") }
 
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -98,30 +103,25 @@ fun AddOpinionDialog(onDismiss: () -> Unit) {
             Column {
                 Text("Título")
                 Spacer(modifier = Modifier.height(4.dp))
-                TextField(value = "", onValueChange = { /*TODO*/ })
+                TextField(
+                    value = title,
+                    onValueChange = { title = it }
+                )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text("Descripción")
                 Spacer(modifier = Modifier.height(4.dp))
-                TextField(value = "", onValueChange = { /*TODO*/ })
+                TextField(
+                    value = description,
+                    onValueChange = { description = it }
+                )
                 Spacer(modifier = Modifier.height(8.dp))
-                Text("Usuario")
-                Spacer(modifier = Modifier.height(4.dp))
-                DropdownMenu(
-                    expanded = false,
-                    onDismissRequest = { },
-                    modifier = Modifier.width(IntrinsicSize.Min)
-                ) {
-                    DropdownMenuItem(
-                        onClick = { selectedUser = "Usuario1" },
-                        text = { Text("Usuario1") })
-                }
             }
         },
         confirmButton = {
             Button(
                 onClick = {
-                    // TODO: Add opinion
-                    onDismiss()
+                    onSubmit(title, description)
+                    onDismiss()  // Optionally close the dialog after submitting
                 }
             ) {
                 Text("Añadir")
@@ -139,26 +139,3 @@ fun AddOpinionDialog(onDismiss: () -> Unit) {
     )
 }
 
-//val opinions = listOf(
-//    Opinion(
-//        title = "Opinión 1",
-//        description = "Esta es la primera opinión sobre la planta.",
-//        user = "Usuario1"
-//    ),
-//    Opinion(
-//        title = "Opinión 2",
-//        description = "Esta es la segunda opinión sobre la planta.",
-//        userName = "Usuario2"
-//    ),
-//    Opinion(
-//        title = "Opinión 3",
-//        description = "Esta es la tercera opinión sobre la planta.",
-//        userName = "Usuario3"
-//    )
-//)
-
-//@Preview(showBackground = true)
-//@Composable
-//fun OpinionsSectionPreview() {
-//    OpinionsSection(opinions = opinions)
-//}
