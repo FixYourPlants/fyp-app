@@ -36,7 +36,6 @@ fun Header(onClickLogo: () -> Unit, onClickAccount: () -> Unit) {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                // TODO: Si se pulsa te lleva a la pantalla principal
                 Logo(onClickLogo)
                 Text(
                     text = "Fix Your Plants",
