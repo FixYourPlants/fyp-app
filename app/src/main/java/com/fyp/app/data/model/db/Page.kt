@@ -1,6 +1,5 @@
 package com.fyp.app.data.model.db
 
-import android.net.Uri
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 

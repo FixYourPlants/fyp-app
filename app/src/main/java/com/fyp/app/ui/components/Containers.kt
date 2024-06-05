@@ -1,7 +1,6 @@
 package com.fyp.app.ui.components
 
 import android.util.Log
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -11,36 +10,26 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.paint
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.graphics.StrokeJoin
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.fyp.app.BuildConfig
 import com.fyp.app.R
-import com.fyp.app.data.model.db.Difficulty
+import com.fyp.app.data.model.db.Page
 import com.fyp.app.data.model.db.Plant
 import com.fyp.app.data.model.db.Sickness
 import com.fyp.app.data.model.db.obtainDifficulty
-import org.jetbrains.annotations.Async
 
 @Composable
 fun ContainerIllness(sickness: Sickness, onClick: () -> Unit) {
@@ -158,6 +147,48 @@ fun ContainerPlants(plant: Plant, onClick: (Plant) -> Unit) {
             Text(text = "Dificultad: "+ obtainDifficulty(plant.difficulty),
                 color = Color.White,
                 maxLines=1)
+        }
+    }
+}
+
+@Composable
+fun PageItem(page: Page, onClick: (Page) -> Unit) {
+    Box(
+        contentAlignment = Alignment.CenterStart,
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(100.dp)
+            .clickable { onClick(page) }
+            .background(color = Color(146, 208, 80))
+            .border(width = 0.5.dp, color = Color.Black)
+    ) {
+        Column(Modifier.padding(horizontal = 5.dp)) {
+            Surface(
+                modifier = Modifier
+                    .requiredSize(84.dp)
+                    .border(width = 1.dp, color = Color.Black)
+            ) {
+                AsyncImage(
+                    model = page.imageUrl,
+                    contentDescription = "Image description",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.background(color = Color.White)
+                )
+            }
+        }
+        Column(modifier = Modifier.padding(start = 94.dp)) {
+            Text(
+                text = page.title,
+                fontSize = 18.sp,
+                color = Color(0, 176, 80),
+                fontWeight = FontWeight.Bold,
+                maxLines = 1
+            )
+            Text(
+                text = "Fecha: ${page.createdAt}",
+                color = Color.White,
+                maxLines = 1
+            )
         }
     }
 }

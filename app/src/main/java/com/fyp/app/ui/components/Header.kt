@@ -1,31 +1,50 @@
 package com.fyp.app.ui.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Popup
+import com.fyp.app.R
+import com.fyp.app.ui.screens.destinations.DiariesScreenDestination
+import com.fyp.app.ui.screens.destinations.HomeScreenDestination
+import com.fyp.app.ui.screens.destinations.LoginScreenDestination
+import com.fyp.app.ui.screens.destinations.UserDetailsScreenDestination
+import com.fyp.app.utils.UserPreferencesImp
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -57,7 +76,10 @@ fun Header(onClickLogo: () -> Unit, onClickAccount: () -> Unit) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Spacer(modifier = Modifier.width(16.dp))
-                Icon(imageVector = Icons.Default.AccountCircle, contentDescription = null, modifier = Modifier.clickable { onClickAccount() })
+                Icon(
+                    imageVector = Icons.Default.AccountCircle,
+                    contentDescription = null,
+                    modifier = Modifier.clickable { onClickAccount() })
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(
@@ -66,6 +88,107 @@ fun Header(onClickLogo: () -> Unit, onClickAccount: () -> Unit) {
         modifier = Modifier
             .fillMaxWidth()
             .statusBarsPadding()
-            .border(width=3.dp, color = Color(0,120,0))
+            .border(width = 3.dp, color = Color(0, 120, 0))
+    )
+}
+
+@Composable
+fun HeaderSection(navigator: DestinationsNavigator) {
+    // Variable de estado para controlar la visibilidad del PopUp
+    var showDialog by remember { mutableStateOf(false) }
+    Header(
+        onClickLogo = { navigator.navigate(HomeScreenDestination()) },
+        onClickAccount = {
+            if (UserPreferencesImp.isAuthenticated()) {
+                showDialog = true
+            } else {
+                navigator.navigate(LoginScreenDestination())
+            }
+        }
+    )
+
+    // Mostrar el PopUp si showDialog es verdadero
+    if (showDialog) {
+        Popup(alignment = Alignment.TopEnd, onDismissRequest = { showDialog = false }) {
+            Box(
+                modifier = Modifier
+                    .padding(
+                        top = 48.dp,
+                        end = 16.dp
+                    ) // Ajusta el padding superior para bajar el PopUp
+                    .background(Color.White, shape = RoundedCornerShape(8.dp))
+                    .border(1.dp, Color.Gray, shape = RoundedCornerShape(8.dp))
+                    .padding(16.dp)
+            ) {
+                Column {
+                    Row(modifier = Modifier
+                        .clickable { navigator.navigate(UserDetailsScreenDestination()) }
+                        .padding(8.dp)) {
+                        Icon(
+                            painterResource(id = R.drawable.user_details),
+                            contentDescription = "Mi Perfil"
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text("Mi Perfil")
+                    }
+                    HorizontalDivider(modifier = Modifier.width(128.dp))
+                    Row(modifier = Modifier
+                        .clickable { /* Acción para Historial */ }
+                        .padding(8.dp)) {
+                        Icon(
+                            painterResource(id = R.drawable.history),
+                            contentDescription = "Historial"
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text("Historial")
+                    }
+                    HorizontalDivider(modifier = Modifier.width(128.dp))
+                    Row(modifier = Modifier
+                        .clickable { /* Acción para Cambiar Idioma */ }
+                        .padding(8.dp)) {
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text("Cambiar Idioma")
+                    }
+                    HorizontalDivider(modifier = Modifier.width(128.dp))
+                    Row(modifier = Modifier
+                        .clickable { navigator.navigate(DiariesScreenDestination()) }
+                        .padding(8.dp)) {
+                        Icon(
+                            painterResource(id = R.drawable.my_diaries),
+                            contentDescription = "Mis Diarios"
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text("Mis Diarios")
+                    }
+                    HorizontalDivider(modifier = Modifier.width(128.dp))
+                    Row(modifier = Modifier
+                        .clickable { navigator.navigate(LoginScreenDestination()) }
+                        .padding(8.dp)) {
+                        // Icon(Icons.Default.ExitToApp, contentDescription = "Cerrar Sesión", tint = Color.Red)
+                        Icon(
+                            painterResource(id = R.drawable.logout),
+                            contentDescription = "Cerrar Sesión"
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text("Cerrar Sesión")
+
+                    }
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Button(onClick = { showDialog = false }) {
+                        Text("Cerrar")
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun HeaderInit(text: String) {
+    Text(
+        text = text,
+        fontSize = 28.sp,
+        fontWeight = FontWeight.Bold,
+        modifier = Modifier.padding(top = 16.dp)
     )
 }

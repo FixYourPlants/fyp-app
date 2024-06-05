@@ -1,8 +1,12 @@
 package com.fyp.app.ui.screens.users
 
 import android.widget.Toast
-import androidx.activity.result.IntentSenderRequest
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
@@ -21,7 +25,6 @@ import coil.compose.AsyncImage
 import com.fyp.app.data.model.UserData
 import com.fyp.app.domain.authenticationGoogle.GoogleAuthUiClient
 import com.fyp.app.ui.screens.destinations.HomeScreenDestination
-import com.fyp.app.ui.screens.destinations.ProfileScreenDestination
 import com.google.android.gms.auth.api.identity.Identity
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator

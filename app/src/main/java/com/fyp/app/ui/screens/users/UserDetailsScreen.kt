@@ -41,8 +41,6 @@ import com.fyp.app.data.api.PlantServiceImp
 import com.fyp.app.data.api.UserServiceImp
 import com.fyp.app.data.model.db.Plant
 import com.fyp.app.data.model.db.User
-import com.fyp.app.ui.components.BoxTag
-import com.fyp.app.ui.screens.destinations.IllnessDetailsScreenDestination
 import com.fyp.app.ui.screens.destinations.PlantDetailsScreenDestination
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator

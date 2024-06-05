@@ -1,6 +1,5 @@
-package com.fyp.app.ui.components.image
+package com.fyp.app.ui.components
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -21,7 +20,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.fyp.app.R
 
 @Composable
 public fun OverlayImageWithClick(

@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,12 +30,11 @@ import com.fyp.app.data.api.DiaryServiceImp
 import com.fyp.app.data.model.db.Diary
 import com.fyp.app.ui.components.Header
 import com.fyp.app.ui.screens.destinations.HomeScreenDestination
+import com.fyp.app.ui.screens.destinations.PageListScreenDestination
 import com.fyp.app.ui.screens.destinations.UserDetailsScreenDestination
+import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.Dispatchers
-import androidx.compose.foundation.lazy.items
-import com.fyp.app.ui.screens.destinations.PageListScreenDestination
-import com.ramcosta.composedestinations.annotation.Destination
 import kotlinx.coroutines.withContext
 
 @Composable

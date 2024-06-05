@@ -23,6 +23,10 @@ object UserPreferencesImp {
     fun clear() {
         instance = null
     }
+
+    fun isAuthenticated(): Boolean {
+        return instance != null
+    }
 }
 
 

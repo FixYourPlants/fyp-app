@@ -1,9 +1,9 @@
 package com.fyp.app.data.repository
 
 import com.fyp.app.data.model.db.Characteristic
-import com.fyp.app.data.model.db.Sickness
 import com.fyp.app.data.model.db.CreateOpinion
 import com.fyp.app.data.model.db.Plant
+import com.fyp.app.data.model.db.Sickness
 import com.fyp.app.data.model.db.User
 
 object Repository {
