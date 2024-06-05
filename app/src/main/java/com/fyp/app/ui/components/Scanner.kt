@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.sp
 import com.fyp.app.R
 
 @Composable
-fun Scanner() {
+fun Scanner(onClick: () -> Unit = {}) {
     var isClicked by remember { mutableStateOf(false) }
 
     Surface(
@@ -36,7 +36,7 @@ fun Scanner() {
             .fillMaxWidth()
             .height(120.dp)
             .padding(16.dp)
-            .clickable { isClicked = !isClicked },
+            .clickable { isClicked = !isClicked; onClick()},
         shape = RoundedCornerShape(16.dp),
         color = if (isClicked) Color.Red else Color.Green
     ) {
