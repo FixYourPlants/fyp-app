@@ -150,20 +150,11 @@ fun ContainerPlants(plant: Plant, onClick: (Plant) -> Unit) {
                 color = Color(0,176,80),
                 fontWeight = FontWeight.Bold,
                 maxLines=1)
-            Box{
-                Text(text = plant.description,
-                    maxLines = 3,
-                    color = Color.White,
-                    overflow = TextOverflow.Ellipsis,
-                    style = TextStyle(drawStyle = Stroke(width = 2f, miter = 2f, join= StrokeJoin.Round))
-                )
-                Text(text = plant.description,
-                    maxLines = 3,
-                    color = Color.Black,
-                    overflow = TextOverflow.Ellipsis,
-                )
-            }
-            Log.d("ContainerPlants", "Difficulty: ${plant.difficulty}")
+            Text(text = plant.description,
+                maxLines = 3,
+                color = Color.Black,
+                overflow = TextOverflow.Ellipsis,
+            )
             Text(text = "Dificultad: "+ obtainDifficulty(plant.difficulty),
                 color = Color.White,
                 maxLines=1)
