@@ -35,6 +35,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.fyp.app.BuildConfig
 import com.fyp.app.R
 import com.fyp.app.data.api.PlantServiceImp
 import com.fyp.app.data.api.UserServiceImp
@@ -105,8 +106,9 @@ fun UserDetailsScreen(
                                     .height(200.dp)
                             ) {
                                 // Fondo: Imagen de la planta
+                                Log.d("UserDetailsScreen", "User image: ${user.imageUrl}")
                                 AsyncImage(
-                                    model = user.imageUrl,
+                                    model = BuildConfig.BACKEND_URL + user.imageUrl,
                                     placeholder = painterResource(id = R.drawable.down),
                                     error = painterResource(id = R.drawable.down_down),
                                     contentDescription = null,

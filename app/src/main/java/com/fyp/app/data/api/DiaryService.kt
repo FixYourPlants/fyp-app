@@ -1,7 +1,10 @@
 package com.fyp.app.data.api
 
+import android.util.Log
 import com.fyp.app.BuildConfig
 import com.fyp.app.data.model.db.Diary
+import com.fyp.app.utils.UserPreferencesImp
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
@@ -13,7 +16,7 @@ import retrofit2.http.Path
 
 interface DiaryService {
 
-    @GET("diaries/list")
+    @GET("api/v1/diaries/list/")
     suspend fun getDiaries(): List<Diary>
 
     @POST("diaries/create")
@@ -31,17 +34,38 @@ interface DiaryService {
 
 object DiaryServiceImp {
     private var instance: DiaryService? = null
+    private var addedToken = false
 
     fun getInstance(): DiaryService {
-        if (instance == null) {
-            instance = Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-                .create(DiaryService::class.java)
+        try {
+            val token = UserPreferencesImp.getInstance().access
+            Log.d("tokenDiary", token)
+            val httpClient = OkHttpClient.Builder()
+            if (!addedToken) {
+                httpClient.addInterceptor { chain ->
+                    val original = chain.request()
+                    val requestBuilder = original.newBuilder()
+                        .header("Authorization", "Bearer $token")
+                    val request = requestBuilder.build()
+                    chain.proceed(request)
+                }
+                instance = Retrofit.Builder()
+                    .baseUrl(BuildConfig.BACKEND_URL)
+                    .client(httpClient.build())
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build()
+                    .create(DiaryService::class.java)
+                addedToken = true
+            }
+        } catch (e: Exception) {
+            if (instance == null) {
+                instance = Retrofit.Builder()
+                    .baseUrl(BuildConfig.BACKEND_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build()
+                    .create(DiaryService::class.java)
+            }
         }
         return instance!!
     }
-
-    private val BASE_URL = BuildConfig.BACKEND_URL;
 }

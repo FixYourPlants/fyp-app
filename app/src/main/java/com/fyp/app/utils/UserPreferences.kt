@@ -17,7 +17,7 @@ object UserPreferencesImp {
     }
 
     fun getInstance(): UserPreferences {
-        return instance ?: throw IllegalStateException("UserPreferences is not initialized")
+        return instance ?: throw IllegalStateException("UserPreferences not initialized")
     }
 
     fun clear() {

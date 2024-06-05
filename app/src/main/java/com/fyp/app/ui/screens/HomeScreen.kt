@@ -40,6 +40,7 @@ import androidx.compose.ui.window.Popup
 import com.fyp.app.R
 import com.fyp.app.ui.components.Header
 import com.fyp.app.ui.components.buttons.ButtonAndImage
+import com.fyp.app.ui.screens.destinations.DiariesScreenDestination
 import com.fyp.app.ui.screens.destinations.HelpScreenDestination
 import com.fyp.app.ui.screens.destinations.HomeScreenDestination
 import com.fyp.app.ui.screens.destinations.IllnessListScreenDestination
@@ -48,6 +49,7 @@ import com.fyp.app.ui.screens.destinations.PlaguesListScreenDestination
 import com.fyp.app.ui.screens.destinations.PlantListScreenDestination
 import com.fyp.app.ui.screens.destinations.SignInScreenDestination
 import com.fyp.app.ui.screens.destinations.UserDetailsScreenDestination
+import com.fyp.app.utils.UserPreferencesImp
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -63,7 +65,15 @@ fun HomeScreen(navigator: DestinationsNavigator) {
         Column {
             Header(
                 onClickLogo = { navigator.navigate(HomeScreenDestination()) },
-                onClickAccount = { showDialog = true } // Mostrar el PopUp cuando se pulsa en la cuenta
+                onClickAccount = {
+                    try {
+                        UserPreferencesImp.getInstance()
+                        showDialog = true
+                    } catch (e: IllegalStateException) {
+                        navigator.navigate(LoginScreenDestination())
+                    }
+
+                }
             )
             ContentColumn(navigator)
         }
@@ -83,9 +93,12 @@ fun HomeScreen(navigator: DestinationsNavigator) {
                 ) {
                     Column {
                         Row(modifier = Modifier
-                            .clickable { /* Acción para Mi Perfil */ }
+                            .clickable { navigator.navigate(UserDetailsScreenDestination()) }
                             .padding(8.dp)) {
-                            Icon(painterResource(id = R.drawable.user_details), contentDescription = "Mi Perfil")
+                            Icon(
+                                painterResource(id = R.drawable.user_details),
+                                contentDescription = "Mi Perfil"
+                            )
                             Spacer(modifier = Modifier.width(8.dp))
                             Text("Mi Perfil")
                         }
@@ -93,7 +106,10 @@ fun HomeScreen(navigator: DestinationsNavigator) {
                         Row(modifier = Modifier
                             .clickable { /* Acción para Mis Plantas */ }
                             .padding(8.dp)) {
-                            Icon(painterResource(id = R.drawable.my_plants), contentDescription = "Mis Plantas")
+                            Icon(
+                                painterResource(id = R.drawable.my_plants),
+                                contentDescription = "Mis Plantas"
+                            )
                             Spacer(modifier = Modifier.width(8.dp))
                             Text("Mis Plantas")
                         }
@@ -101,7 +117,10 @@ fun HomeScreen(navigator: DestinationsNavigator) {
                         Row(modifier = Modifier
                             .clickable { /* Acción para Historial */ }
                             .padding(8.dp)) {
-                            Icon(painterResource(id = R.drawable.history), contentDescription = "Historial")
+                            Icon(
+                                painterResource(id = R.drawable.history),
+                                contentDescription = "Historial"
+                            )
                             Spacer(modifier = Modifier.width(8.dp))
                             Text("Historial")
                         }
@@ -114,18 +133,24 @@ fun HomeScreen(navigator: DestinationsNavigator) {
                         }
                         HorizontalDivider(modifier = Modifier.width(128.dp))
                         Row(modifier = Modifier
-                            .clickable { /* Acción para Mis Diarios */ }
+                            .clickable { navigator.navigate(DiariesScreenDestination()) }
                             .padding(8.dp)) {
-                            Icon(painterResource(id = R.drawable.my_diaries), contentDescription = "Mis Diarios")
+                            Icon(
+                                painterResource(id = R.drawable.my_diaries),
+                                contentDescription = "Mis Diarios"
+                            )
                             Spacer(modifier = Modifier.width(8.dp))
                             Text("Mis Diarios")
                         }
                         HorizontalDivider(modifier = Modifier.width(128.dp))
                         Row(modifier = Modifier
-                            .clickable { /* Acción para Cerrar Sesión */ }
+                            .clickable { navigator.navigate(LoginScreenDestination()) }
                             .padding(8.dp)) {
                             // Icon(Icons.Default.ExitToApp, contentDescription = "Cerrar Sesión", tint = Color.Red)
-                            Icon(painterResource(id = R.drawable.logout), contentDescription = "Cerrar Sesión")
+                            Icon(
+                                painterResource(id = R.drawable.logout),
+                                contentDescription = "Cerrar Sesión"
+                            )
                             Spacer(modifier = Modifier.width(8.dp))
                             Text("Cerrar Sesión")
 
@@ -140,9 +165,6 @@ fun HomeScreen(navigator: DestinationsNavigator) {
         }
     }
 }
-
-
-
 
 
 @Composable
@@ -174,7 +196,9 @@ fun ContentColumn(navigator: DestinationsNavigator) {
             firstButtonClick = { navigator.navigate(PlantListScreenDestination()) },
             secondButtonText = "Tus Diarios",
             secondImageResourceId = R.drawable.notes,
-            secondButtonClick = {}
+            secondButtonClick = {
+                navigator.navigate(DiariesScreenDestination())
+            }
         )
 
         CenteredImage(R.drawable.down)
