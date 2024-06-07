@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.fyp.app.R
+import com.fyp.app.data.model.db.Alert
 import com.fyp.app.data.model.db.Page
 import com.fyp.app.data.model.db.Plant
 import com.fyp.app.data.model.db.Sickness
@@ -73,22 +74,24 @@ fun ContainerIllness(sickness: Sickness, onClick: () -> Unit) {
 }
 
 @Composable
-fun ContainerPlague(title:String, image: String, description:String) {
-
+fun ContainerPlague(title:String, link:String, onClick: (String) -> Unit) {
     Box(contentAlignment = Alignment.CenterStart,
         modifier = Modifier
             .fillMaxWidth(1f)
             .height(100.dp)
+            .clickable { onClick(link) }
             .background(color = Color(146, 208, 80))
-            .border(width = 0.5.dp, color = Color.Black)){
+            .border(width = 0.5.dp, color = Color.Black),
+    ){
         Column(Modifier.padding(horizontal = 5.dp)) {
             Surface(
                 modifier = Modifier
                     .size(84.dp)
                     .border(width = 1.dp, color = Color.Black)
             ) {
-                Image(painter = painterResource(id = R.drawable.grasshopper),
-                    contentDescription = "Image description",
+                AsyncImage(
+                    model = R.drawable.grasshopper,
+                    contentDescription = "Plague",
                     contentScale= ContentScale.Crop,
                     modifier = Modifier
                         .background(color = Color.White)
@@ -98,12 +101,47 @@ fun ContainerPlague(title:String, image: String, description:String) {
         Column(modifier = Modifier.padding(start = 94.dp)){
             Text(
                 text = title,
-                fontSize = 18.sp,
+                fontSize = 16.sp,
                 color = Color(0,176,80),
-                fontWeight = FontWeight.Bold,
-                maxLines=1)
-            Text(text = description,
-                maxLines = 4)
+                fontWeight = FontWeight.Bold)
+        }
+    }
+}
+
+@Composable
+fun ContainerPlagueGob(alert: Alert, onClick: () -> Unit) {
+    val imageUrl = if (alert.image == "No image") R.drawable.grasshopper else alert.image
+    Log.d("COMPLETE ALERT",imageUrl.toString())
+
+    Box(contentAlignment = Alignment.CenterStart,
+        modifier = Modifier
+            .fillMaxWidth(1f)
+            .height(100.dp)
+            .clickable { onClick() }
+            .background(color = Color(146, 208, 80))
+            .border(width = 0.5.dp, color = Color.Black),
+    ){
+        Column(Modifier.padding(horizontal = 5.dp)) {
+            Surface(
+                modifier = Modifier
+                    .size(84.dp)
+                    .border(width = 1.dp, color = Color.Black)
+            ) {
+                AsyncImage(
+                    model = imageUrl,
+                    contentDescription = "Plague",
+                    contentScale= ContentScale.Crop,
+                    modifier = Modifier
+                        .background(color = Color.White)
+                )
+            }
+        }
+        Column(modifier = Modifier.padding(start = 94.dp)){
+            Text(
+                text = alert.title,
+                fontSize = 16.sp,
+                color = Color(0,176,80),
+                fontWeight = FontWeight.Bold)
         }
     }
 }
