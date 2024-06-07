@@ -43,7 +43,7 @@ import com.fyp.app.ui.screens.destinations.HelpScreenDestination
 import com.fyp.app.ui.screens.destinations.HomeScreenDestination
 import com.fyp.app.ui.screens.destinations.IllnessListScreenDestination
 import com.fyp.app.ui.screens.destinations.LoginScreenDestination
-import com.fyp.app.ui.screens.destinations.PlaguesListScreenDestination
+import com.fyp.app.ui.screens.destinations.AlertsListScreenDestination
 import com.fyp.app.ui.screens.destinations.PlantListScreenDestination
 import com.fyp.app.ui.screens.destinations.UserDetailsScreenDestination
 import com.fyp.app.utils.UserPreferencesImp
@@ -83,7 +83,7 @@ fun ContentColumn(navigator: DestinationsNavigator) {
             firstButtonClick = { navigator.navigate(IllnessListScreenDestination()) },
             secondButtonText = "Anuncios de Plagas",
             secondImageResourceId = R.drawable.grasshopper,
-            secondButtonClick = { navigator.navigate(PlaguesListScreenDestination()) }
+            secondButtonClick = { navigator.navigate(AlertsListScreenDestination()) }
         )
 
         CenteredImage(R.drawable.down)
