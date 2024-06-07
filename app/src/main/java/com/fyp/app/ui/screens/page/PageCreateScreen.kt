@@ -1,142 +1,112 @@
 package com.fyp.app.ui.screens.page
 
-import android.net.Uri
-import android.util.Log
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
-import androidx.core.content.FileProvider
-import com.fyp.app.data.api.PageServiceImp
+import androidx.compose.ui.unit.sp
 import com.fyp.app.data.model.db.Diary
-import com.fyp.app.data.model.db.Page
-import com.fyp.app.ui.screens.destinations.PageListScreenDestination
-import com.google.gson.Gson
+import com.fyp.app.ui.components.TextFieldError
+import com.fyp.app.ui.components.ValidatedTextField
+import com.fyp.app.ui.screens.destinations.PageCameraScreenDestination
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
-import java.io.File
 import java.text.SimpleDateFormat
-import java.util.Date
+import java.util.Calendar
 import java.util.Locale
-import java.util.UUID
 
 @Composable
 @Destination
-fun PageCreateScreen(navigator: DestinationsNavigator, diary: Diary) {
+fun PageCreateScreen(
+    navigator: DestinationsNavigator,
+    diary: Diary,
+) {
     var title by remember { mutableStateOf("") }
     var content by remember { mutableStateOf("") }
-    var selectedFileUri by remember { mutableStateOf<Uri?>(null) }
-    val context = LocalContext.current
-    val scope = rememberCoroutineScope()
-
-    // URI para almacenar la imagen capturada
-    val capturedImageUri = remember { mutableStateOf<Uri?>(null) }
-
-    // Crear un lanzador para la cámara
-    val cameraLauncher = rememberLauncherForActivityResult(ActivityResultContracts.TakePicture()) { success ->
-        if (success) {
-            selectedFileUri = capturedImageUri.value
-        }
-    }
-
-    // Crear un archivo temporal para almacenar la imagen
-    fun createImageFile(): Uri {
-        val file = File(context.cacheDir, "captured_image.jpg")
-        return FileProvider.getUriForFile(context, "${context.packageName}.fileprovider", file)
-    }
+    var titleError by remember { mutableStateOf(false) }
+    var contentError by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .background(Color(0xFFFFFFFF))
+            .padding(2.dp)
+            .background(Color(0xFF000500))
+            .padding(2.dp)
+            .background(Color(0xFF4CAF50))
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        TextField(
+        val today = Calendar.getInstance().time
+        val dateFormatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val formattedDate = dateFormatter.format(today)
+
+        Text(
+            text = "Crear página en ${diary.title.lowercase()} el $formattedDate",
+            fontWeight = FontWeight.Bold,
+            fontSize = 24.sp,
+            color = Color.White,
+            modifier = Modifier.padding(vertical = 8.dp)
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        ValidatedTextField(
             value = title,
-            onValueChange = { title = it },
-            label = { Text("Título") },
-            modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)
-        )
-        TextField(
-            value = content,
-            onValueChange = { content = it },
-            label = { Text("Contenido") },
-            modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)
-        )
-        Button(
-            onClick = {
-                capturedImageUri.value = createImageFile()
-                cameraLauncher.launch(capturedImageUri.value)
+            onValueChange = {
+                title = it
+                titleError = it.isEmpty()
             },
-            modifier = Modifier.padding(top = 16.dp)
-        ) {
-            Text("Capturar Imagen")
-        }
-        selectedFileUri?.let { uri ->
-            Text("Imagen Seleccionada: $uri", modifier = Modifier.padding(top = 8.dp))
-        }
+            label = "Título",
+            errors = listOf(TextFieldError(titleError, "El título no puede estar vacío")),
+            imeAction = ImeAction.Next,
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        ValidatedTextField(
+            value = content,
+            onValueChange = {
+                content = it
+                contentError = it.isEmpty()
+            },
+            label = "Contenido",
+            errors = listOf(TextFieldError(contentError, "El contenido no puede estar vacío")),
+            imeAction = ImeAction.Done,
+            modifier = Modifier.fillMaxWidth(),
+            minLines = 25
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
         Button(
             onClick = {
-                val today = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
-                val newPage = Page(
-                    id = UUID.randomUUID().toString(),
-                    title = title,
-                    content = content,
-                    createdAt = today,
-                    imageUrl = selectedFileUri.toString(),
-                    diary = diary
-                )
-                scope.launch(Dispatchers.IO) {
-                    try {
-                        val titlePart = title.toRequestBody("text/plain".toMediaTypeOrNull())
-                        val contentPart = content.toRequestBody("text/plain".toMediaTypeOrNull())
-                        val diaryPart = Gson().toJson(diary).toRequestBody("application/json".toMediaTypeOrNull())
-
-                        val imagePart = selectedFileUri?.let {
-                            val inputStream = context.contentResolver.openInputStream(it)
-                            val file = File(context.cacheDir, "temp_image")
-                            file.outputStream().use { outputStream ->
-                                inputStream?.copyTo(outputStream)
-                            }
-                            val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
-                            MultipartBody.Part.createFormData("image", file.name, requestFile)
-                        }
-
-                        PageServiceImp.getInstance().addPage(titlePart, contentPart, imagePart, diaryPart)
-                        withContext(Dispatchers.Main) {
-                            navigator.navigate(PageListScreenDestination(diary))
-                        }
-                    } catch (e: Exception) {
-                        Log.e("CreatePageScreen", "Error creating page", e)
-                    }
+                if (title.isNotEmpty() && content.isNotEmpty()) {
+                    navigator.navigate(
+                        PageCameraScreenDestination(title, content, diary)
+                    )
+                } else {
+                    if (title.isEmpty()) titleError = true
+                    if (content.isEmpty()) contentError = true
                 }
             },
+            colors = ButtonDefaults.buttonColors(containerColor = Color.White),
             modifier = Modifier.padding(top = 16.dp)
         ) {
-            Text("Crear Página")
+            Text(
+                text = "Siguiente",
+                color = Color(0xFF4CAF50)
+            )
         }
     }
 }
+
+
+
+
+
+
 

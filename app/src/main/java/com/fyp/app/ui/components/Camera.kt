@@ -1,4 +1,4 @@
-package com.fyp.app.ui.screens
+package com.fyp.app.ui.components
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -15,6 +15,7 @@ import androidx.camera.view.CameraController
 import androidx.camera.view.LifecycleCameraController
 import androidx.camera.view.PreviewView
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -55,13 +56,11 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.fyp.app.viewmodel.CameraViewModel
-import com.ramcosta.composedestinations.annotation.Destination
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-@Destination
-fun CameraScreen() {
+fun Camera(onPhotoClick: (Bitmap) -> Unit) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val scaffoldState = rememberBottomSheetScaffoldState()
@@ -95,7 +94,8 @@ fun CameraScreen() {
             PhotoBottomSheetContent(
                 bitmaps = bitmaps,
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .fillMaxWidth(),
+                onPhotoClick = onPhotoClick
             )
         }
     ) { padding ->
@@ -163,6 +163,7 @@ fun CameraScreen() {
         }
     }
 }
+
 
 private fun takePhoto(
     context: android.content.Context,
@@ -234,7 +235,8 @@ fun CameraPreview(
 @Composable
 fun PhotoBottomSheetContent(
     bitmaps: List<Bitmap>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onPhotoClick: (Bitmap) -> Unit
 ) {
     if (bitmaps.isEmpty()) {
         Box(
@@ -253,21 +255,32 @@ fun PhotoBottomSheetContent(
             modifier = modifier
         ) {
             items(bitmaps) { bitmap ->
-                Image(
-                    bitmap = bitmap.asImageBitmap(),
-                    contentDescription = null,
+                Box(
                     modifier = Modifier
                         .clip(RoundedCornerShape(10.dp))
-                )
+                        .clickable { onPhotoClick(bitmap) }
+                ) {
+                    Image(
+                        bitmap = bitmap.asImageBitmap(),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .fillMaxSize()
+                    )
+                }
             }
         }
     }
 }
 
+
 @Preview(showBackground = true)
 @Composable
 fun CameraAppPreview() {
-    CameraScreen()
+    Camera(onPhotoClick = { bitmap ->
+        // Acción al hacer clic en la foto
+        // Por ejemplo, mostrar un Snackbar con un mensaje
+        Log.d("Camera", "Photo clicked")
+    })
 }
 
 

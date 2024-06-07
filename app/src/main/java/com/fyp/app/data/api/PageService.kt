@@ -33,7 +33,7 @@ interface PageService {
     @GET("page/{pageId}")
     suspend fun getPageById(@Path("pageId") pageId:Int): Page
 
-    @PUT("pages/{pageId}")
+    @PUT("api/v1/pages/{pageId}/")
     suspend fun updatePage(@Path("pageId") pageId:String, @Body page: Page): Page
 
     @DELETE("pages/{pageId}")

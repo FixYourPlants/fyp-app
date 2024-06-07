@@ -36,6 +36,8 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 @Composable
 @Destination
@@ -77,9 +79,15 @@ fun DiariesScreen(navigator: DestinationsNavigator) {
 
 @Composable
 fun DiaryItem(diary: Diary, onClick: (Diary) -> Unit) {
-    Box(contentAlignment = Alignment.CenterStart,
+    val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault())
+    val outputFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
+    val date = inputFormat.parse(diary.updatedAt)
+    val formattedDate = date?.let { outputFormat.format(it) } ?: diary.updatedAt
+
+    Box(
+        contentAlignment = Alignment.CenterStart,
         modifier = Modifier
-            .fillMaxWidth(1f)
+            .fillMaxWidth()
             .height(100.dp)
             .clickable { onClick(diary) }
             .background(color = Color(146, 208, 80))
@@ -95,8 +103,7 @@ fun DiaryItem(diary: Diary, onClick: (Diary) -> Unit) {
                     model = diary.plant.imageUrl,
                     contentDescription = "Image description",
                     contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .background(color = Color.White)
+                    modifier = Modifier.background(color = Color.White)
                 )
             }
         }
@@ -109,7 +116,7 @@ fun DiaryItem(diary: Diary, onClick: (Diary) -> Unit) {
                 maxLines = 1
             )
             Text(
-                text = "Fecha: ${diary.updatedAt}",
+                text = "Fecha: $formattedDate",
                 color = Color.White,
                 maxLines = 1
             )

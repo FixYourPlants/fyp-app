@@ -30,6 +30,8 @@ import com.fyp.app.data.model.db.Page
 import com.fyp.app.data.model.db.Plant
 import com.fyp.app.data.model.db.Sickness
 import com.fyp.app.data.model.db.obtainDifficulty
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 @Composable
 fun ContainerIllness(sickness: Sickness, onClick: () -> Unit) {
@@ -151,8 +153,14 @@ fun ContainerPlants(plant: Plant, onClick: (Plant) -> Unit) {
     }
 }
 
+
 @Composable
 fun PageItem(page: Page, onClick: (Page) -> Unit) {
+    val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault())
+    val outputFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
+    val date = inputFormat.parse(page.createdAt)
+    val formattedDate = date?.let { outputFormat.format(it) } ?: page.createdAt
+
     Box(
         contentAlignment = Alignment.CenterStart,
         modifier = Modifier
@@ -185,7 +193,7 @@ fun PageItem(page: Page, onClick: (Page) -> Unit) {
                 maxLines = 1
             )
             Text(
-                text = "Fecha: ${page.createdAt}",
+                text = "Fecha: $formattedDate",
                 color = Color.White,
                 maxLines = 1
             )

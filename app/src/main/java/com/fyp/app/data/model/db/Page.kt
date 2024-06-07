@@ -8,7 +8,7 @@ data class Page(
     val id: String,
     @SerializedName("title")
     val title: String,
-    @SerializedName("description")
+    @SerializedName("content")
     val content: String,
     @SerializedName("created_at")
     val createdAt: String,
