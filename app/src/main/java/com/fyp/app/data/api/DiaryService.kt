@@ -32,40 +32,5 @@ interface DiaryService {
     suspend fun deleteDiary(@Path("diaryId") diaryId: Int): Diary
 }
 
-object DiaryServiceImp {
-    private var instance: DiaryService? = null
-    private var addedToken = false
-
-    fun getInstance(): DiaryService {
-        try {
-            val token = UserPreferencesImp.getInstance().access
-            Log.d("tokenDiary", token)
-            val httpClient = OkHttpClient.Builder()
-            if (!addedToken) {
-                httpClient.addInterceptor { chain ->
-                    val original = chain.request()
-                    val requestBuilder = original.newBuilder()
-                        .header("Authorization", "Bearer $token")
-                    val request = requestBuilder.build()
-                    chain.proceed(request)
-                }
-                instance = Retrofit.Builder()
-                    .baseUrl(BuildConfig.BACKEND_URL)
-                    .client(httpClient.build())
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build()
-                    .create(DiaryService::class.java)
-                addedToken = true
-            }
-        } catch (e: Exception) {
-            if (instance == null) {
-                instance = Retrofit.Builder()
-                    .baseUrl(BuildConfig.BACKEND_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build()
-                    .create(DiaryService::class.java)
-            }
-        }
-        return instance!!
-    }
-}
+@RefreshableService
+object DiaryServiceImp: BaseService<DiaryService>(DiaryService::class.java)

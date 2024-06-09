@@ -40,17 +40,5 @@ interface PageService {
     suspend fun deletePage(@Path("pageId") pageId:Int): Page
 }
 
-object PageServiceImp {
-    private var instance: PageService? = null
-
-    fun getInstance(): PageService {
-        if (instance == null) {
-            instance = Retrofit.Builder()
-                .baseUrl(BuildConfig.BACKEND_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-                .create(PageService::class.java)
-        }
-        return instance!!
-    }
-}
+@RefreshableService
+object PageServiceImp: BaseService<PageService>(PageService::class.java)

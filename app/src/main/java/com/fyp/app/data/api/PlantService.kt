@@ -40,41 +40,5 @@ interface PlantService {
     suspend fun statusFavPlant(@Path("id") plantId: String): Boolean
 }
 
-
-object PlantServiceImp {
-    private var instance: PlantService? = null
-    private var addedToken = false
-
-    fun getInstance(): PlantService {
-        try {
-            val token = UserPreferencesImp.getInstance().access
-            Log.d("token", token)
-            val httpClient = OkHttpClient.Builder()
-            if (!addedToken) {
-                httpClient.addInterceptor { chain ->
-                    val original = chain.request()
-                    val requestBuilder = original.newBuilder()
-                        .header("Authorization", "Bearer $token")
-                    val request = requestBuilder.build()
-                    chain.proceed(request)
-                }
-                instance = Retrofit.Builder()
-                    .baseUrl(BuildConfig.BACKEND_URL)
-                    .client(httpClient.build())
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build()
-                    .create(PlantService::class.java)
-                addedToken = true
-            }
-        } catch (e: Exception) {
-            if (instance == null) {
-                instance = Retrofit.Builder()
-                    .baseUrl(BuildConfig.BACKEND_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build()
-                    .create(PlantService::class.java)
-            }
-        }
-        return instance!!
-    }
-}
+@RefreshableService
+object PlantServiceImp: BaseService<PlantService>(PlantService::class.java)

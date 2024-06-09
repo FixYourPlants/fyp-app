@@ -21,41 +21,5 @@ interface AlertService {
     suspend fun getAlertDetails(@Query("link") link: String): Map<String,String>
 }
 
-
-object AlertServiceImp {
-    private var instance: AlertService? = null
-    private var addedToken = false
-
-    fun getInstance(): AlertService {
-        try {
-            val token = UserPreferencesImp.getInstance().access
-            Log.d("token", token)
-            val httpClient = OkHttpClient.Builder()
-            if (!addedToken) {
-                httpClient.addInterceptor { chain ->
-                    val original = chain.request()
-                    val requestBuilder = original.newBuilder()
-                        .header("Authorization", "Bearer $token")
-                    val request = requestBuilder.build()
-                    chain.proceed(request)
-                }
-                instance = Retrofit.Builder()
-                    .baseUrl(BuildConfig.BACKEND_URL)
-                    .client(httpClient.build())
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build()
-                    .create(AlertService::class.java)
-                addedToken = true
-            }
-        } catch (e: Exception) {
-            if (instance == null) {
-                instance = Retrofit.Builder()
-                    .baseUrl(BuildConfig.BACKEND_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build()
-                    .create(AlertService::class.java)
-            }
-        }
-        return instance!!
-    }
-}
+@RefreshableService
+object AlertServiceImp : BaseService<AlertService>(AlertService::class.java)

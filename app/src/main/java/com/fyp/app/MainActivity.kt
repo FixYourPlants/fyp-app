@@ -7,6 +7,7 @@ import com.fyp.app.domain.authenticationGoogle.GoogleAuthUiClient
 import com.fyp.app.ui.screens.NavGraphs
 import com.google.android.gms.auth.api.identity.Identity
 import com.ramcosta.composedestinations.DestinationsNavHost
+import java.util.concurrent.TimeUnit
 
 class MainActivity : ComponentActivity() {
     private val googleAuthUiClient by lazy {
@@ -21,7 +22,7 @@ class MainActivity : ComponentActivity() {
         setContent {
 
             DestinationsNavHost(navGraph = NavGraphs.root)
-
+            TokenManager.startTokenRefreshTask(30, TimeUnit.SECONDS)
 
         }
     }

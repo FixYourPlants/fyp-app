@@ -45,42 +45,5 @@ interface UserService {
     suspend fun getLoggedInUser(): User
 }
 
-object  UserServiceImp {
-    private var instance: UserService? = null
-    private var addedToken = false
-
-    fun getInstance(): UserService {
-        try {
-            val token = UserPreferencesImp.getInstance().access
-            Log.d("token", token)
-            val httpClient = OkHttpClient.Builder()
-            if (!addedToken) {
-                httpClient.addInterceptor { chain ->
-                    val original = chain.request()
-                    val requestBuilder = original.newBuilder()
-                        .header("Authorization", "Bearer $token")
-                    val request = requestBuilder.build()
-                    chain.proceed(request)
-                }
-                instance = Retrofit.Builder()
-                    .baseUrl(BuildConfig.BACKEND_URL)
-                    .client(httpClient.build())
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build()
-                    .create(UserService::class.java)
-                addedToken = true
-            }
-        } catch (e: Exception) {
-            if (instance == null) {
-                instance = Retrofit.Builder()
-                    .baseUrl(BuildConfig.BACKEND_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build()
-                    .create(UserService::class.java)
-            }
-        }
-
-
-        return instance!!
-    }
-}
+@RefreshableService
+object UserServiceImp: BaseService<UserService>(UserService::class.java)

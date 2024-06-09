@@ -111,6 +111,7 @@ dependencies {
     implementation("io.coil-kt:coil-compose:2.4.0")
     implementation("androidx.compose.material:material-icons-core:1.0.0")
     implementation("androidx.compose.material:material-icons-extended:1.5.1")
+    implementation("org.reflections:reflections:0.10.2")
 
     val cameraxVersion = "1.3.0-rc01"
 

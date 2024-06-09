@@ -15,23 +15,11 @@ interface TokenService {
     @POST("/simple/token")
     suspend fun getSimpleToken(@Body user: Map<String, String>): Map<String, String>
 
-    @POST("/simple/refresh")
+    @POST("/simple/token/refresh/")
     suspend fun getSimpleRefresh(@Body token: Map<String, String>): Map<String, String>
 
 
 }
 
-object TokenServiceImp {
-    private var instance: TokenService? = null
-
-    fun getInstance(): TokenService {
-        if (instance == null) {
-            instance = Retrofit.Builder()
-                .baseUrl(BuildConfig.BACKEND_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-                .create(TokenService::class.java)
-        }
-        return instance!!
-    }
-}
+@RefreshableService
+object TokenServiceImp: BaseService<TokenService>(TokenService::class.java)

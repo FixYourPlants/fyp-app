@@ -29,17 +29,5 @@ interface CharacteristicService {
     suspend fun deleteCharacteristic(@Path("characteristicId") characteristicId: Int): Characteristic
 }
 
-object CharacteristicServiceImp {
-    private var instance: CharacteristicService? = null
-
-    fun getInstance(): CharacteristicService {
-        if (instance == null) {
-            instance = Retrofit.Builder()
-                .baseUrl(BuildConfig.BACKEND_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-                .create(CharacteristicService::class.java)
-        }
-        return instance!!
-    }
-}
+@RefreshableService
+object CharacteristicServiceImp: BaseService<CharacteristicService>(CharacteristicService::class.java)

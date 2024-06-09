@@ -1,5 +1,10 @@
 package com.fyp.app.utils
 
+import android.util.Log
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
+import com.fyp.app.data.api.TokenServiceImp
+
 data class UserPreferences(
     val email: String,
     val refresh: String,
@@ -27,6 +32,28 @@ object UserPreferencesImp {
     fun isAuthenticated(): Boolean {
         return instance != null
     }
+
+    suspend fun refreshToken(): Boolean {
+        if (instance == null) {
+            Log.e("UserPreferencesImp", "UserPreferences not initialized")
+            return false
+        }
+        val refresh = instance?.refresh ?: throw IllegalStateException("Refresh token not available")
+
+        // Obtener los nuevos tokens usando el servicio TokenServiceImp
+        val tokenResponse = TokenServiceImp.getInstance().getSimpleRefresh(mapOf("refresh" to refresh))
+
+        // Actualizar la instancia con los nuevos tokens
+        val newAccessToken = tokenResponse["access"] ?: throw IllegalStateException("Access token not available")
+        val newRefreshToken = tokenResponse["refresh"] ?: throw IllegalStateException("Refresh token not available")
+
+        instance = instance?.copy(refresh = newRefreshToken, access = newAccessToken)
+
+        return true
+    }
+
+
+
 }
 
 

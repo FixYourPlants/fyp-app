@@ -24,17 +24,5 @@ interface SicknessService {
     suspend fun updateSickness(@Path("sicknessId") sicknessId: Int, @Body sickness: Sickness): Sickness
 }
 
-object SicknessServiceImp {
-    private var instance: SicknessService? = null
-
-    fun getInstance(): SicknessService {
-        if (instance == null) {
-            instance = Retrofit.Builder()
-                .baseUrl(BuildConfig.BACKEND_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-                .create(SicknessService::class.java)
-        }
-        return instance!!
-    }
-}
+@RefreshableService
+object SicknessServiceImp: BaseService<SicknessService>(SicknessService::class.java)

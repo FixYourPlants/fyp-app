@@ -34,41 +34,5 @@ interface OpinionService {
     suspend fun deleteOpinion(@Path("opinionId") opinionId: Int): CreateOpinion
 }
 
-object OpinionServiceImp {
-    private var instance: OpinionService? = null
-    private var addedToken = false
-
-    fun getInstance(): OpinionService {
-        try {
-            val token = UserPreferencesImp.getInstance().access
-            Log.d("token", token)
-            val httpClient = OkHttpClient.Builder()
-            if (!addedToken) {
-                httpClient.addInterceptor { chain ->
-                    val original = chain.request()
-                    val requestBuilder = original.newBuilder()
-                        .header("Authorization", "Bearer $token")
-                    val request = requestBuilder.build()
-                    chain.proceed(request)
-                }
-                instance = Retrofit.Builder()
-                    .baseUrl(BuildConfig.BACKEND_URL)
-                    .client(httpClient.build())
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build()
-                    .create(OpinionService::class.java)
-                addedToken = true
-            }
-        } catch (e: Exception) {
-            if (instance == null) {
-                instance = Retrofit.Builder()
-                    .baseUrl(BuildConfig.BACKEND_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build()
-                    .create(OpinionService::class.java)
-            }
-        }
-
-        return instance!!
-    }
-}
+@RefreshableService
+object OpinionServiceImp: BaseService<OpinionService>(OpinionService::class.java)
