@@ -1,12 +1,35 @@
-import com.fyp.app.data.api.RefreshableService
+import com.fyp.app.data.api.AlertServiceImp
+import com.fyp.app.data.api.CharacteristicServiceImp
+import com.fyp.app.data.api.DiaryServiceImp
+import com.fyp.app.data.api.OpinionServiceImp
+import com.fyp.app.data.api.PageServiceImp
+import com.fyp.app.data.api.PlantServiceImp
+import com.fyp.app.data.api.SicknessServiceImp
+import com.fyp.app.data.api.TokenServiceImp
+import com.fyp.app.data.api.UserServiceImp
 import com.fyp.app.utils.UserPreferencesImp
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
 object TokenManager {
     private val scheduler = Executors.newSingleThreadScheduledExecutor()
     private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
+    private val services = mutableListOf(
+        AlertServiceImp,
+        CharacteristicServiceImp,
+        DiaryServiceImp,
+        OpinionServiceImp,
+        PageServiceImp,
+        PlantServiceImp,
+        SicknessServiceImp,
+        TokenServiceImp,
+        UserServiceImp
+    )
 
     fun startTokenRefreshTask(interval: Long, timeUnit: TimeUnit) {
         scheduler.scheduleWithFixedDelay({
@@ -21,31 +44,13 @@ object TokenManager {
         }, 0, interval, timeUnit)
     }
 
-    private fun resetAllServices() {
-        val services = findRefreshableServices()
+    fun resetAllServices() {
         services.forEach { service ->
-            service::class.members.find { it.name == "resetToken" }?.call(service)
+            service.resetToken()
         }
     }
 
-    private fun findRefreshableServices(): List<Any> {
-        val refreshableServices = mutableListOf<Any>()
 
-        // Proporciona un paquete base válido
-        val reflections = org.reflections.Reflections("com.fyp.app.api")
-        val annotated = reflections.getTypesAnnotatedWith(RefreshableService::class.java)
-        for (clazz in annotated) {
-            try {
-                val obj = clazz.kotlin.objectInstance
-                if (obj != null) {
-                    refreshableServices.add(obj)
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-        return refreshableServices
-    }
 
     fun stopTokenRefreshTask() {
         scheduler.shutdown()

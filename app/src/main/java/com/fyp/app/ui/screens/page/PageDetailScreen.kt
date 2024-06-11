@@ -27,6 +27,8 @@ import coil.compose.AsyncImage
 import com.fyp.app.data.model.db.Page
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 @Composable
 @Destination
@@ -51,6 +53,11 @@ fun PageDetailsScreen(
 
 @Composable
 fun PageHeader(page: Page) {
+    val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault())
+    val outputFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
+    val date = inputFormat.parse(page.createdAt)
+    val formattedDate = date?.let { outputFormat.format(it) } ?: page.createdAt
+
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
@@ -80,7 +87,7 @@ fun PageHeader(page: Page) {
                 color = Color.Black
             )
             Text(
-                text = "Created at: ${page.createdAt}",
+                text = "Fecha: $formattedDate",
                 modifier = Modifier.padding(vertical = 8.dp),
                 color = Color.Black
             )

@@ -1,12 +1,6 @@
 package com.fyp.app.data.api
 
-import android.util.Log
-import com.fyp.app.BuildConfig
 import com.fyp.app.data.model.db.Alert
-import com.fyp.app.utils.UserPreferencesImp
-import okhttp3.OkHttpClient
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -21,5 +15,4 @@ interface AlertService {
     suspend fun getAlertDetails(@Query("link") link: String): Map<String,String>
 }
 
-@RefreshableService
 object AlertServiceImp : BaseService<AlertService>(AlertService::class.java)

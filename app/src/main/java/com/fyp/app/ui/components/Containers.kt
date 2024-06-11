@@ -140,7 +140,7 @@ fun ContainerPlagueGob(alert: Alert, onClick: () -> Unit) {
                 fontSize = 16.sp,
                 color = Color(0,176,80),
                 fontWeight = FontWeight.Bold)
-            Text(text = alert.info["Hospedantes"]!!,
+            Text(text = alert.host,
                 maxLines = 3)
         }
     }

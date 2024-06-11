@@ -1,11 +1,8 @@
 package com.fyp.app.data.api
 
-import com.fyp.app.BuildConfig
 import com.fyp.app.data.model.db.Page
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -40,5 +37,4 @@ interface PageService {
     suspend fun deletePage(@Path("pageId") pageId:Int): Page
 }
 
-@RefreshableService
 object PageServiceImp: BaseService<PageService>(PageService::class.java)

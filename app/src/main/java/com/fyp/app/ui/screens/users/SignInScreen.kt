@@ -88,7 +88,7 @@ fun SignInScreen(navigator: DestinationsNavigator) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         item {
-            LogoInit()
+            LogoInit(onClickLogo = { navigator.navigate(HomeScreenDestination()) })
             HeaderInit(text = "Welcome")
             Text(text = "Create an account")
             Spacer(modifier = Modifier.height(16.dp))

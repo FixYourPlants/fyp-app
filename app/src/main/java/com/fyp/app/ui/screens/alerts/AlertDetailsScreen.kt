@@ -80,7 +80,7 @@ fun AlertHeader(alert: Alert) {
                 color = Color.Black
             )
             Text(
-                text = alert.info["Familia"]!!,
+                text = alert.family,
                 fontStyle = FontStyle.Italic,
                 fontSize = 12.sp,
                 modifier = Modifier.padding(vertical = 8.dp),
@@ -88,7 +88,7 @@ fun AlertHeader(alert: Alert) {
             )
 
             Text(
-                text = alert.info["Hospedantes"]!!,
+                text = alert.host,
                 modifier = Modifier.padding(vertical = 8.dp),
                 color = Color.Black
             )
@@ -98,7 +98,7 @@ fun AlertHeader(alert: Alert) {
                 color = Color.Black
             )
             Text(
-                text = alert.info["Distribución"]!!,
+                text = alert.distribution,
                 modifier = Modifier.padding(vertical = 8.dp),
                 color = Color.Black
             )
@@ -119,7 +119,7 @@ fun AlertHeader(alert: Alert) {
     ) {
         Column {
             Text(
-                text = alert.info["Daños"]!!,
+                text = alert.damage,
                 modifier = Modifier.padding(vertical = 4.dp),
                 color = Color.Black
             )

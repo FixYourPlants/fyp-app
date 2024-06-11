@@ -8,6 +8,12 @@ data class Alert(
     val title: String,
     @SerializedName("image")
     val image: String,
-    @SerializedName("info")
-    val info: Map<String,String>
+    @SerializedName("family")
+    val family: String,
+    @SerializedName("distribution")
+    val distribution: String,
+    @SerializedName("host")
+    val host: String,
+    @SerializedName("damage")
+    val damage: String,
 ): Serializable

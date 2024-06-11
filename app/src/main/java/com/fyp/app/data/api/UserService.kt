@@ -1,20 +1,18 @@
 package com.fyp.app.data.api
 
-import android.util.Log
-import com.fyp.app.BuildConfig
 import com.fyp.app.data.api.responses.LoginRequest
 import com.fyp.app.data.api.responses.LoginResponse
 import com.fyp.app.data.api.responses.RegistrationRequest
 import com.fyp.app.data.model.db.User
-import com.fyp.app.utils.UserPreferencesImp
-import okhttp3.OkHttpClient
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.PUT
+import retrofit2.http.Part
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -35,8 +33,18 @@ interface UserService {
     @GET("user/{userId}")
     suspend fun getUserById(@Path("userId") userId: String): User
 
-    @PUT("api/v1/users/{userId}")
-    suspend fun updateUser(@Path("userId") userId: Int, @Body user: User): User
+
+    @Multipart
+    @PUT("api/v1/users/{userId}/")
+    suspend fun updateUser(
+        @Path("userId") userId: String,
+        @Part("username") username: RequestBody,
+        @Part("first_name") firstName: RequestBody,
+        @Part("last_name") lastName: RequestBody,
+        @Part("email") email: RequestBody,
+        @Part("about_me") aboutMe: RequestBody,
+        @Part image: MultipartBody.Part?
+    ): User
 
     @DELETE("api/v1/users/{userId}")
     suspend fun deleteUser(@Path("userId") userId: Int): User
@@ -45,5 +53,5 @@ interface UserService {
     suspend fun getLoggedInUser(): User
 }
 
-@RefreshableService
-object UserServiceImp: BaseService<UserService>(UserService::class.java)
+
+object UserServiceImp : BaseService<UserService>(UserService::class.java)

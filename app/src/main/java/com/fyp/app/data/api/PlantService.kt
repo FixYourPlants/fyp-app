@@ -1,12 +1,6 @@
 package com.fyp.app.data.api
 
-import android.util.Log
-import com.fyp.app.BuildConfig
 import com.fyp.app.data.model.db.Plant
-import com.fyp.app.utils.UserPreferencesImp
-import okhttp3.OkHttpClient
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -40,5 +34,4 @@ interface PlantService {
     suspend fun statusFavPlant(@Path("id") plantId: String): Boolean
 }
 
-@RefreshableService
 object PlantServiceImp: BaseService<PlantService>(PlantService::class.java)

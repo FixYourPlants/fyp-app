@@ -1,5 +1,6 @@
 package com.fyp.app.ui.screens.users
 
+import TokenManager
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Spacer
@@ -43,7 +44,6 @@ fun LoginScreen(
     var attemptLogin by remember { mutableStateOf(false) }
     val showError = remember { mutableStateOf(false) }
 
-
     if (attemptLogin) {
         LaunchedEffect(username, password) {
             try {
@@ -70,6 +70,7 @@ fun LoginScreen(
             } finally {
                 loading = false
                 attemptLogin = false
+                TokenManager.resetAllServices()
             }
         }
     }
@@ -82,7 +83,7 @@ fun LoginScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         item {
-            LogoInit()
+            LogoInit(onClickLogo = { navigator.navigate(HomeScreenDestination()) })
             HeaderInit(text = "Welcome Back")
             Text(text = "Login to your account")
             Spacer(modifier = Modifier.height(16.dp))
