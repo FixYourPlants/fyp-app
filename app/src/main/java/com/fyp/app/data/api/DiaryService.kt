@@ -1,12 +1,6 @@
 package com.fyp.app.data.api
 
-import android.util.Log
-import com.fyp.app.BuildConfig
 import com.fyp.app.data.model.db.Diary
-import com.fyp.app.utils.UserPreferencesImp
-import okhttp3.OkHttpClient
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -32,5 +26,5 @@ interface DiaryService {
     suspend fun deleteDiary(@Path("diaryId") diaryId: Int): Diary
 }
 
-@RefreshableService
+
 object DiaryServiceImp: BaseService<DiaryService>(DiaryService::class.java)

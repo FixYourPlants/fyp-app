@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -42,6 +43,7 @@ import com.fyp.app.data.api.UserServiceImp
 import com.fyp.app.data.model.db.Plant
 import com.fyp.app.data.model.db.User
 import com.fyp.app.ui.screens.destinations.PlantDetailsScreenDestination
+import com.fyp.app.ui.screens.destinations.UserEditScreenDestination
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.Dispatchers
@@ -73,7 +75,6 @@ fun UserDetailsScreen(
     }
 
     if (isLoading.value) {
-        // Muestra un indicador de carga mientras se obtiene el usuario
         Box(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
@@ -103,7 +104,6 @@ fun UserDetailsScreen(
                                     .fillMaxWidth()
                                     .height(200.dp)
                             ) {
-                                // Fondo: Imagen de la planta
                                 Log.d("UserDetailsScreen", "User image: ${user.imageUrl}")
                                 AsyncImage(
                                     model = BuildConfig.BACKEND_URL + user.imageUrl,
@@ -123,6 +123,13 @@ fun UserDetailsScreen(
                                 text = user.username,
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 24.sp,
+                                color = Color.Black
+                            )
+                            Text(
+                                text = "${user.firstName} ${user.lastName}",
+                                fontStyle = FontStyle.Italic,
+                                fontSize = 18.sp,
+                                modifier = Modifier.padding(vertical = 4.dp),
                                 color = Color.Black
                             )
                             Text(
@@ -178,10 +185,19 @@ fun UserDetailsScreen(
                     Log.d("UserDetailsScreen", "Favourite plants: ${favouritePlants.value}")
                     UserFavoritePlantsSection(plants = favouritePlants.value, navigator = navigator)
                 }
-
+                item {
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Button(
+                        onClick = {
+                            Log.d("UserDetailsScreen", "Edit user clicked $user")
+                            navigator.navigate(UserEditScreenDestination(user))
+                        },
+                    ) {
+                        Text("Edit User")
+                    }
+                }
             }
         } ?: run {
-            // Muestra un mensaje de error si el usuario no está disponible
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
@@ -231,3 +247,6 @@ fun UserFavoritePlantsSection(plants: List<Plant>, navigator: DestinationsNaviga
         }
     }
 }
+
+
+

@@ -39,12 +39,13 @@ fun Logo(onClickLogo: () -> Unit) {
 }
 
 @Composable
-fun LogoInit() {
+fun LogoInit(onClickLogo: () -> Unit) {
     Image(
         painter = painterResource(id = R.drawable.logo),
         contentDescription = "Logo",
         modifier = Modifier
             .requiredSize(100.dp)
+            .clickable { onClickLogo() }
             .clip(CircleShape)
             .border(2.dp, Color.Black, CircleShape),
         contentScale = ContentScale.Crop

@@ -29,6 +29,7 @@ import coil.compose.AsyncImage
 import com.fyp.app.data.api.DiaryServiceImp
 import com.fyp.app.data.model.db.Diary
 import com.fyp.app.ui.components.Header
+import com.fyp.app.ui.components.HeaderSection
 import com.fyp.app.ui.screens.destinations.HomeScreenDestination
 import com.fyp.app.ui.screens.destinations.PageListScreenDestination
 import com.fyp.app.ui.screens.destinations.UserDetailsScreenDestination
@@ -57,14 +58,7 @@ fun DiariesScreen(navigator: DestinationsNavigator) {
     }
 
     Column {
-        Header(
-            onClickLogo = {
-                navigator.navigate(HomeScreenDestination())
-            },
-            onClickAccount = {
-                navigator.navigate(UserDetailsScreenDestination())
-            }
-        )
+        HeaderSection(navigator)
         LazyColumn(modifier = Modifier
             .padding(10.dp)
             .border(width = 2.dp, color = Color.Black)
