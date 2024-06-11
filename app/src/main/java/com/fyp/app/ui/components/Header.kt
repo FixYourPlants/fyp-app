@@ -60,12 +60,8 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Header(onClickLogo: () -> Unit, onClickAccount: () -> Unit) {
-    val user: MutableState<User?> = remember { mutableStateOf(null) }
+fun Header(user: User?, onClickLogo: () -> Unit, onClickAccount: () -> Unit) {
 
-    LaunchedEffect(Unit) {
-        user.value = getLoggedInUserSafely()
-    }
 
     TopAppBar(
         title = {
@@ -93,9 +89,9 @@ fun Header(onClickLogo: () -> Unit, onClickAccount: () -> Unit) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Spacer(modifier = Modifier.width(16.dp))
-                user.value?.imageUrl?.let { url ->
+                if (user != null) {
                     AsyncImage(
-                        model = BuildConfig.BACKEND_URL + url,
+                        model = BuildConfig.BACKEND_URL + user.imageUrl,
                         contentDescription = "Profile picture",
                         modifier = Modifier
                             .requiredSize(32.dp)
@@ -103,13 +99,14 @@ fun Header(onClickLogo: () -> Unit, onClickAccount: () -> Unit) {
                             .clickable { onClickAccount() },
                         contentScale = ContentScale.Crop
                     )
-                } ?: run {
+                } else {
                     Icon(
                         imageVector = Icons.Default.AccountCircle,
                         contentDescription = null,
                         modifier = Modifier.clickable { onClickAccount() }
                     )
                 }
+
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(
@@ -127,6 +124,12 @@ fun Header(onClickLogo: () -> Unit, onClickAccount: () -> Unit) {
 fun HeaderSection(navigator: DestinationsNavigator) {
     var showDialog by remember { mutableStateOf(false) }
 
+    val user: MutableState<User?> = remember { mutableStateOf(null) }
+
+    LaunchedEffect(Unit) {
+        user.value = getLoggedInUserSafely()
+    }
+
 
     Header(
         onClickLogo = { navigator.navigate(HomeScreenDestination()) },
@@ -136,10 +139,11 @@ fun HeaderSection(navigator: DestinationsNavigator) {
             } else {
                 navigator.navigate(LoginScreenDestination())
             }
-        }
+        },
+        user = user.value
     )
 
-    if (showDialog) {
+    if (showDialog and (user.value != null)) {
         Popup(alignment = Alignment.TopEnd, onDismissRequest = { showDialog = false }) {
             Box(
                 modifier = Modifier
@@ -150,7 +154,7 @@ fun HeaderSection(navigator: DestinationsNavigator) {
             ) {
                 Column {
                     Row(modifier = Modifier
-                        .clickable { navigator.navigate(UserDetailsScreenDestination()) }
+                        .clickable { navigator.navigate(UserDetailsScreenDestination(user.value!!)) }
                         .padding(8.dp)) {
                         Icon(
                             painterResource(id = R.drawable.user_details),

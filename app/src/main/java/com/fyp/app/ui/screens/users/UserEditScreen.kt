@@ -38,7 +38,7 @@ import com.fyp.app.data.api.UserServiceImp
 import com.fyp.app.data.model.db.User
 import com.fyp.app.ui.components.TextFieldError
 import com.fyp.app.ui.components.ValidatedTextField
-import com.fyp.app.ui.screens.destinations.UserCameraScreenDestination
+import com.fyp.app.ui.screens.destinations.CameraScreenDestination
 import com.fyp.app.ui.screens.destinations.UserDetailsScreenDestination
 import com.fyp.app.viewmodel.CameraViewModel
 import com.fyp.app.viewmodel.CameraViewModelImp
@@ -89,7 +89,7 @@ fun UserEditScreen(
                     .fillMaxSize()
                     .clip(shape = MaterialTheme.shapes.medium)
                     .clickable {
-                        navigator.navigate(UserCameraScreenDestination)
+                        navigator.navigate(CameraScreenDestination)
                     }
             ) {
                 if (updatedImages.isNotEmpty()) {
@@ -245,7 +245,7 @@ fun UserEditScreen(
                         }
 
                         // Implement your onUpdateUser(updatedUser) logic here
-                        navigator.navigate(UserDetailsScreenDestination)
+                        navigator.navigate(UserDetailsScreenDestination(user))
                     }
                 },
                 colors = ButtonDefaults.buttonColors(containerColor = Color.White),

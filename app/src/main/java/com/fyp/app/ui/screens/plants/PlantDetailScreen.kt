@@ -81,9 +81,7 @@ fun PlantDetailsScreen(
         item { PlantCharacteristicsSection(plant) }
         item { PlantCareSection(plant) }
         item { PlantSicknessesSection(plant, navigator) }
-        if (UserPreferencesImp.isAuthenticated()) {
-            item { PlantOpinionsSection(plant) }
-        }
+        item { PlantOpinionsSection(navigator, plant) }
     }
 }
 
@@ -110,22 +108,22 @@ fun PlantDetailsHeader(plant: Plant) {
     ) {
         Column(modifier = Modifier.weight(0.5f)) {
             if (UserPreferencesImp.isAuthenticated()) {
-            OverlayImageWithClick(
-                defaultImageUrl = plant.imageUrl,
-                clickedImageUrl = if (status.value) R.drawable.hearth else R.drawable.hearth_empty,
-                onClick = {
-                    CoroutineScope(Dispatchers.IO).launch {
-                        val result = try {
-                            PlantServiceImp.getInstance().toggleFavPlant(plant.id)
-                        } catch (e: Exception) {
-                            false
-                        }
-                        withContext(Dispatchers.Main) {
-                            status.value = result
+                OverlayImageWithClick(
+                    defaultImageUrl = plant.imageUrl,
+                    clickedImageUrl = if (status.value) R.drawable.hearth else R.drawable.hearth_empty,
+                    onClick = {
+                        CoroutineScope(Dispatchers.IO).launch {
+                            val result = try {
+                                PlantServiceImp.getInstance().toggleFavPlant(plant.id)
+                            } catch (e: Exception) {
+                                false
+                            }
+                            withContext(Dispatchers.Main) {
+                                status.value = result
+                            }
                         }
                     }
-                }
-            )
+                )
             } else {
                 AsyncImage(
                     model = plant.imageUrl,
@@ -133,7 +131,11 @@ fun PlantDetailsHeader(plant: Plant) {
                     modifier = Modifier
                         .fillMaxSize()
                         .clip(shape = MaterialTheme.shapes.medium)
-                        .border(width = 2.0.dp, color = Color.Black, shape = MaterialTheme.shapes.medium),
+                        .border(
+                            width = 2.0.dp,
+                            color = Color.Black,
+                            shape = MaterialTheme.shapes.medium
+                        ),
                     contentScale = ContentScale.Crop
                 )
             }
@@ -246,7 +248,7 @@ fun PlantSicknessesSection(plant: Plant, navigator: DestinationsNavigator) {
 }
 
 @Composable
-fun PlantOpinionsSection(plant: Plant) {
+fun PlantOpinionsSection(navigator: DestinationsNavigator, plant: Plant) {
     var showDialog by remember { mutableStateOf(false) }
     val user: MutableState<User?> = remember { mutableStateOf(null) }
     val opinions: MutableState<List<Opinion>> = remember { mutableStateOf(mutableListOf()) }
@@ -279,10 +281,12 @@ fun PlantOpinionsSection(plant: Plant) {
 
     Column(modifier = Modifier.padding(16.dp)) {
 
-        OpinionsSection(opinions = opinions.value)
+        OpinionsSection(navigator, opinions.value)
         Spacer(modifier = Modifier.height(16.dp))
-        Button(onClick = { showDialog = true }) {
-            Text(text = "Añadir Opinión")
+        if (UserPreferencesImp.isAuthenticated()) {
+            Button(onClick = { showDialog = true }) {
+                Text(text = "Añadir Opinión")
+            }
         }
     }
 

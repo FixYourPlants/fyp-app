@@ -42,6 +42,7 @@ import com.fyp.app.data.api.PlantServiceImp
 import com.fyp.app.data.api.UserServiceImp
 import com.fyp.app.data.model.db.Plant
 import com.fyp.app.data.model.db.User
+import com.fyp.app.ui.components.buttons.DefaultButton
 import com.fyp.app.ui.screens.destinations.PlantDetailsScreenDestination
 import com.fyp.app.ui.screens.destinations.UserEditScreenDestination
 import com.ramcosta.composedestinations.annotation.Destination
@@ -54,159 +55,122 @@ import kotlinx.coroutines.withContext
 @Destination
 fun UserDetailsScreen(
     navigator: DestinationsNavigator,
+    user: User
 ) {
-    val userState = remember { mutableStateOf<User?>(null) }
-    val isLoading = remember { mutableStateOf(true) }
 
-    LaunchedEffect(Unit) {
-        Log.d("UserDetailsScreen", "Loading user...")
-        val result = withContext(Dispatchers.IO) {
-            try {
-                UserServiceImp.getInstance().getLoggedInUser()
-            } catch (e: Exception) {
-                Log.e("UserDetailsScreen", "Error loading user", e)
-                null
-            }
-        }
-        userState.value = result
-        isLoading.value = false
-        Log.d("UserDetailsScreen", "User loaded")
-        Log.d("UserDetailsScreen", "User: $result")
-    }
 
-    if (isLoading.value) {
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            CircularProgressIndicator()
-        }
-    } else {
-        userState.value?.let { user ->
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color(0xFFFFFFFF))
-                    .padding(2.dp)
-                    .background(Color(0xFF000500))
-                    .padding(2.dp)
-                    .background(Color(0xFF4CAF50))
-                    .padding(16.dp)
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0xFFFFFFFF))
+            .padding(2.dp)
+            .background(Color(0xFF000500))
+            .padding(2.dp)
+            .background(Color(0xFF4CAF50))
+            .padding(16.dp)
+    ) {
+        item {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                item {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Column(modifier = Modifier.weight(0.5f)) {
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(200.dp)
-                            ) {
-                                Log.d("UserDetailsScreen", "User image: ${user.imageUrl}")
-                                AsyncImage(
-                                    model = BuildConfig.BACKEND_URL + user.imageUrl,
-                                    placeholder = painterResource(id = R.drawable.down),
-                                    error = painterResource(id = R.drawable.down_down),
-                                    contentDescription = null,
-                                    modifier = Modifier
-                                        .fillMaxSize()
-                                        .clip(shape = MaterialTheme.shapes.medium),
-                                    contentScale = ContentScale.Crop
-                                )
-                            }
-                        }
-                        Spacer(modifier = Modifier.width(16.dp))
-                        Column(modifier = Modifier.weight(0.5f)) {
-                            Text(
-                                text = user.username,
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 24.sp,
-                                color = Color.Black
-                            )
-                            Text(
-                                text = "${user.firstName} ${user.lastName}",
-                                fontStyle = FontStyle.Italic,
-                                fontSize = 18.sp,
-                                modifier = Modifier.padding(vertical = 4.dp),
-                                color = Color.Black
-                            )
-                            Text(
-                                text = user.email,
-                                fontStyle = FontStyle.Italic,
-                                fontSize = 12.sp,
-                                modifier = Modifier.padding(vertical = 8.dp),
-                                color = Color.Black
-                            )
-                        }
-                    }
-                }
-                item {
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Text(
-                        text = "Sobre mí...",
-                        fontWeight = FontWeight.Bold,
-                        color = Color.Black
-                    )
-                    Surface(
+                Column(modifier = Modifier.weight(0.5f)) {
+                    Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .background(Color.Black)
-                            .padding(2.dp),
-                        color = Color(0xFFA5FFA9)
+                            .height(200.dp)
                     ) {
-                        Column {
-                            Text(
-                                text = user.aboutMe,
-                                modifier = Modifier.padding(vertical = 4.dp),
-                                color = Color.Black
-                            )
-                        }
+                        Log.d("UserDetailsScreen", "User image: ${user.imageUrl}")
+                        AsyncImage(
+                            model = BuildConfig.BACKEND_URL + user.imageUrl,
+                            placeholder = painterResource(id = R.drawable.down),
+                            error = painterResource(id = R.drawable.down_down),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .clip(shape = MaterialTheme.shapes.medium),
+                            contentScale = ContentScale.Crop
+                        )
                     }
                 }
-                item {
-                    val favouritePlants = remember { mutableStateOf(listOf<Plant>()) }
-
-                    LaunchedEffect(Unit) {
-                        val plants = user.favouritePlants.mapNotNull { plantId ->
-                            withContext(Dispatchers.IO) {
-                                try {
-                                    PlantServiceImp.getInstance().getPlantById(plantId)
-                                } catch (e: Exception) {
-                                    Log.e("UserDetailsScreen", "Error loading plant", e)
-                                    null
-                                }
-                            }
-                        }
-                        favouritePlants.value = plants
-                    }
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Log.d("UserDetailsScreen", "Favourite plants: ${favouritePlants.value}")
-                    UserFavoritePlantsSection(plants = favouritePlants.value, navigator = navigator)
-                }
-                item {
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Button(
-                        onClick = {
-                            Log.d("UserDetailsScreen", "Edit user clicked $user")
-                            navigator.navigate(UserEditScreenDestination(user))
-                        },
-                    ) {
-                        Text("Edit User")
-                    }
+                Spacer(modifier = Modifier.width(16.dp))
+                Column(modifier = Modifier.weight(0.5f)) {
+                    Text(
+                        text = user.username,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 24.sp,
+                        color = Color.Black
+                    )
+                    Text(
+                        text = "${user.firstName} ${user.lastName}",
+                        fontStyle = FontStyle.Italic,
+                        fontSize = 18.sp,
+                        modifier = Modifier.padding(vertical = 4.dp),
+                        color = Color.Black
+                    )
+                    Text(
+                        text = user.email,
+                        fontStyle = FontStyle.Italic,
+                        fontSize = 12.sp,
+                        modifier = Modifier.padding(vertical = 8.dp),
+                        color = Color.Black
+                    )
                 }
             }
-        } ?: run {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
+        }
+        item {
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                text = "Sobre mí...",
+                fontWeight = FontWeight.Bold,
+                color = Color.Black
+            )
+            Surface(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color.Black)
+                    .padding(2.dp),
+                color = Color(0xFFA5FFA9)
             ) {
-                Text(text = "Error al cargar el usuario", color = Color.Red)
+                Column {
+                    Text(
+                        text = user.aboutMe,
+                        modifier = Modifier.padding(vertical = 4.dp),
+                        color = Color.Black
+                    )
+                }
             }
+        }
+        item {
+            val favouritePlants = remember { mutableStateOf(listOf<Plant>()) }
+
+            LaunchedEffect(Unit) {
+                val plants = user.favouritePlants.mapNotNull { plantId ->
+                    withContext(Dispatchers.IO) {
+                        try {
+                            PlantServiceImp.getInstance().getPlantById(plantId)
+                        } catch (e: Exception) {
+                            Log.e("UserDetailsScreen", "Error loading plant", e)
+                            null
+                        }
+                    }
+                }
+                favouritePlants.value = plants
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+            Log.d("UserDetailsScreen", "Favourite plants: ${favouritePlants.value}")
+            UserFavoritePlantsSection(plants = favouritePlants.value, navigator = navigator)
+        }
+        item {
+            Spacer(modifier = Modifier.height(16.dp))
+            DefaultButton(
+                onClick = { navigator.navigate(UserEditScreenDestination(user)) },
+                text = "Edit User"
+            )
         }
     }
 }
+
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable

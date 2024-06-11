@@ -1,4 +1,4 @@
-package com.fyp.app.ui.screens.users
+package com.fyp.app.ui.screens
 
 import androidx.compose.runtime.Composable
 import com.fyp.app.ui.components.Camera
@@ -7,7 +7,7 @@ import com.ramcosta.composedestinations.annotation.Destination
 
 @Composable
 @Destination
-fun UserCameraScreen() {
+fun CameraScreen() {
     val cameraViewModel = CameraViewModelImp.getInstance()
     Camera { bitmap ->
         cameraViewModel.onTakePhoto(bitmap)
