@@ -25,6 +25,7 @@ import com.fyp.app.ui.components.InputField
 import com.fyp.app.ui.components.LogoInit
 import com.fyp.app.ui.components.buttons.ActionButton
 import com.fyp.app.ui.components.buttons.ButtonLink
+import com.fyp.app.ui.components.buttons.ClickableUrlText
 import com.fyp.app.ui.screens.destinations.HomeScreenDestination
 import com.fyp.app.ui.screens.destinations.SignInScreenDestination
 import com.fyp.app.utils.UserPreferencesImp
@@ -96,6 +97,7 @@ fun LoginScreen(
             ButtonLink(text = "Don't have an account? Sign up") {
                 navigator.navigate(SignInScreenDestination())
             }
+            ClickableUrlText("http://10.0.2.2:8000/api/v1/password-reset/","¿Has olvidado tu contraseña?")
         }
     }
 }

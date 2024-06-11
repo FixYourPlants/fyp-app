@@ -1,6 +1,7 @@
 package com.fyp.app.ui.screens.illness
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -41,7 +42,7 @@ fun IllnessDetailsScreen(
             .padding(2.dp)
             .background(Color(0xFF000500))
             .padding(2.dp)
-            .background(Color(0xFF4CAF50))
+            .background(Color(0xFF91CF50))
             .padding(16.dp)
     ) {
         item { IllnessHeader(sickness) }
@@ -66,7 +67,8 @@ fun IllnessHeader(sickness: Sickness) {
                     contentDescription = "Image description",
                     modifier = Modifier
                         .fillMaxSize()
-                        .clip(shape = MaterialTheme.shapes.medium),
+                        .clip(shape = MaterialTheme.shapes.medium)
+                        .border(width = 2.0.dp, color = Color.Black, shape = MaterialTheme.shapes.medium),
                     contentScale = ContentScale.Crop
                 )
             }
@@ -106,7 +108,7 @@ fun IllnessCareSection(sickness: Sickness) {
         Column {
             Text(
                 text = sickness.treatment,
-                modifier = Modifier.padding(vertical = 4.dp),
+                modifier = Modifier.padding(vertical = 4.dp, horizontal = 2.dp),
                 color = Color.Black
             )
         }
