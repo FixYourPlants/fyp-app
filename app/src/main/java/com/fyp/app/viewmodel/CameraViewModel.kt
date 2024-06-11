@@ -26,6 +26,14 @@ class CameraViewModel : ViewModel() {
     fun getSelectedBitmap(): Bitmap? {
         return selectedBitmap
     }
+
+    fun clearSelectedBitmap() {
+        selectedBitmap = null
+    }
+
+    fun clearBitmaps() {
+        _bitmaps.value = emptyList()
+    }
 }
 
 object CameraViewModelImp : BaseViewModel<CameraViewModel>(CameraViewModel::class.java)

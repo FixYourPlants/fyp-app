@@ -28,11 +28,8 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.fyp.app.data.api.DiaryServiceImp
 import com.fyp.app.data.model.db.Diary
-import com.fyp.app.ui.components.Header
 import com.fyp.app.ui.components.HeaderSection
-import com.fyp.app.ui.screens.destinations.HomeScreenDestination
 import com.fyp.app.ui.screens.destinations.PageListScreenDestination
-import com.fyp.app.ui.screens.destinations.UserDetailsScreenDestination
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.Dispatchers
