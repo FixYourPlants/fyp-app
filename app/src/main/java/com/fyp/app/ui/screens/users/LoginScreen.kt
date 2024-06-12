@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -17,6 +18,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.fyp.app.data.api.TokenServiceImp
 import com.fyp.app.data.api.UserServiceImp
@@ -24,6 +26,8 @@ import com.fyp.app.ui.components.ErrorMessage
 import com.fyp.app.ui.components.HeaderInit
 import com.fyp.app.ui.components.InputField
 import com.fyp.app.ui.components.LogoInit
+import com.fyp.app.ui.components.TextFieldError
+import com.fyp.app.ui.components.ValidatedTextFieldLoginRegister
 import com.fyp.app.ui.components.buttons.ActionButton
 import com.fyp.app.ui.components.buttons.ButtonLink
 import com.fyp.app.ui.components.buttons.ClickableUrlText
@@ -44,12 +48,18 @@ fun LoginScreen(
     var errorMessage by remember { mutableStateOf<String?>(null) }
     var attemptLogin by remember { mutableStateOf(false) }
     val showError = remember { mutableStateOf(false) }
+    val usernameErrors = remember { mutableStateOf(listOf<TextFieldError>()) }
+    val passwordErrors = remember { mutableStateOf(listOf<TextFieldError>()) }
 
     if (attemptLogin) {
         LaunchedEffect(username, password) {
             try {
                 loading = true
                 errorMessage = null
+
+                // Reset errors
+                usernameErrors.value = listOf()
+                passwordErrors.value = listOf()
 
                 val responseId = UserServiceImp.getInstance().getUserIdByUsername(username)
 
@@ -68,6 +78,14 @@ fun LoginScreen(
             } catch (e: Exception) {
                 errorMessage = e.message
                 Log.e("LoginScreen", "Error logging in $e")
+                if (e.message?.contains("username") == true || e.message?.contains("404") == true){
+                    usernameErrors.value = listOf(TextFieldError(true, "Invalid username"))
+                    errorMessage = null
+                }
+                if (e.message?.contains("password") == true|| e.message?.contains("401") == true) {
+                    passwordErrors.value = listOf(TextFieldError(true, "Invalid password"))
+                    errorMessage =  null
+                }
             } finally {
                 loading = false
                 attemptLogin = false
@@ -88,12 +106,27 @@ fun LoginScreen(
             HeaderInit(text = "Welcome Back")
             Text(text = "Login to your account")
             Spacer(modifier = Modifier.height(16.dp))
-            InputField(value = username, onValueChange = { username = it }, label = "Username")
+            ValidatedTextFieldLoginRegister(
+                value = username,
+                onValueChange = { username = it },
+                label = "Username",
+                errors = usernameErrors.value,
+                imeAction = ImeAction.Next,
+                fraction = 0.7f
+            )
             Spacer(modifier = Modifier.height(16.dp))
-            InputField(value = password, onValueChange = { password = it }, label = "Password", isPassword = true)
+            ValidatedTextFieldLoginRegister(
+                value = password,
+                onValueChange = { password = it },
+                label = "Password",
+                errors = passwordErrors.value,
+                imeAction = ImeAction.Done,
+                fraction = 0.7f,
+                secret = true
+            )
             Spacer(modifier = Modifier.height(16.dp))
             ActionButton(text = "Login", onClick = { attemptLogin = true }, isLoading = loading)
-            errorMessage?.let { showError.value = true;ErrorMessage(it, showError) }
+            errorMessage?.let { showError.value = true; ErrorMessage(it, showError) }
             Spacer(modifier = Modifier.height(18.dp))
             ButtonLink(text = "Don't have an account? Sign up") {
                 navigator.navigate(SignInScreenDestination())
@@ -102,6 +135,7 @@ fun LoginScreen(
         }
     }
 }
+
 
 
 

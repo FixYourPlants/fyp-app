@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -22,6 +23,7 @@ import com.fyp.app.ui.components.HeaderSection
 import com.fyp.app.ui.components.Scanner
 import com.fyp.app.ui.components.buttons.ButtonAndImage
 import com.fyp.app.ui.screens.destinations.AlertsListScreenDestination
+import com.fyp.app.ui.screens.destinations.CameraScreenDestination
 // import com.fyp.app.ui.screens.destinations.AlertsListScreenDestination
 import com.fyp.app.ui.screens.destinations.HelpScreenDestination
 import com.fyp.app.ui.screens.destinations.IllnessListScreenDestination
@@ -38,7 +40,7 @@ fun HomeScreen(navigator: DestinationsNavigator) {
     Box(modifier = Modifier.fillMaxSize()) {
         Column {
             HeaderSection(navigator = navigator)
-            Scanner(onClick = { /*navigator.navigate() */ })
+            Scanner(onClick = { navigator.navigate(CameraScreenDestination) })
             ContentColumn(navigator)
         }
     }
@@ -49,8 +51,8 @@ fun HomeScreen(navigator: DestinationsNavigator) {
 fun ContentColumn(navigator: DestinationsNavigator) {
     Column(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
+            .fillMaxSize()
+            .padding(8.dp)
             .background(Color(0xFF804000))
             .wrapContentSize(Alignment.BottomCenter)
     ) {
@@ -79,7 +81,7 @@ fun ContentColumn(navigator: DestinationsNavigator) {
             }
         )
 
-        CenteredImage(R.drawable.down_down)
+        HeightImage(R.drawable.down_down)
     }
 }
 
@@ -89,6 +91,17 @@ fun CenteredImage(resourceId: Int) {
         horizontalArrangement = Arrangement.Center,
         modifier = Modifier
             .fillMaxWidth()
+            .paint(painterResource(id = resourceId), contentScale = ContentScale.FillBounds)
+    ) {}
+}
+
+@Composable
+fun HeightImage(resourceId: Int) {
+    Row(
+        horizontalArrangement = Arrangement.Center,
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight(1f)
             .paint(painterResource(id = resourceId), contentScale = ContentScale.FillBounds)
     ) {}
 }

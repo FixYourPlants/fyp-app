@@ -16,6 +16,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.fyp.app.data.api.UserServiceImp
 import com.fyp.app.data.api.responses.RegistrationRequest
@@ -23,6 +24,8 @@ import com.fyp.app.ui.components.ErrorMessage
 import com.fyp.app.ui.components.HeaderInit
 import com.fyp.app.ui.components.InputField
 import com.fyp.app.ui.components.LogoInit
+import com.fyp.app.ui.components.TextFieldError
+import com.fyp.app.ui.components.ValidatedTextFieldLoginRegister
 import com.fyp.app.ui.components.buttons.ActionButton
 import com.fyp.app.ui.components.buttons.ButtonLink
 import com.fyp.app.ui.components.buttons.GoogleSignInButton
@@ -34,7 +37,6 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Composable
 @Destination
 fun SignInScreen(navigator: DestinationsNavigator) {
-    // State variables for input fields, loading state, error message, and registration attempt
     var email by remember { mutableStateOf("") }
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -43,13 +45,23 @@ fun SignInScreen(navigator: DestinationsNavigator) {
     var errorMessage by remember { mutableStateOf<String?>(null) }
     var attemptRegister by remember { mutableStateOf(false) }
     val showError = remember { mutableStateOf(false) }
+    val emailErrors = remember { mutableStateOf(listOf<TextFieldError>()) }
+    val usernameErrors = remember { mutableStateOf(listOf<TextFieldError>()) }
+    val passwordErrors = remember { mutableStateOf(listOf<TextFieldError>()) }
+    val repeatPasswordErrors = remember { mutableStateOf(listOf<TextFieldError>()) }
 
-    // Handle registration attempt
     if (attemptRegister) {
         LaunchedEffect(email, username, password, repeatPassword) {
+            // Reset errors
+            emailErrors.value = listOf()
+            usernameErrors.value = listOf()
+            passwordErrors.value = listOf()
+            repeatPasswordErrors.value = listOf()
+
             // Check if passwords match
             if (password != repeatPassword) {
-                errorMessage = "Passwords do not match"
+                repeatPasswordErrors.value = listOf(TextFieldError(true, "Passwords do not match"))
+                errorMessage = null
                 attemptRegister = false
                 return@LaunchedEffect
             }
@@ -65,6 +77,9 @@ fun SignInScreen(navigator: DestinationsNavigator) {
                         username = username
                     )
                 )
+
+                Log.d("SignInScreen", "responseRegister: $responseRegister")
+
                 // Save user email and token in SharedPreferences
                 UserServiceImp.getInstance().getUserIdByUsername(email)
                 // Navigate to the home screen
@@ -72,6 +87,18 @@ fun SignInScreen(navigator: DestinationsNavigator) {
             } catch (e: Exception) {
                 errorMessage = e.message
                 Log.e("SignInScreen", "Error signing up $e")
+                if (e.message?.contains("email") == true || e.message?.contains("400") == true) {
+                    emailErrors.value = listOf(TextFieldError(true, "Invalid email address"))
+                    errorMessage = null
+                }
+                if (e.message?.contains("username") == true || e.message?.contains("400") == true) {
+                    usernameErrors.value = listOf(TextFieldError(true, "Invalid username"))
+                    errorMessage = null
+                }
+                if (e.message?.contains("password") == true || e.message?.contains("400") == true) {
+                    passwordErrors.value = listOf(TextFieldError(true, "Invalid password"))
+                    errorMessage = null
+                }
             } finally {
                 loading = false
                 attemptRegister = false
@@ -79,7 +106,6 @@ fun SignInScreen(navigator: DestinationsNavigator) {
         }
     }
 
-    // UI layout
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -92,13 +118,43 @@ fun SignInScreen(navigator: DestinationsNavigator) {
             HeaderInit(text = "Welcome")
             Text(text = "Create an account")
             Spacer(modifier = Modifier.height(16.dp))
-            InputField(value = email, onValueChange = { email = it }, label = "Email address")
+            ValidatedTextFieldLoginRegister(
+                value = email,
+                onValueChange = { email = it },
+                label = "Email address",
+                errors = emailErrors.value,
+                imeAction = ImeAction.Next,
+                fraction = 0.7f
+            )
             Spacer(modifier = Modifier.height(16.dp))
-            InputField(value = username, onValueChange = { username = it }, label = "Username")
+            ValidatedTextFieldLoginRegister(
+                value = username,
+                onValueChange = { username = it },
+                label = "Username",
+                errors = usernameErrors.value,
+                imeAction = ImeAction.Next,
+                fraction = 0.7f
+            )
             Spacer(modifier = Modifier.height(16.dp))
-            InputField(value = password, onValueChange = { password = it }, label = "Password", isPassword = true)
+            ValidatedTextFieldLoginRegister(
+                value = password,
+                onValueChange = { password = it },
+                label = "Password",
+                errors = passwordErrors.value,
+                imeAction = ImeAction.Next,
+                fraction = 0.7f,
+                secret = true
+            )
             Spacer(modifier = Modifier.height(16.dp))
-            InputField(value = repeatPassword, onValueChange = { repeatPassword = it }, label = "Repeat password", isPassword = true)
+            ValidatedTextFieldLoginRegister(
+                value = repeatPassword,
+                onValueChange = { repeatPassword = it },
+                label = "Repeat password",
+                errors = repeatPasswordErrors.value,
+                imeAction = ImeAction.Done,
+                fraction = 0.7f,
+                secret = true
+            )
             Spacer(modifier = Modifier.height(16.dp))
             ActionButton(text = "Sign up", onClick = { attemptRegister = true }, isLoading = loading)
             errorMessage?.let { showError.value = true; ErrorMessage(it, showError) }
@@ -111,4 +167,5 @@ fun SignInScreen(navigator: DestinationsNavigator) {
         }
     }
 }
+
 
