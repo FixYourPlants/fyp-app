@@ -69,7 +69,7 @@ fun FormScreenContent(
                     .clickable { onAddImageClick() }
             ) {
                 Spacer(modifier = Modifier.height(8.dp))
-                if (firstImage.isNotEmpty()) {
+                if (firstImage.isNotEmpty() && updatedImages.isEmpty()) {
                     AsyncImage(
                         model = BuildConfig.BACKEND_URL + firstImage,
                         contentDescription = null,

@@ -24,8 +24,9 @@ fun PageCreateScreen(
     val updatedImages by viewModel.cameraViewModel.bitmaps.collectAsState()
     val coroutineScope = rememberCoroutineScope()
 
-    viewModel.cameraViewModel.clearBitmaps()
-    viewModel.cameraViewModel.clearSelectedBitmap()
+    // TODO: Gestionar las imagenes.
+    // viewModel.cameraViewModel.clearBitmaps()
+    // viewModel.cameraViewModel.clearSelectedBitmap()
 
     FormScreenContent(
         title = "Crear página en ${diary.title.lowercase()} el ${viewModel.formattedDate}",
