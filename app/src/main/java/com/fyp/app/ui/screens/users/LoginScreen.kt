@@ -63,13 +63,12 @@ fun LoginScreen(
 
                 val responseId = UserServiceImp.getInstance().getUserIdByUsername(username)
 
-                val tokens = TokenServiceImp.getInstance().getSimpleToken(
+                val tokens = UserServiceImp.getInstance().loginUserVerified(
                     mapOf(
                         "username" to username,
                         "password" to password
                     )
                 )
-
                 responseId["user_id"]?.let {
                     UserPreferencesImp.initialize(username, tokens["refresh"].toString(), tokens["access"].toString(), it)
                 }

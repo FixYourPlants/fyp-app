@@ -72,7 +72,7 @@ fun SignInScreen(navigator: DestinationsNavigator) {
                 val responseRegister = UserServiceImp.getInstance().registerUser(
                     RegistrationRequest(
                         email = email,
-                        password1 = password,
+                        password = password,
                         password2 = repeatPassword,
                         username = username
                     )
@@ -81,7 +81,7 @@ fun SignInScreen(navigator: DestinationsNavigator) {
                 Log.d("SignInScreen", "responseRegister: $responseRegister")
 
                 // Save user email and token in SharedPreferences
-                UserServiceImp.getInstance().getUserIdByUsername(email)
+                UserServiceImp.getInstance().getUserIdByUsername(username)
                 // Navigate to the home screen
                 navigator.navigate(HomeScreenDestination())
             } catch (e: Exception) {

@@ -18,7 +18,7 @@ import retrofit2.http.Query
 
 interface UserService {
 
-    @POST("api-auth/registration/")
+    @POST("api/v1/create_user/")
     suspend fun registerUser(@Body request: RegistrationRequest)
 
     @POST("api-auth/login/")
@@ -32,6 +32,9 @@ interface UserService {
 
     @GET("user/{userId}")
     suspend fun getUserById(@Path("userId") userId: String): User
+
+    @POST("api/v1/login/")
+    suspend fun loginUserVerified(@Body user: Map<String, String>): Map<String, String>
 
 
     @Multipart
