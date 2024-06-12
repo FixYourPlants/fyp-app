@@ -22,7 +22,6 @@ import com.fyp.app.data.api.UserServiceImp
 import com.fyp.app.data.api.responses.RegistrationRequest
 import com.fyp.app.ui.components.ErrorMessage
 import com.fyp.app.ui.components.HeaderInit
-import com.fyp.app.ui.components.InputField
 import com.fyp.app.ui.components.LogoInit
 import com.fyp.app.ui.components.TextFieldError
 import com.fyp.app.ui.components.ValidatedTextFieldLoginRegister
@@ -60,7 +59,7 @@ fun SignInScreen(navigator: DestinationsNavigator) {
 
             // Check if passwords match
             if (password != repeatPassword) {
-                repeatPasswordErrors.value = listOf(TextFieldError(true, "Passwords do not match"))
+                repeatPasswordErrors.value = listOf(TextFieldError(true, "Las contraseñas no coinciden"))
                 errorMessage = null
                 attemptRegister = false
                 return@LaunchedEffect
@@ -86,17 +85,17 @@ fun SignInScreen(navigator: DestinationsNavigator) {
                 navigator.navigate(HomeScreenDestination())
             } catch (e: Exception) {
                 errorMessage = e.message
-                Log.e("SignInScreen", "Error signing up $e")
+                Log.e("SignInScreen", "Error registrándose $e")
                 if (e.message?.contains("email") == true || e.message?.contains("400") == true) {
-                    emailErrors.value = listOf(TextFieldError(true, "Invalid email address"))
+                    emailErrors.value = listOf(TextFieldError(true, "Dirección de correo electrónico inválida"))
                     errorMessage = null
                 }
                 if (e.message?.contains("username") == true || e.message?.contains("400") == true) {
-                    usernameErrors.value = listOf(TextFieldError(true, "Invalid username"))
+                    usernameErrors.value = listOf(TextFieldError(true, "Nombre de usuario inválido"))
                     errorMessage = null
                 }
                 if (e.message?.contains("password") == true || e.message?.contains("400") == true) {
-                    passwordErrors.value = listOf(TextFieldError(true, "Invalid password"))
+                    passwordErrors.value = listOf(TextFieldError(true, "Contraseña inválida"))
                     errorMessage = null
                 }
             } finally {
@@ -115,13 +114,13 @@ fun SignInScreen(navigator: DestinationsNavigator) {
     ) {
         item {
             LogoInit(onClickLogo = { navigator.navigate(HomeScreenDestination()) })
-            HeaderInit(text = "Welcome")
-            Text(text = "Create an account")
+            HeaderInit(text = "Bienvenido")
+            Text(text = "Crea una cuenta")
             Spacer(modifier = Modifier.height(16.dp))
             ValidatedTextFieldLoginRegister(
                 value = email,
                 onValueChange = { email = it },
-                label = "Email address",
+                label = "Dirección de correo electrónico",
                 errors = emailErrors.value,
                 imeAction = ImeAction.Next,
                 fraction = 0.7f
@@ -130,7 +129,7 @@ fun SignInScreen(navigator: DestinationsNavigator) {
             ValidatedTextFieldLoginRegister(
                 value = username,
                 onValueChange = { username = it },
-                label = "Username",
+                label = "Nombre de usuario",
                 errors = usernameErrors.value,
                 imeAction = ImeAction.Next,
                 fraction = 0.7f
@@ -139,7 +138,7 @@ fun SignInScreen(navigator: DestinationsNavigator) {
             ValidatedTextFieldLoginRegister(
                 value = password,
                 onValueChange = { password = it },
-                label = "Password",
+                label = "Contraseña",
                 errors = passwordErrors.value,
                 imeAction = ImeAction.Next,
                 fraction = 0.7f,
@@ -149,17 +148,17 @@ fun SignInScreen(navigator: DestinationsNavigator) {
             ValidatedTextFieldLoginRegister(
                 value = repeatPassword,
                 onValueChange = { repeatPassword = it },
-                label = "Repeat password",
+                label = "Repetir contraseña",
                 errors = repeatPasswordErrors.value,
                 imeAction = ImeAction.Done,
                 fraction = 0.7f,
                 secret = true
             )
             Spacer(modifier = Modifier.height(16.dp))
-            ActionButton(text = "Sign up", onClick = { attemptRegister = true }, isLoading = loading)
+            ActionButton(text = "Registrarse", onClick = { attemptRegister = true }, isLoading = loading)
             errorMessage?.let { showError.value = true; ErrorMessage(it, showError) }
             Spacer(modifier = Modifier.height(18.dp))
-            ButtonLink(text = "Already have an account? Login") {
+            ButtonLink(text = "¿Ya tienes una cuenta? Inicia sesión") {
                 navigator.navigate(LoginScreenDestination())
             }
             Spacer(modifier = Modifier.height(16.dp))
@@ -167,5 +166,6 @@ fun SignInScreen(navigator: DestinationsNavigator) {
         }
     }
 }
+
 
 

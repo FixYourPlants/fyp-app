@@ -7,14 +7,12 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 
 @Composable
 fun ClickableUrlText(url: String, text: String) {
-    val context = LocalContext.current
     val launcher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { }
     val annotatedString = with(AnnotatedString.Builder()) {
         pushStringAnnotation("URL", url)

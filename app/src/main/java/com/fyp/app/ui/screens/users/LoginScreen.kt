@@ -5,7 +5,6 @@ import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -20,11 +19,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
-import com.fyp.app.data.api.TokenServiceImp
+import com.fyp.app.BuildConfig
 import com.fyp.app.data.api.UserServiceImp
 import com.fyp.app.ui.components.ErrorMessage
 import com.fyp.app.ui.components.HeaderInit
-import com.fyp.app.ui.components.InputField
 import com.fyp.app.ui.components.LogoInit
 import com.fyp.app.ui.components.TextFieldError
 import com.fyp.app.ui.components.ValidatedTextFieldLoginRegister
@@ -78,11 +76,11 @@ fun LoginScreen(
                 errorMessage = e.message
                 Log.e("LoginScreen", "Error logging in $e")
                 if (e.message?.contains("username") == true || e.message?.contains("404") == true){
-                    usernameErrors.value = listOf(TextFieldError(true, "Invalid username"))
+                    usernameErrors.value = listOf(TextFieldError(true, "Nombre de usuario inválido"))
                     errorMessage = null
                 }
                 if (e.message?.contains("password") == true|| e.message?.contains("401") == true) {
-                    passwordErrors.value = listOf(TextFieldError(true, "Invalid password"))
+                    passwordErrors.value = listOf(TextFieldError(true, "Contraseña inválida"))
                     errorMessage =  null
                 }
             } finally {
@@ -102,13 +100,13 @@ fun LoginScreen(
     ) {
         item {
             LogoInit(onClickLogo = { navigator.navigate(HomeScreenDestination()) })
-            HeaderInit(text = "Welcome Back")
-            Text(text = "Login to your account")
+            HeaderInit(text = "Bienvenido de Nuevo")
+            Text(text = "Inicia sesión en tu cuenta")
             Spacer(modifier = Modifier.height(16.dp))
             ValidatedTextFieldLoginRegister(
                 value = username,
                 onValueChange = { username = it },
-                label = "Username",
+                label = "Nombre de usuario",
                 errors = usernameErrors.value,
                 imeAction = ImeAction.Next,
                 fraction = 0.7f
@@ -117,23 +115,24 @@ fun LoginScreen(
             ValidatedTextFieldLoginRegister(
                 value = password,
                 onValueChange = { password = it },
-                label = "Password",
+                label = "Contraseña",
                 errors = passwordErrors.value,
                 imeAction = ImeAction.Done,
                 fraction = 0.7f,
                 secret = true
             )
             Spacer(modifier = Modifier.height(16.dp))
-            ActionButton(text = "Login", onClick = { attemptLogin = true }, isLoading = loading)
+            ActionButton(text = "Iniciar sesión", onClick = { attemptLogin = true }, isLoading = loading)
             errorMessage?.let { showError.value = true; ErrorMessage(it, showError) }
             Spacer(modifier = Modifier.height(18.dp))
-            ButtonLink(text = "Don't have an account? Sign up") {
+            ButtonLink(text = "¿No tienes una cuenta? Regístrate") {
                 navigator.navigate(SignInScreenDestination())
             }
-            ClickableUrlText("http://10.0.2.2:8000/api/v1/password-reset/","¿Has olvidado tu contraseña?")
+            ClickableUrlText(BuildConfig.BACKEND_URL + "/api/v1/password-reset/","¿Has olvidado tu contraseña?")
         }
     }
 }
+
 
 
 
