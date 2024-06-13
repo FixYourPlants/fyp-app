@@ -7,11 +7,14 @@ import androidx.compose.ui.text.input.ImeAction
 import com.fyp.app.data.api.UserServiceImp
 import com.fyp.app.data.model.db.User
 import com.fyp.app.utils.ValidatedTextFieldState
+import com.fyp.app.viewmodel.camera.CameraViewModel
+import com.fyp.app.viewmodel.camera.UserCameraViewModelImp
+import com.fyp.app.viewmodel.camera.toMultipartBodyPart
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 
 class UserEditViewModel(user: User) {
-    val cameraViewModel: CameraViewModel = CameraViewModelImp.getInstance()
+    val cameraViewModel: CameraViewModel = UserCameraViewModelImp.getInstance()
     val user = user
 
     // Use SnapshotStateList for observable state

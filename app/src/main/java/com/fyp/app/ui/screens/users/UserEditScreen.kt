@@ -7,7 +7,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import com.fyp.app.data.model.db.User
 import com.fyp.app.ui.screens.FormScreenContent
-import com.fyp.app.ui.screens.destinations.CameraScreenDestination
+import com.fyp.app.ui.screens.destinations.UserCameraScreenDestination
 import com.fyp.app.ui.screens.destinations.UserDetailsScreenDestination
 import com.fyp.app.viewmodel.UserEditViewModel
 import com.ramcosta.composedestinations.annotation.Destination
@@ -32,7 +32,7 @@ fun UserEditScreen(
         title = "Editar usuario",
         firstImage = user.imageUrl,
         updatedImages = updatedImages,
-        onAddImageClick = { navigator.navigate(CameraScreenDestination) },
+        onAddImageClick = { navigator.navigate(UserCameraScreenDestination) },
         fields = viewModel.fields,
         errors = viewModel.errors,
         onSaveClick = {

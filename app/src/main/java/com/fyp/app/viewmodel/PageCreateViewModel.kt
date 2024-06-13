@@ -6,6 +6,9 @@ import androidx.compose.ui.text.input.ImeAction
 import com.fyp.app.data.api.PageServiceImp
 import com.fyp.app.data.model.db.Diary
 import com.fyp.app.utils.ValidatedTextFieldState
+import com.fyp.app.viewmodel.camera.CameraViewModel
+import com.fyp.app.viewmodel.camera.PageCameraViewModelImp
+import com.fyp.app.viewmodel.camera.toMultipartBodyPart
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.text.SimpleDateFormat
@@ -14,7 +17,7 @@ import java.util.Locale
 
 class PageCreateViewModel(diary: Diary) {
     val diary = diary
-    val cameraViewModel: CameraViewModel = CameraViewModelImp.getInstance()
+    val cameraViewModel: CameraViewModel = PageCameraViewModelImp.getInstance()
 
     // Use SnapshotStateList for observable state
     var fields = mutableStateListOf(

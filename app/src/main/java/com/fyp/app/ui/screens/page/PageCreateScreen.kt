@@ -7,7 +7,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import com.fyp.app.data.model.db.Diary
 import com.fyp.app.ui.screens.FormScreenContent
-import com.fyp.app.ui.screens.destinations.CameraScreenDestination
+import com.fyp.app.ui.screens.destinations.PageCameraScreenDestination
 import com.fyp.app.ui.screens.destinations.PageListScreenDestination
 import com.fyp.app.viewmodel.PageCreateViewModel
 import com.ramcosta.composedestinations.annotation.Destination
@@ -31,7 +31,7 @@ fun PageCreateScreen(
     FormScreenContent(
         title = "Crear página en ${diary.title.lowercase()} el ${viewModel.formattedDate}",
         updatedImages = updatedImages,
-        onAddImageClick = { navigator.navigate(CameraScreenDestination) },
+        onAddImageClick = { navigator.navigate(PageCameraScreenDestination) },
         fields = viewModel.fields,
         errors = viewModel.errors,
         onSaveClick = {

@@ -77,8 +77,8 @@ fun UserDetailsScreen(
                     ) {
                         AsyncImage(
                             model = BuildConfig.BACKEND_URL + user.imageUrl,
-                            placeholder = painterResource(id = R.drawable.down),
-                            error = painterResource(id = R.drawable.down_down),
+                            placeholder = painterResource(id = R.drawable.default_user),
+                            error = painterResource(id = R.drawable.default_user),
                             contentDescription = null,
                             modifier = Modifier
                                 .fillMaxSize()
