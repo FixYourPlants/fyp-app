@@ -26,11 +26,7 @@ data class User(
     override fun hashCode(): Int {
         var result = id.hashCode()
         result = 31 * result + username.hashCode()
-        result = 31 * result + firstName.hashCode()
-        result = 31 * result + lastName.hashCode()
         result = 31 * result + email.hashCode()
-        result = 31 * result + imageUrl.hashCode()
-        result = 31 * result + aboutMe.hashCode()
         return result
     }
 }

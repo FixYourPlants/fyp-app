@@ -3,6 +3,7 @@ package com.fyp.app.data.api
 import com.fyp.app.data.model.db.Page
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.ResponseBody
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -25,7 +26,7 @@ interface PageService {
         @Part("content") content: RequestBody,
         @Part image: MultipartBody.Part?,
         @Part("diary") diary: RequestBody
-    ): Page
+    ): ResponseBody
 
     @GET("page/{pageId}")
     suspend fun getPageById(@Path("pageId") pageId:Int): Page

@@ -32,7 +32,7 @@ class UserEditViewModel(user: User) {
             updateField(3, value)
             validateField(3, value)
         },
-        ValidatedTextFieldState(user.aboutMe, "About Me", ImeAction.Done, 20) { value ->
+        ValidatedTextFieldState(if(user.aboutMe != null) user.aboutMe else "", "About Me", ImeAction.Done, 20) { value ->
             updateField(4, value)
             validateField(4, value)
         }

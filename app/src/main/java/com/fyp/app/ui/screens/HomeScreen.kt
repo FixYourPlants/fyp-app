@@ -63,7 +63,7 @@ fun ContentColumn(navigator: DestinationsNavigator) {
             firstButtonText = "Enciclopedia de Virus",
             firstImageResourceId = R.drawable.virus,
             firstButtonClick = { navigator.navigate(IllnessListScreenDestination()) },
-            secondButtonText = "Anuncios de Plagas",
+            secondButtonText = "Alertas de Plagas",
             secondImageResourceId = R.drawable.grasshopper,
             secondButtonClick = { navigator.navigate(AlertsListScreenDestination()) }
         )

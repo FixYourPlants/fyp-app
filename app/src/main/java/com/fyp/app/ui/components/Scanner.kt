@@ -1,6 +1,7 @@
 package com.fyp.app.ui.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -35,7 +36,8 @@ fun Scanner(onClick: () -> Unit = {}) {
             .fillMaxWidth()
             .height(120.dp)
             .padding(16.dp)
-            .clickable { isClicked = !isClicked; onClick()},
+            .clickable { isClicked = !isClicked; onClick()}
+            .border(width = 3.0.dp, color = Color(0, 120, 0), shape = RoundedCornerShape(16.dp)),
         shape = RoundedCornerShape(16.dp),
         color = if (isClicked) Color.Red else Color.Green
     ) {

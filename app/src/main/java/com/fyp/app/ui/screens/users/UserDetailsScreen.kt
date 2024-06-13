@@ -54,8 +54,6 @@ fun UserDetailsScreen(
     navigator: DestinationsNavigator,
     user: User
 ) {
-
-
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -77,7 +75,6 @@ fun UserDetailsScreen(
                             .fillMaxWidth()
                             .height(200.dp)
                     ) {
-                        Log.d("UserDetailsScreen", "User image: ${user.imageUrl}")
                         AsyncImage(
                             model = BuildConfig.BACKEND_URL + user.imageUrl,
                             placeholder = painterResource(id = R.drawable.down),
@@ -98,20 +95,24 @@ fun UserDetailsScreen(
                         fontSize = 24.sp,
                         color = Color.Black
                     )
-                    Text(
-                        text = "${user.firstName} ${user.lastName}",
-                        fontStyle = FontStyle.Italic,
-                        fontSize = 18.sp,
-                        modifier = Modifier.padding(vertical = 4.dp),
-                        color = Color.Black
-                    )
-                    Text(
-                        text = user.email,
-                        fontStyle = FontStyle.Italic,
-                        fontSize = 12.sp,
-                        modifier = Modifier.padding(vertical = 8.dp),
-                        color = Color.Black
-                    )
+                    if(user.firstName != null){
+                        Text(
+                            text = "${user.firstName} ${user.lastName}",
+                            fontStyle = FontStyle.Italic,
+                            fontSize = 18.sp,
+                            modifier = Modifier.padding(vertical = 4.dp),
+                            color = Color.Black
+                        )
+                    }
+                    if (user.lastName != null){
+                        Text(
+                            text = user.email,
+                            fontStyle = FontStyle.Italic,
+                            fontSize = 12.sp,
+                            modifier = Modifier.padding(vertical = 8.dp),
+                            color = Color.Black
+                        )
+                    }
                 }
             }
         }
@@ -130,11 +131,13 @@ fun UserDetailsScreen(
                 color = Color(0xFFA5FFA9)
             ) {
                 Column {
-                    Text(
-                        text = user.aboutMe,
-                        modifier = Modifier.padding(vertical = 4.dp),
-                        color = Color.Black
-                    )
+                    if (user.aboutMe != null){
+                        Text(
+                            text = user.aboutMe,
+                            modifier = Modifier.padding(vertical = 4.dp),
+                            color = Color.Black
+                        )
+                    }
                 }
             }
         }
