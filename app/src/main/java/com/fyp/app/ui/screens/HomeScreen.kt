@@ -23,8 +23,6 @@ import com.fyp.app.ui.components.HeaderSection
 import com.fyp.app.ui.components.Scanner
 import com.fyp.app.ui.components.buttons.ButtonAndImage
 import com.fyp.app.ui.screens.destinations.AlertsListScreenDestination
-import com.fyp.app.ui.screens.destinations.CameraScreenDestination
-// import com.fyp.app.ui.screens.destinations.AlertsListScreenDestination
 import com.fyp.app.ui.screens.destinations.HelpScreenDestination
 import com.fyp.app.ui.screens.destinations.IllnessListScreenDestination
 import com.fyp.app.ui.screens.destinations.PlantListScreenDestination
@@ -40,7 +38,7 @@ fun HomeScreen(navigator: DestinationsNavigator) {
     Box(modifier = Modifier.fillMaxSize()) {
         Column {
             HeaderSection(navigator = navigator)
-            Scanner(onClick = { navigator.navigate(CameraScreenDestination) })
+            Scanner(onClick = { /* navigator.navigate() */ })
             ContentColumn(navigator)
         }
     }

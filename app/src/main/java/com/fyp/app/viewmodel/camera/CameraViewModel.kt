@@ -1,4 +1,4 @@
-package com.fyp.app.viewmodel
+package com.fyp.app.viewmodel.camera
 
 import android.graphics.Bitmap
 import androidx.lifecycle.ViewModel
@@ -9,7 +9,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.ByteArrayOutputStream
 
-class CameraViewModel : ViewModel() {
+open class CameraViewModel : ViewModel() {
 
     private val _bitmaps = MutableStateFlow<List<Bitmap>>(emptyList())
     private var selectedBitmap: Bitmap? = null
@@ -35,8 +35,6 @@ class CameraViewModel : ViewModel() {
         _bitmaps.value = emptyList()
     }
 }
-
-object CameraViewModelImp : BaseViewModel<CameraViewModel>(CameraViewModel::class.java)
 
 fun Bitmap.toMultipartBodyPart(name: String): MultipartBody.Part {
     val stream = ByteArrayOutputStream()
