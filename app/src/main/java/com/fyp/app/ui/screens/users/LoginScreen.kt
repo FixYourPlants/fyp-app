@@ -34,6 +34,9 @@ import com.fyp.app.ui.screens.destinations.SignInScreenDestination
 import com.fyp.app.utils.UserPreferencesImp
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import okhttp3.ResponseBody
+import org.json.JSONObject
+import retrofit2.HttpException
 
 @Composable
 @Destination
@@ -48,6 +51,8 @@ fun LoginScreen(
     val showError = remember { mutableStateOf(false) }
     val usernameErrors = remember { mutableStateOf(listOf<TextFieldError>()) }
     val passwordErrors = remember { mutableStateOf(listOf<TextFieldError>()) }
+    val emailErrors = remember { mutableStateOf(listOf<TextFieldError>()) }
+
 
     if (attemptLogin) {
         LaunchedEffect(username, password) {
@@ -58,6 +63,7 @@ fun LoginScreen(
                 // Reset errors
                 usernameErrors.value = listOf()
                 passwordErrors.value = listOf()
+                emailErrors.value = listOf()
 
                 val responseId = UserServiceImp.getInstance().getUserIdByUsername(username)
 
@@ -72,16 +78,25 @@ fun LoginScreen(
                 }
 
                 navigator.navigate(HomeScreenDestination())
-            } catch (e: Exception) {
+            } catch (e: HttpException) {
                 errorMessage = e.message
-                Log.e("LoginScreen", "Error logging in $e")
-                if (e.message?.contains("username") == true || e.message?.contains("404") == true){
-                    usernameErrors.value = listOf(TextFieldError(true, "Nombre de usuario inválido"))
-                    errorMessage = null
-                }
-                if (e.message?.contains("password") == true|| e.message?.contains("401") == true) {
-                    passwordErrors.value = listOf(TextFieldError(true, "Contraseña inválida"))
-                    errorMessage =  null
+                val errorResponseBody: ResponseBody? = e.response()?.errorBody()
+                if (errorResponseBody != null) {
+                    val errorResponse = errorResponseBody.string()
+                    val errorJson = JSONObject(errorResponse)
+                    Log.e("VIEJO SABROSO", errorJson.toString())
+                    if (errorJson.has("username") || e.message?.contains("404") == true){
+                        usernameErrors.value = listOf(TextFieldError(true, "Nombre de usuario inválido"))
+                        errorMessage = null
+                    }
+                    if (errorJson.has("password") || e.message?.contains("401") == true) {
+                        passwordErrors.value = listOf(TextFieldError(true, "Contraseña inválida"))
+                        errorMessage =  null
+                    }
+                    if (errorJson.has("email")) {
+                        emailErrors.value = listOf(TextFieldError(true, "Su cuenta no ha realizado la validación por correo."))
+                        errorMessage =  null
+                    }
                 }
             } finally {
                 loading = false
@@ -111,7 +126,7 @@ fun LoginScreen(
                 imeAction = ImeAction.Next,
                 fraction = 0.7f
             )
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(1.dp))
             ValidatedTextFieldLoginRegister(
                 value = password,
                 onValueChange = { password = it },
@@ -121,8 +136,12 @@ fun LoginScreen(
                 fraction = 0.7f,
                 secret = true
             )
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(18.dp))
             ActionButton(text = "Iniciar sesión", onClick = { attemptLogin = true }, isLoading = loading)
+            if(emailErrors.value.isNotEmpty()){
+                showError.value = true
+                ErrorMessage(emailErrors.value[0].errorMessage,showError)
+            }
             errorMessage?.let { showError.value = true; ErrorMessage(it, showError) }
             Spacer(modifier = Modifier.height(18.dp))
             ButtonLink(text = "¿No tienes una cuenta? Regístrate") {
