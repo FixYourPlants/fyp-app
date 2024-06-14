@@ -37,7 +37,7 @@ fun HelpScreen(navigator: DestinationsNavigator) {
     ))
     items.add(Animation(
         R.raw.scanner,
-        "Escaner de Plantas",
+        "Escáner de Plantas",
         "Descubre cómo mantener tus plantas en perfecto estado con nuestro escáner de diagnóstico en tiempo real."
     ))
     items.add(Animation(
