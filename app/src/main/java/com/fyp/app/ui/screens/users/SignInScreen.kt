@@ -16,6 +16,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.fyp.app.data.api.UserServiceImp
@@ -32,6 +33,9 @@ import com.fyp.app.ui.screens.destinations.HomeScreenDestination
 import com.fyp.app.ui.screens.destinations.LoginScreenDestination
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import okhttp3.ResponseBody
+import org.json.JSONObject
+import retrofit2.HttpException
 
 @Composable
 @Destination
@@ -64,7 +68,6 @@ fun SignInScreen(navigator: DestinationsNavigator) {
                 attemptRegister = false
                 return@LaunchedEffect
             }
-
             try {
                 loading = true
                 errorMessage = null
@@ -76,28 +79,35 @@ fun SignInScreen(navigator: DestinationsNavigator) {
                         username = username
                     )
                 )
-
+                Log.d("VIEJO SABROSO", responseRegister.toString())
                 Log.d("SignInScreen", "responseRegister: $responseRegister")
 
                 // Save user email and token in SharedPreferences
                 UserServiceImp.getInstance().getUserIdByUsername(username)
                 // Navigate to the home screen
                 navigator.navigate(HomeScreenDestination())
-            } catch (e: Exception) {
+            } catch (e: HttpException) {
                 errorMessage = e.message
-                Log.e("SignInScreen", "Error registrándose $e")
-                if (e.message?.contains("email") == true || e.message?.contains("400") == true) {
-                    emailErrors.value = listOf(TextFieldError(true, "Dirección de correo electrónico inválida"))
-                    errorMessage = null
+                val errorResponseBody: ResponseBody? = e.response()?.errorBody()
+                if (errorResponseBody != null) {
+                    val errorResponse = errorResponseBody.string()
+                    val errorJson = JSONObject(errorResponse)
+
+                    Log.e("SignInScreen", "Error registrándose $e")
+                    if (errorJson.has("email")) {
+                        emailErrors.value = listOf(TextFieldError(true, errorJson.getJSONArray("email").get(0).toString().capitalize()))
+                        errorMessage = null
+                    }
+                    if (errorJson.has("username")) {
+                        usernameErrors.value = listOf(TextFieldError(true, errorJson.getJSONArray("username").get(0).toString().capitalize()))
+                        errorMessage = null
+                    }
+                    if (errorJson.has("password")) {
+                        passwordErrors.value = listOf(TextFieldError(true, errorJson.getJSONArray("password").get(0).toString().capitalize()))
+                        errorMessage = null
+                    }
                 }
-                if (e.message?.contains("username") == true || e.message?.contains("400") == true) {
-                    usernameErrors.value = listOf(TextFieldError(true, "Nombre de usuario inválido"))
-                    errorMessage = null
-                }
-                if (e.message?.contains("password") == true || e.message?.contains("400") == true) {
-                    passwordErrors.value = listOf(TextFieldError(true, "Contraseña inválida"))
-                    errorMessage = null
-                }
+                Log.e("VIEJO SABROSO", "AAAAAAAAAAAAAAAAAa")
             } finally {
                 loading = false
                 attemptRegister = false

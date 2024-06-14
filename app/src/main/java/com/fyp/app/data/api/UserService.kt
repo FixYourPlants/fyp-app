@@ -6,6 +6,7 @@ import com.fyp.app.data.api.responses.RegistrationRequest
 import com.fyp.app.data.model.db.User
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.ResponseBody
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -19,7 +20,7 @@ import retrofit2.http.Query
 interface UserService {
 
     @POST("api/v1/create_user/")
-    suspend fun registerUser(@Body request: RegistrationRequest)
+    suspend fun registerUser(@Body request: RegistrationRequest): ResponseBody
 
     @POST("api-auth/login/")
     suspend fun loginUser(@Body response: LoginRequest): LoginResponse
