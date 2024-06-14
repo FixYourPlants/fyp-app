@@ -2,13 +2,22 @@ package com.fyp.app.utils
 
 import com.fyp.app.data.model.db.Plant
 import com.fyp.app.data.model.db.Sickness
+import java.text.Normalizer
+
+fun removeAccents(input: String): String {
+    val normalized = Normalizer.normalize(input, Normalizer.Form.NFD)
+    return normalized.replace(Regex("\\p{InCombiningDiacriticalMarks}+"), "")
+}
 
 fun filterPlants(searchText:String, plants:MutableList<Plant>):MutableList<Plant>{
-    var filteredlist: List<Plant> = plants.filter { it -> it.name.lowercase().contains(searchText.lowercase()) }
+
+    val normalizedSearchText = removeAccents(searchText.lowercase())
+    var filteredlist: List<Plant> = plants.filter { it -> removeAccents(it.name.lowercase()).contains(normalizedSearchText.lowercase()) }
     return filteredlist.toMutableList()
 }
 
 fun filterSickness(searchText:String, sickness:MutableList<Sickness>): MutableList<Sickness> {
-    var filteredlist: List<Sickness> = sickness.filter { it -> it.name.lowercase().contains(searchText.lowercase()) }
+    val normalizedSearchText = removeAccents(searchText.lowercase())
+    var filteredlist: List<Sickness> = sickness.filter { it -> removeAccents(it.name.lowercase()).contains(normalizedSearchText.lowercase()) }
     return filteredlist.toMutableList()
 }
