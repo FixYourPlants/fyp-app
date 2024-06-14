@@ -79,7 +79,6 @@ fun SignInScreen(navigator: DestinationsNavigator) {
                         username = username
                     )
                 )
-                Log.d("VIEJO SABROSO", responseRegister.toString())
                 Log.d("SignInScreen", "responseRegister: $responseRegister")
 
                 // Save user email and token in SharedPreferences
@@ -107,7 +106,6 @@ fun SignInScreen(navigator: DestinationsNavigator) {
                         errorMessage = null
                     }
                 }
-                Log.e("VIEJO SABROSO", "AAAAAAAAAAAAAAAAAa")
             } finally {
                 loading = false
                 attemptRegister = false
