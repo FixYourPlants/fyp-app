@@ -15,6 +15,7 @@ object UserPreferencesImp {
 
     fun initialize(email: String, refresh: String, access: String, id: String) {
         if (instance == null) {
+            Log.d("UserPreferencesImp", "UserPreferences initialized with email: $email, refresh: $refresh, access: $access, id: $id")
             instance = UserPreferences(email, refresh, access, id)
         }
     }

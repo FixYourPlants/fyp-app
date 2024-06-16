@@ -2,6 +2,7 @@ package com.fyp.app.ui.components
 
 import TokenManager
 import android.util.Log
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -90,15 +91,27 @@ fun Header(user: User?, onClickLogo: () -> Unit, onClickAccount: () -> Unit) {
             ) {
                 Spacer(modifier = Modifier.width(16.dp))
                 if (user != null) {
-                    AsyncImage(
-                        model = BuildConfig.BACKEND_URL + user.imageUrl,
-                        contentDescription = "Profile picture",
-                        modifier = Modifier
-                            .requiredSize(32.dp)
-                            .clip(CircleShape)
-                            .clickable { onClickAccount() },
-                        contentScale = ContentScale.Crop
-                    )
+                    if (user.imageUrl != null) {
+                        AsyncImage(
+                            model = BuildConfig.BACKEND_URL + user.imageUrl,
+                            contentDescription = "Profile picture",
+                            modifier = Modifier
+                                .requiredSize(32.dp)
+                                .clip(CircleShape)
+                                .clickable { onClickAccount() },
+                            contentScale = ContentScale.Crop
+                        )
+                    } else {
+                        Image(painter = painterResource(id =R.drawable.default_user),
+                            contentDescription = "Profile picture",
+                            modifier = Modifier
+                                .requiredSize(32.dp)
+                                .clip(CircleShape)
+                                .clickable { onClickAccount() },
+                        )
+                    }
+
+
                 } else {
                     Icon(
                         imageVector = Icons.Default.AccountCircle,

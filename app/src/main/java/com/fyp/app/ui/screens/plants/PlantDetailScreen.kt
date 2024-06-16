@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -48,7 +49,9 @@ import com.fyp.app.data.model.db.Plant
 import com.fyp.app.data.model.db.User
 import com.fyp.app.data.model.db.obtainDifficulty
 import com.fyp.app.ui.components.AddOpinionDialog
+import com.fyp.app.ui.components.BoxLongText
 import com.fyp.app.ui.components.BoxTag
+import com.fyp.app.ui.components.DetailBackground
 import com.fyp.app.ui.components.OpinionsSection
 import com.fyp.app.ui.components.OverlayImageWithClick
 import com.fyp.app.ui.screens.destinations.IllnessDetailsScreenDestination
@@ -60,28 +63,20 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 @Destination
 fun PlantDetailsScreen(
     navigator: DestinationsNavigator,
     plant: Plant
 ) {
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color(0xFFFFFFFF))
-            .padding(2.dp)
-            .background(Color(0xFF000500))
-            .padding(2.dp)
-            .background(Color(0xFF91CF50))
-            .padding(16.dp)
-    ) {
-        item { PlantDetailsHeader(plant) }
-        item { PlantCharacteristicsSection(plant) }
-        item { PlantCareSection(plant) }
-        item { PlantSicknessesSection(plant, navigator) }
-        item { PlantOpinionsSection(navigator, plant) }
+    DetailBackground {
+        LazyColumn {
+            item { PlantDetailsHeader(plant) }
+            item { PlantCharacteristicsSection(plant) }
+            item { PlantCareSection(plant) }
+            item { PlantSicknessesSection(plant, navigator) }
+            item { PlantOpinionsSection(navigator, plant) }
+        }
     }
 }
 
@@ -190,21 +185,7 @@ fun PlantCareSection(plant: Plant) {
         fontWeight = FontWeight.Bold,
         color = Color.Black
     )
-    Surface(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(Color.Black)
-            .padding(2.dp),
-        color = Color(0xFFA5FFA9)
-    ) {
-        Column {
-            Text(
-                text = plant.treatment,
-                modifier = Modifier.padding(vertical = 4.dp, horizontal = 2.dp),
-                color = Color.Black
-            )
-        }
-    }
+    BoxLongText(text = plant.treatment)
 }
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -281,42 +262,56 @@ fun PlantOpinionsSection(navigator: DestinationsNavigator, plant: Plant) {
 
     Column(modifier = Modifier.padding(16.dp)) {
 
-        OpinionsSection(navigator, opinions.value)
         Spacer(modifier = Modifier.height(16.dp))
+
+        OpinionsSection(navigator, opinions.value)
+
+        Spacer(modifier = Modifier.height(16.dp))
+
         if (UserPreferencesImp.isAuthenticated()) {
-            Button(onClick = { showDialog = true }) {
-                Text(text = "Añadir Opinión")
+            Button(
+                onClick = { showDialog = true },
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2E5805))
+            ) {
+                Text(text = "Añadir Opinión", color = Color.Black)
+            }
+        } else {
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(text = "Inicia sesión para añadir una opinión", color = Color.Red)
             }
         }
     }
 
     if (showDialog && user.value != null) {
-        AddOpinionDialog(onDismiss = { showDialog = false }, onSubmit = { title, description ->
-            CoroutineScope(Dispatchers.IO).launch {
-                try {
-                    val opinion = CreateOpinion(
-                        title = title,
-                        description = description,
-                        user = user.value!!,
-                        plantId = plant.id
-                    )
-                    OpinionServiceImp.getInstance().addOpinion(opinion)
-                } catch (e: Exception) {
-                    Log.e("PlantDetailsScreen", "Error adding opinion", e)
+        AddOpinionDialog(
+            onDismiss = { showDialog = false },
+            onSubmit = { title, description ->
+                CoroutineScope(Dispatchers.IO).launch {
+                    try {
+                        val opinion = CreateOpinion(
+                            title = title,
+                            description = description,
+                            user = user.value!!,
+                            plantId = plant.id
+                        )
+                        OpinionServiceImp.getInstance().addOpinion(opinion)
+                        withContext(Dispatchers.Main) {
+                            showDialog = false
+                            // Refresh opinions
+                            opinions.value = OpinionServiceImp.getInstance().getOpinions(plant.id)
+                        }
+                    } catch (e: Exception) {
+                        Log.e("PlantDetailsScreen", "Error adding opinion", e)
+                    }
                 }
             }
-
-
-        })
-    } else if (user.value == null) {
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(text = "Inicia sesión para añadir una opinión", color = Color.Red)
-        }
+        )
     }
 }
+
 
 
 

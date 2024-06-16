@@ -26,6 +26,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.fyp.app.data.model.db.Sickness
+import com.fyp.app.ui.components.BoxLongText
+import com.fyp.app.ui.components.DetailBackground
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
@@ -35,19 +37,13 @@ fun IllnessDetailsScreen(
     navigator: DestinationsNavigator,
     sickness: Sickness
 ) {
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color(0xFFFFFFFF))
-            .padding(2.dp)
-            .background(Color(0xFF000500))
-            .padding(2.dp)
-            .background(Color(0xFF91CF50))
-            .padding(16.dp)
-    ) {
-        item { IllnessHeader(sickness) }
-        item { IllnessCareSection(sickness) }
+    DetailBackground {
+        LazyColumn {
+            item { IllnessHeader(sickness) }
+            item { IllnessCareSection(sickness) }
+        }
     }
+
 }
 
 @Composable
@@ -68,7 +64,11 @@ fun IllnessHeader(sickness: Sickness) {
                     modifier = Modifier
                         .fillMaxSize()
                         .clip(shape = MaterialTheme.shapes.medium)
-                        .border(width = 2.0.dp, color = Color.Black, shape = MaterialTheme.shapes.medium),
+                        .border(
+                            width = 2.0.dp,
+                            color = Color.Black,
+                            shape = MaterialTheme.shapes.medium
+                        ),
                     contentScale = ContentScale.Crop
                 )
             }
@@ -98,21 +98,7 @@ fun IllnessCareSection(sickness: Sickness) {
         fontWeight = FontWeight.Bold,
         color = Color.Black
     )
-    Surface(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(Color.Black)
-            .padding(2.dp),
-        color = Color(0xFFA5FFA9)
-    ) {
-        Column {
-            Text(
-                text = sickness.treatment,
-                modifier = Modifier.padding(vertical = 4.dp, horizontal = 2.dp),
-                color = Color.Black
-            )
-        }
-    }
+    BoxLongText(text = sickness.treatment)
 }
 
 

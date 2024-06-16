@@ -39,6 +39,7 @@ import com.fyp.app.R
 import com.fyp.app.data.api.PlantServiceImp
 import com.fyp.app.data.model.db.Plant
 import com.fyp.app.data.model.db.User
+import com.fyp.app.ui.components.BoxLongText
 import com.fyp.app.ui.components.buttons.DefaultButton
 import com.fyp.app.ui.screens.destinations.PlantDetailsScreenDestination
 import com.fyp.app.ui.screens.destinations.UserEditScreenDestination
@@ -123,23 +124,7 @@ fun UserDetailsScreen(
                 fontWeight = FontWeight.Bold,
                 color = Color.Black
             )
-            Surface(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(Color.Black)
-                    .padding(2.dp),
-                color = Color(0xFFA5FFA9)
-            ) {
-                Column {
-                    if (user.aboutMe != null){
-                        Text(
-                            text = user.aboutMe,
-                            modifier = Modifier.padding(vertical = 4.dp),
-                            color = Color.Black
-                        )
-                    }
-                }
-            }
+            BoxLongText(text = user.aboutMe)
         }
         item {
             val favouritePlants = remember { mutableStateOf(listOf<Plant>()) }

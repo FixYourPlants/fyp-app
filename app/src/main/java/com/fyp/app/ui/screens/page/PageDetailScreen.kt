@@ -25,6 +25,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.fyp.app.data.model.db.Page
+import com.fyp.app.ui.components.BoxLongText
+import com.fyp.app.ui.components.DetailBackground
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import java.text.SimpleDateFormat
@@ -36,18 +38,11 @@ fun PageDetailsScreen(
     navigator: DestinationsNavigator,
     page: Page
 ) {
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color(0xFFFFFFFF))
-            .padding(2.dp)
-            .background(Color(0xFF000500))
-            .padding(2.dp)
-            .background(Color(0xFF4CAF50))
-            .padding(16.dp)
-    ) {
-        item { PageHeader(page) }
-        item { PageContentSection(page) }
+    DetailBackground {
+        LazyColumn{
+            item { PageHeader(page) }
+            item { PageContentSection(page) }
+        }
     }
 }
 
@@ -103,19 +98,5 @@ fun PageContentSection(page: Page) {
         fontWeight = FontWeight.Bold,
         color = Color.Black
     )
-    Surface(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(Color.Black)
-            .padding(2.dp),
-        color = Color(0xFFA5FFA9)
-    ) {
-        Column {
-            Text(
-                text = page.content,
-                modifier = Modifier.padding(vertical = 4.dp),
-                color = Color.Black
-            )
-        }
-    }
+    BoxLongText(text = page.content)
 }
