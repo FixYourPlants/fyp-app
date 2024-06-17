@@ -1,6 +1,10 @@
 package com.fyp.app.ui.screens.users
 
 import android.util.Log
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.IntentSenderRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,14 +17,17 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.fyp.app.data.api.UserServiceImp
 import com.fyp.app.data.api.responses.RegistrationRequest
+import com.fyp.app.domain.authenticationGoogle.GoogleAuthUiClient
 import com.fyp.app.ui.components.ErrorMessage
 import com.fyp.app.ui.components.HeaderInit
 import com.fyp.app.ui.components.LogoInit
@@ -31,8 +38,10 @@ import com.fyp.app.ui.components.buttons.ButtonLink
 import com.fyp.app.ui.components.buttons.GoogleSignInButton
 import com.fyp.app.ui.screens.destinations.HomeScreenDestination
 import com.fyp.app.ui.screens.destinations.LoginScreenDestination
+import com.google.android.gms.auth.api.identity.Identity
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.HttpException
@@ -44,6 +53,8 @@ fun SignInScreen(navigator: DestinationsNavigator) {
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var repeatPassword by remember { mutableStateOf("") }
+    var passwordGoogle by remember { mutableStateOf("") }
+
     var loading by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
     var attemptRegister by remember { mutableStateOf(false) }
@@ -52,6 +63,43 @@ fun SignInScreen(navigator: DestinationsNavigator) {
     val usernameErrors = remember { mutableStateOf(listOf<TextFieldError>()) }
     val passwordErrors = remember { mutableStateOf(listOf<TextFieldError>()) }
     val repeatPasswordErrors = remember { mutableStateOf(listOf<TextFieldError>()) }
+
+    val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
+
+    val googleAuthUiClient by lazy {
+        GoogleAuthUiClient(
+            context = context,
+            oneTapClient = Identity.getSignInClient(context)
+        )
+    }
+
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartIntentSenderForResult(),
+        onResult = { result ->
+            if(result.resultCode == ComponentActivity.RESULT_OK) {
+                coroutineScope.launch {
+                    val map = googleAuthUiClient.signInWithIntent(
+                        intent = result.data ?: return@launch
+                    )
+                    val responseRegister = UserServiceImp.getInstance().registerUser(
+                        RegistrationRequest(
+                            email = map["email"]!!,
+                            password = map["id"]!!,
+                            password2 = map["id"]!!,
+                            googleAccount = true,
+                            username = map["email"]!!.replace("@",".")
+                        )
+                    )
+                    Log.d("SignInScreen Google", "responseRegister: $responseRegister")
+                    UserServiceImp.getInstance().getUserIdByUsername(map["email"]!!.replace("@","."))
+                    navigator.navigate(HomeScreenDestination())
+                    loading = false
+                    attemptRegister = false
+                }
+            }
+        }
+    )
 
     if (attemptRegister) {
         LaunchedEffect(email, username, password, repeatPassword) {
@@ -76,7 +124,8 @@ fun SignInScreen(navigator: DestinationsNavigator) {
                         email = email,
                         password = password,
                         password2 = repeatPassword,
-                        username = username
+                        username = username,
+                        googleAccount = false
                     )
                 )
                 Log.d("SignInScreen", "responseRegister: $responseRegister")
@@ -170,7 +219,16 @@ fun SignInScreen(navigator: DestinationsNavigator) {
                 navigator.navigate(LoginScreenDestination())
             }
             Spacer(modifier = Modifier.height(16.dp))
-            GoogleSignInButton(onClick = { navigator.navigate(HomeScreenDestination()) })
+            GoogleSignInButton(onClick = {
+                coroutineScope.launch {
+                    val signInIntentSender = googleAuthUiClient.signIn()
+                    launcher.launch(
+                        IntentSenderRequest.Builder(
+                            signInIntentSender ?: return@launch
+                        ).build()
+                    )
+                }
+            }, text = "Sign In with Google")
         }
     }
 }

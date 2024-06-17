@@ -3,9 +3,11 @@ package com.fyp.app.domain.authenticationGoogle
 import android.content.Context
 import android.content.Intent
 import android.content.IntentSender
+import android.util.Log
 import com.fyp.app.R
 import com.fyp.app.data.model.SignInResult
 import com.fyp.app.data.model.UserData
+import com.fyp.app.data.model.db.User
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.BeginSignInRequest.GoogleIdTokenRequestOptions
 import com.google.android.gms.auth.api.identity.SignInClient
@@ -34,31 +36,29 @@ class GoogleAuthUiClient(
         return result?.pendingIntent?.intentSender
     }
 
-    suspend fun signInWithIntent(intent: Intent): SignInResult {
+    suspend fun signInWithIntent(intent: Intent): Map<String, String> {
         val credential = oneTapClient.getSignInCredentialFromIntent(intent)
         val googleIdToken = credential.googleIdToken
         val googleCredentials = GoogleAuthProvider.getCredential(googleIdToken, null)
         return try {
             val user = auth.signInWithCredential(googleCredentials).await().user
-            SignInResult(
-                data = user?.run {
-                    UserData(
-                        userId = uid,
-                        username = displayName,
-                        profilePictureUrl = photoUrl?.toString()
-                    )
-                },
-                errorMessage = null
-            )
-        } catch(e: Exception) {
+            user?.let {
+                mapOf(
+                    "id" to it.uid,
+                    "email" to (it.email ?: ""),
+                    "displayName" to (it.displayName ?: ""),
+                    "givenName" to (it.displayName?.split(" ")?.firstOrNull() ?: ""),
+                    "familyName" to (it.displayName?.split(" ")?.lastOrNull() ?: ""),
+                    "photoUrl" to (it.photoUrl?.toString() ?: "")
+                )
+            } ?: emptyMap()
+        } catch (e: Exception) {
             e.printStackTrace()
-            if(e is CancellationException) throw e
-            SignInResult(
-                data = null,
-                errorMessage = e.message
-            )
+            if (e is CancellationException) throw e
+            emptyMap()
         }
     }
+
 
     suspend fun signOut() {
         try {

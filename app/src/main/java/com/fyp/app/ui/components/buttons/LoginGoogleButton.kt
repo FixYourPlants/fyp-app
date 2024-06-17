@@ -24,7 +24,7 @@ import com.fyp.app.R
 
 
 @Composable
-fun GoogleSignInButton(onClick: () -> Unit, modifier: Modifier = Modifier) {
+fun GoogleSignInButton(onClick: () -> Unit, modifier: Modifier = Modifier, text: String) {
     Button(
         onClick = onClick,
         shape = RoundedCornerShape(4.dp),
@@ -51,7 +51,7 @@ fun GoogleSignInButton(onClick: () -> Unit, modifier: Modifier = Modifier) {
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
-                text = "Sign in with Google",
+                text = text,
                 fontWeight = FontWeight.Normal
             )
         }
