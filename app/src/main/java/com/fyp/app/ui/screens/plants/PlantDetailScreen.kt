@@ -13,13 +13,21 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -27,16 +35,22 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.AbsoluteAlignment
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
 import coil.compose.AsyncImage
 import com.fyp.app.R
 import com.fyp.app.data.api.OpinionServiceImp
@@ -68,15 +82,114 @@ fun PlantDetailsScreen(
     navigator: DestinationsNavigator,
     plant: Plant
 ) {
+    val pagerState = rememberPagerState(initialPage = 0, pageCount = { 2 })
+    val coroutineScope = rememberCoroutineScope()
+
     DetailBackground {
-        LazyColumn {
-            item { PlantDetailsHeader(plant) }
-            item { PlantCharacteristicsSection(plant) }
-            item { PlantCareSection(plant) }
-            item { PlantSicknessesSection(plant, navigator) }
-            item { PlantOpinionsSection(navigator, plant) }
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .clip(RoundedCornerShape(20.dp))
+                .paint(
+                    painterResource(id = R.drawable.plantas_top),
+                    alignment = AbsoluteAlignment.TopRight
+                )
+                .border(
+                    width = 3.0.dp,
+                    color = Color(59, 170, 0, 255),
+                    shape = RoundedCornerShape(20.dp),
+                )
+        ) {
+            item {
+                Spacer(modifier = Modifier
+                    .height(130.dp)
+                    .fillMaxWidth())
+                Box(
+                    modifier = Modifier
+                        .fillParentMaxHeight()
+                        .background(Color(226, 237, 169, 255), shape = RoundedCornerShape(20.dp))
+                        .zIndex(0f)
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .padding(16.dp)
+                    ) {
+                        PlantDetailsHeader(plant)
+                        Box(modifier = Modifier
+                            .fillMaxWidth()
+                            .offset(y = (-70).dp)){
+                            Column(horizontalAlignment = Alignment.CenterHorizontally,
+                                modifier = Modifier.padding(8.dp)) {
+                                TabRow(selectedTabIndex = pagerState.currentPage,
+                                    modifier = Modifier
+                                ) {
+                                    listOf("Detalles", "Opiniones").forEachIndexed { index, title ->
+                                        Tab(
+                                            text = { Text(title, color = Color.Black) },
+                                            selected = pagerState.currentPage == index,
+                                            onClick = {
+                                                coroutineScope.launch {
+                                                    pagerState.animateScrollToPage(index)
+                                                }
+                                            },
+                                            modifier = Modifier
+                                                .background(Color(226, 237, 169, 255))
+                                        )
+
+                                    }
+                                }
+                                HorizontalPager( state = pagerState) { page ->
+                                    when (page) {
+                                        0 -> PlantDetailsTab(navigator,plant)
+                                        1 -> PlantOpinionsTab(navigator,plant)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
+}
+
+@Composable
+fun PlantDetailsTab(navigator: DestinationsNavigator,plant: Plant){
+    Column {
+        Box(modifier = Modifier
+            .fillMaxWidth()){
+            Column(horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.padding(16.dp)){
+                PlantCharacteristicsSection(plant)
+            }
+        }
+        Box(modifier = Modifier
+            .fillMaxWidth()){
+            Column(modifier = Modifier.padding(12.dp)) {
+                Text(
+                    text = "Cuidado recomendado",
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black,
+                    fontSize = 20.sp,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                )
+                HorizontalDivider(
+                    thickness = 2.dp,
+                    color = Color(59, 170, 0, 255),
+                    modifier = Modifier.padding(4.dp)
+                )
+                PlantCareSection(plant)
+                Spacer(modifier = Modifier.height(12.dp))
+                PlantSicknessesSection(plant,navigator)
+            }
+        }
+    }
+}
+
+@Composable
+fun PlantOpinionsTab(navigator: DestinationsNavigator,plant: Plant) {
+    PlantOpinionsSection(navigator,plant)
 }
 
 @Composable
@@ -95,64 +208,69 @@ fun PlantDetailsHeader(plant: Plant) {
         status.value = result
     }
 
-    Row(
+    Box(
         modifier = Modifier
-            .fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically
+            .fillMaxWidth()
+            .offset(y = (-80).dp),
+        contentAlignment = Alignment.TopCenter
     ) {
-        Column(modifier = Modifier.weight(0.5f)) {
-            if (UserPreferencesImp.isAuthenticated()) {
-                OverlayImageWithClick(
-                    defaultImageUrl = plant.imageUrl,
-                    clickedImageUrl = if (status.value) R.drawable.hearth else R.drawable.hearth_empty,
-                    onClick = {
-                        CoroutineScope(Dispatchers.IO).launch {
-                            val result = try {
-                                PlantServiceImp.getInstance().toggleFavPlant(plant.id)
-                            } catch (e: Exception) {
-                                false
-                            }
-                            withContext(Dispatchers.Main) {
-                                status.value = result
-                            }
+        if (UserPreferencesImp.isAuthenticated()) {
+            OverlayImageWithClick(
+                defaultImageUrl = plant.imageUrl,
+                clickedImageUrl = if (status.value) R.drawable.hearth else R.drawable.hearth_empty,
+                onClick = {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        val result = try {
+                            PlantServiceImp.getInstance().toggleFavPlant(plant.id)
+                        } catch (e: Exception) {
+                            false
+                        }
+                        withContext(Dispatchers.Main) {
+                            status.value = result
                         }
                     }
-                )
-            } else {
-                AsyncImage(
-                    model = plant.imageUrl,
-                    contentDescription = null,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .clip(shape = MaterialTheme.shapes.medium)
-                        .border(
-                            width = 2.0.dp,
-                            color = Color.Black,
-                            shape = MaterialTheme.shapes.medium
-                        ),
-                    contentScale = ContentScale.Crop
-                )
-            }
+                }
+            )
+        } else {
+            AsyncImage(
+                model = plant.imageUrl,
+                contentDescription = null,
+                modifier = Modifier
+                    .size(150.dp)
+                    .clip(shape = MaterialTheme.shapes.medium)
+                    .border(
+                        width = 2.0.dp,
+                        color = Color.Black,
+                        shape = MaterialTheme.shapes.medium,
+                    )
+                    .zIndex(2f),
+                contentScale = ContentScale.Crop
+            )
         }
-        Spacer(modifier = Modifier.width(16.dp))
-        Column(modifier = Modifier.weight(0.5f)) {
+    }
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .offset(y = (-70).dp),
+        contentAlignment = Alignment.TopCenter) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text(
                 text = plant.name,
                 fontWeight = FontWeight.Bold,
-                fontSize = 24.sp,
-                color = Color.Black
+                fontSize = 30.sp,
+                color = Color.Black,
             )
             Text(
                 text = plant.scientificName,
                 fontStyle = FontStyle.Italic,
-                fontSize = 12.sp,
-                modifier = Modifier.padding(vertical = 8.dp),
+                fontSize = 18.sp,
                 color = Color.Black
             )
             Text(
                 text = plant.description,
                 modifier = Modifier.padding(vertical = 8.dp),
-                color = Color.Black
+                color = Color.Black,
+                textAlign = TextAlign.Justify
             )
             Text(
                 text = "Dificultad: ",
@@ -169,7 +287,6 @@ fun PlantDetailsHeader(plant: Plant) {
 
 @Composable
 fun PlantCharacteristicsSection(plant: Plant) {
-    Spacer(modifier = Modifier.height(16.dp))
     BoxTag(
         name = "Características",
         values = plant.characteristics.map { it.name }
@@ -178,51 +295,35 @@ fun PlantCharacteristicsSection(plant: Plant) {
 
 @Composable
 fun PlantCareSection(plant: Plant) {
-    Spacer(modifier = Modifier.height(16.dp))
-    Text(
-        text = "Cuidado recomendado",
-        fontWeight = FontWeight.Bold,
-        color = Color.Black
-    )
     BoxLongText(text = plant.treatment)
 }
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun PlantSicknessesSection(plant: Plant, navigator: DestinationsNavigator) {
-    Spacer(modifier = Modifier.height(16.dp))
-    Column(
-        modifier = Modifier
-            .padding(8.dp)
-            .background(Color(0xFF2E5805), shape = RoundedCornerShape(8.dp))
-            .padding(8.dp)
-    ) {
+    Column {
         Text(
-            text = "Enfermedades:",
+            text = "Enfermedades",
             fontWeight = FontWeight.Bold,
-            color = Color.White,
+            color = Color.Black,
+            fontSize = 20.sp,
             modifier = Modifier
-                .padding(bottom = 8.dp)
-                .align(Alignment.CenterHorizontally)
+                .fillMaxWidth()
         )
-        FlowRow(modifier = Modifier.fillMaxWidth()) {
-            plant.sicknesses.forEach { sickness ->
-                Box(
-                    modifier = Modifier
-                        .padding(vertical = 4.dp, horizontal = 8.dp)
-                        .clickable { navigator.navigate(IllnessDetailsScreenDestination(sickness)) }
-                        .background(Color(0xFF7CFC00), RoundedCornerShape(8.dp))
-                        .padding(vertical = 4.dp, horizontal = 8.dp)
-                ) {
-                    Text(
-                        text = sickness.name,
-                        color = Color.Black,
-                        fontWeight = FontWeight.Bold,
-                        fontStyle = FontStyle.Italic,
-                        modifier = Modifier.padding(horizontal = 8.dp)
+        HorizontalDivider(
+            thickness = 2.dp,
+            color = Color(59, 170, 0, 255),
+            modifier = Modifier.padding(4.dp)
+        )
+        plant.sicknesses.forEach { it ->
+            Text(text = it.name,
+                fontStyle = FontStyle.Italic,
+                modifier = Modifier
+                    .clickable(onClick = {
+                        navigator.navigate(IllnessDetailsScreenDestination(it))
+                    }
                     )
-                }
-            }
+            )
         }
     }
 }
@@ -232,6 +333,7 @@ fun PlantOpinionsSection(navigator: DestinationsNavigator, plant: Plant) {
     var showDialog by remember { mutableStateOf(false) }
     val user: MutableState<User?> = remember { mutableStateOf(null) }
     val opinions: MutableState<List<Opinion>> = remember { mutableStateOf(mutableListOf()) }
+    var showLoginWarning by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         val result = withContext(Dispatchers.IO) {
@@ -260,21 +362,20 @@ fun PlantOpinionsSection(navigator: DestinationsNavigator, plant: Plant) {
     }
 
     Column(modifier = Modifier.padding(16.dp)) {
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        OpinionsSection(navigator, opinions.value)
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        if (UserPreferencesImp.isAuthenticated()) {
-            Button(
-                onClick = { showDialog = true },
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2E5805))
-            ) {
-                Text(text = "Añadir Opinión", color = Color.Black)
-            }
-        } else {
+        Button(
+            onClick = {
+                if (UserPreferencesImp.isAuthenticated()) {
+                    showDialog = true
+                    showLoginWarning = false
+                } else{
+                    showLoginWarning = true
+                }
+            },
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xA6349E06))
+        ) {
+            Text(text = "Añadir Opinión", color = Color.Black)
+        }
+        if (showLoginWarning) {
             Box(
                 modifier = Modifier.fillMaxWidth(),
                 contentAlignment = Alignment.Center
@@ -282,6 +383,10 @@ fun PlantOpinionsSection(navigator: DestinationsNavigator, plant: Plant) {
                 Text(text = "Inicia sesión para añadir una opinión", color = Color.Red)
             }
         }
+
+        Spacer(modifier = Modifier.height(4.dp))
+
+        OpinionsSection(navigator,opinions.value)
     }
 
     if (showDialog && user.value != null) {

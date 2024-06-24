@@ -1,6 +1,7 @@
 package com.fyp.app.ui.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -24,20 +25,13 @@ import androidx.compose.ui.unit.dp
 fun BoxTag(name: String, values: List<String>) {
     Column(
         modifier = Modifier
-            .padding(8.dp)
-            .background(Color(0xFF2E5805), shape = RoundedCornerShape(8.dp))
-            .padding(8.dp)
+            .background(Color(0xA6349E06), shape = RoundedCornerShape(8.dp))
+            .padding(4.dp)
+            .fillMaxWidth()
     ) {
-        Text(
-            text = name,
-            fontWeight = FontWeight.Bold,
-            color = Color.White,
-            modifier = Modifier
-                .padding(bottom = 8.dp)
-                .align(Alignment.CenterHorizontally)
-        )
         FlowRow(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center
         ) {
             values.forEach { value ->
                 BoxContent(value = value)
@@ -51,9 +45,9 @@ fun BoxTag(name: String, values: List<String>) {
 fun BoxContent(value: String) {
     Box(
         modifier = Modifier
-            .padding(vertical = 4.dp, horizontal = 8.dp)
+            .padding(vertical = 4.dp, horizontal = 4.dp)
             .background(Color(0xFF7CFC00), RoundedCornerShape(8.dp))
-            .padding(vertical = 4.dp, horizontal = 8.dp)
+            .padding(vertical = 4.dp, horizontal = 4.dp)
 
 
     ) {

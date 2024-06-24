@@ -14,10 +14,6 @@ fun DetailBackground(modifier: Modifier = Modifier, content: @Composable () -> U
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(Color(0xFFFFFFFF))
-            .padding(2.dp)
-            .background(Color(0xFF000500))
-            .padding(2.dp)
             .background(Color(0xFF91CF50))
             .padding(16.dp)
     ) {
