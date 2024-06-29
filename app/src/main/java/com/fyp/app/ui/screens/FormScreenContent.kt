@@ -3,8 +3,10 @@ package com.fyp.app.ui.screens
 import android.graphics.Bitmap
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -44,11 +47,13 @@ fun FormScreenContent(
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFFFFFFF))
-            .padding(2.dp)
-            .background(Color(0xFF000500))
-            .padding(2.dp)
-            .background(Color(0xFF4CAF50))
+            .clip(RoundedCornerShape(8.dp))
+            .border(
+                width = 3.0.dp,
+                color = Color(59, 170, 0, 255),
+                shape = RoundedCornerShape(8.dp),
+            )
+            .background(Color(226, 237, 169, 255))
             .padding(16.dp)
     ) {
         item {
@@ -56,7 +61,7 @@ fun FormScreenContent(
                 text = title,
                 fontWeight = FontWeight.Bold,
                 fontSize = 24.sp,
-                color = Color.White,
+                color = Color(83, 155, 8, 255),
                 modifier = Modifier.padding(vertical = 8.dp)
             )
         }
@@ -88,7 +93,7 @@ fun FormScreenContent(
                         text = "Añadir imagen",
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Bold,
-                        color = Color.White,
+                        color = Color(83, 155, 8, 255),
                         modifier = Modifier
                             .align(Alignment.TopStart)
                             .padding(8.dp)
@@ -100,7 +105,6 @@ fun FormScreenContent(
         fields.forEachIndexed { index, field ->
             item {
                 Spacer(modifier = Modifier.height(16.dp))
-
                 ValidatedTextField(
                     value = field.value,
                     onValueChange = { newValue -> field.onValueChange(newValue) },
@@ -115,7 +119,7 @@ fun FormScreenContent(
 
         item {
             Spacer(modifier = Modifier.height(16.dp))
-            Row(verticalAlignment = Alignment.CenterVertically) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
                 DefaultButton(
                     onClick = onSaveClick,
                     text = "Guardar"

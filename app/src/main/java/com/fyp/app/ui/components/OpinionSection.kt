@@ -26,6 +26,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -92,12 +93,12 @@ fun OpinionCard(opinion: Opinion, onClickUserImage: () -> Unit = {}) {
                         .size(43.dp)
                         .clip(CircleShape)
                         .clickable { onClickUserImage() }
-                        .border(2.dp, Color.Black, CircleShape),
+                        .border(2.dp, Color(0xFF89FC1A), CircleShape),
                     contentScale = ContentScale.Crop
                 )
                 Text(
                     text = opinion.user.username,
-                    style = TextStyle(fontSize = 14.sp, color = Color(0xFF89FC1A)),
+                    style = TextStyle(fontSize = 14.sp, color = Color(0xFF89FC1A), fontWeight = FontWeight.Bold),
                     modifier = Modifier.padding(top = 2.dp)
                 )
             }
@@ -111,11 +112,19 @@ fun OpinionCard(opinion: Opinion, onClickUserImage: () -> Unit = {}) {
                     style = TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Bold),
                     color = Color.Black
                 )
+                HorizontalDivider(
+                    thickness = 2.dp,
+                    color = Color(0xFF69FF18),
+                    modifier = Modifier.padding(4.dp)
+                )
                 Text(
                     text = opinion.description,
                     style = TextStyle(fontSize = 14.sp),
                     color = Color.Black,
-                    maxLines = if (expanded) Int.MAX_VALUE else 2
+                    maxLines = if (expanded) Int.MAX_VALUE else 2,
+                    modifier = Modifier
+                        .background(Color.White, shape = RoundedCornerShape(8.dp))
+                        .padding(4.dp)
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Icon(
@@ -196,7 +205,7 @@ fun AddOpinionDialog(onDismiss: () -> Unit, onSubmit: (String, String) -> Unit) 
                         onDismiss() // Opcionalmente cerrar el diálogo después de enviar
                     }
                 },
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2E5805))
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF69FF18))
             ) {
                 Text("Añadir", color = Color.Black)
             }
@@ -204,7 +213,7 @@ fun AddOpinionDialog(onDismiss: () -> Unit, onSubmit: (String, String) -> Unit) 
         dismissButton = {
             Button(
                 onClick = { onDismiss() },
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFA5FFA9))
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF69FF18))
             ) {
                 Text("Cancelar", color = Color.Black)
             }

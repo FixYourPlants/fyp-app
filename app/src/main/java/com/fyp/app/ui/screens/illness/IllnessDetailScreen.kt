@@ -60,8 +60,9 @@ fun IllnessDetailsScreen(
                 .fillMaxSize()
                 .clip(RoundedCornerShape(20.dp))
                 .paint(
-                    painterResource(id = R.drawable.plantas_top),
-                    alignment = AbsoluteAlignment.TopRight
+                    painterResource(id = R.drawable.virus_top),
+                    alignment = AbsoluteAlignment.TopRight,
+                    contentScale = ContentScale.FillWidth
                 )
                 .border(
                     width = 3.0.dp,

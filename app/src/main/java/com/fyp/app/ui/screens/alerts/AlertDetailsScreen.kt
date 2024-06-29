@@ -50,7 +50,7 @@ fun AlertDetailsScreen(
                 .fillMaxSize()
                 .clip(RoundedCornerShape(20.dp))
                 .paint(
-                    painterResource(id = R.drawable.plantas_top),
+                    painterResource(id = R.drawable.plagues_top),
                     alignment = AbsoluteAlignment.TopRight
                 )
                 .border(
