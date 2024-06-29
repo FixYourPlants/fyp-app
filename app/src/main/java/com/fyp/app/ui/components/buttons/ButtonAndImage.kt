@@ -28,7 +28,7 @@ fun ButtonAndImage(buttonText: String, imageResourceId: Int, onClick: () -> Unit
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
-                .padding(8.dp)
+                .padding(4.dp)
         ) {
             Image(
                 painter = painterResource(id = imageResourceId),
@@ -36,9 +36,7 @@ fun ButtonAndImage(buttonText: String, imageResourceId: Int, onClick: () -> Unit
                 modifier = Modifier
                     .size(64.dp)
                     .clip(CircleShape)
-                    .padding(4.dp)
             )
-            Spacer(modifier = Modifier.padding(4.dp))
             Text(buttonText)
         }
     }
