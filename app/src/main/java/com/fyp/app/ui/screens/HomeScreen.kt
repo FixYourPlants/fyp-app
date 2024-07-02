@@ -1,5 +1,6 @@
 package com.fyp.app.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,14 +12,17 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.fyp.app.R
+import com.fyp.app.data.api.PlantServiceImp
 import com.fyp.app.ui.components.HeaderSection
 import com.fyp.app.ui.components.Scanner
 import com.fyp.app.ui.components.buttons.ButtonAndImage
@@ -26,6 +30,9 @@ import com.fyp.app.ui.screens.destinations.AlertsListScreenDestination
 import com.fyp.app.ui.screens.destinations.HelpScreenDestination
 import com.fyp.app.ui.screens.destinations.IllnessListScreenDestination
 import com.fyp.app.ui.screens.destinations.PlantListScreenDestination
+import com.fyp.app.ui.screens.destinations.PredictCameraScreenDestination
+import com.fyp.app.viewmodel.camera.PredictCameraViewModelImp
+import com.fyp.app.viewmodel.camera.toMultipartBodyPart
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -38,8 +45,20 @@ fun HomeScreen(navigator: DestinationsNavigator) {
     Box(modifier = Modifier.fillMaxSize()) {
         Column {
             HeaderSection(navigator = navigator)
-            Scanner(onClick = { /* navigator.navigate() */ })
+            Scanner(onClick = { navigator.navigate(PredictCameraScreenDestination) })
             ContentColumn(navigator)
+        }
+    }
+
+    if (PredictCameraViewModelImp.getInstance().getSelectedBitmap() != null) {
+        LaunchedEffect(Unit) {
+
+            val image = PredictCameraViewModelImp.getInstance().getSelectedBitmap()?.toMultipartBodyPart("image")
+
+            if (image != null) {
+                Log.d("Hola", PlantServiceImp.getInstance().predictPlant(image).toString())
+            }
+
         }
     }
 }

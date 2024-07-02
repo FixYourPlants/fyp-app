@@ -27,7 +27,7 @@ class MainActivity : ComponentActivity() {
             val context = this
 
             NotificationManager.initialize(context)
-            NotificationManager.scheduleNotificationTask(10, TimeUnit.SECONDS, context)
+            NotificationManager.scheduleNotificationTask(30, TimeUnit.MINUTES, context)
         }
     }
 

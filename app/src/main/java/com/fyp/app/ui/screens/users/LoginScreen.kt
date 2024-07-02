@@ -38,7 +38,6 @@ import com.fyp.app.ui.components.buttons.ButtonLink
 import com.fyp.app.ui.components.buttons.ClickableUrlText
 import com.fyp.app.ui.components.buttons.GoogleSignInButton
 import com.fyp.app.ui.screens.destinations.HomeScreenDestination
-import com.fyp.app.ui.screens.destinations.ProfileScreenDestination
 import com.fyp.app.ui.screens.destinations.SignInScreenDestination
 import com.fyp.app.utils.UserPreferencesImp
 import com.google.android.gms.auth.api.identity.Identity
