@@ -60,8 +60,8 @@ fun ValidatedTextField(
                 focusedLabelColor = if (errors.any { it.isError }) MaterialTheme.colorScheme.error else Color.Black,
                 unfocusedLabelColor = if (errors.any { it.isError }) MaterialTheme.colorScheme.error else Color.Black,
                 cursorColor = Color.Black,
-                containerColor = Color(0xFFA5FFA9),
-                errorContainerColor = Color(0xFFA5FFA9)
+                containerColor = Color.White,
+                errorContainerColor = Color.White
             ),
             minLines = minLines,
             modifier = modifier

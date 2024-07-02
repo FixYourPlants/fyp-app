@@ -2,6 +2,7 @@ package com.fyp.app.ui.screens.users
 
 import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,13 +10,17 @@ import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,6 +30,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -32,6 +38,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
 import coil.compose.AsyncImage
 import com.fyp.app.BuildConfig
 import com.fyp.app.R
@@ -39,6 +46,7 @@ import com.fyp.app.data.api.PlantServiceImp
 import com.fyp.app.data.model.db.Plant
 import com.fyp.app.data.model.db.User
 import com.fyp.app.ui.components.BoxLongText
+import com.fyp.app.ui.components.DetailBackground
 import com.fyp.app.ui.components.buttons.DefaultButton
 import com.fyp.app.ui.screens.destinations.PlantDetailsScreenDestination
 import com.fyp.app.ui.screens.destinations.UserEditScreenDestination
@@ -54,103 +62,131 @@ fun UserDetailsScreen(
     navigator: DestinationsNavigator,
     user: User
 ) {
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color(0xFFFFFFFF))
-            .padding(2.dp)
-            .background(Color(0xFF000500))
-            .padding(2.dp)
-            .background(Color(0xFF4CAF50))
-            .padding(16.dp)
-    ) {
-        item {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Column(modifier = Modifier.weight(0.5f)) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(200.dp)
-                    ) {
-                        AsyncImage(
-                            model = BuildConfig.BACKEND_URL + user.imageUrl,
-                            placeholder = painterResource(id = R.drawable.default_user),
-                            error = painterResource(id = R.drawable.default_user),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .clip(shape = MaterialTheme.shapes.medium),
-                            contentScale = ContentScale.Crop
-                        )
-                    }
-                }
-                Spacer(modifier = Modifier.width(16.dp))
-                Column(modifier = Modifier.weight(0.5f)) {
-                    Text(
-                        text = user.username,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 24.sp,
-                        color = Color.Black
-                    )
-                    if(user.firstName != null){
-                        Text(
-                            text = "${user.firstName} ${user.lastName}",
-                            fontStyle = FontStyle.Italic,
-                            fontSize = 18.sp,
-                            modifier = Modifier.padding(vertical = 4.dp),
-                            color = Color.Black
-                        )
-                    }
-                    if (user.lastName != null){
-                        Text(
-                            text = user.email,
-                            fontStyle = FontStyle.Italic,
-                            fontSize = 12.sp,
-                            modifier = Modifier.padding(vertical = 8.dp),
-                            color = Color.Black
-                        )
-                    }
+    val favouritePlants = remember { mutableStateOf(listOf<Plant>()) }
+
+    LaunchedEffect(Unit) {
+        val plants = user.favouritePlants.mapNotNull { plantId ->
+            withContext(Dispatchers.IO) {
+                try {
+                    PlantServiceImp.getInstance().getPlantById(plantId)
+                } catch (e: Exception) {
+                    Log.e("UserDetailsScreen", "Error loading plant", e)
+                    null
                 }
             }
         }
-        item {
-            Spacer(modifier = Modifier.height(16.dp))
-            Text(
-                text = "Sobre mí...",
-                fontWeight = FontWeight.Bold,
-                color = Color.Black
-            )
-            BoxLongText(text = user.aboutMe)
-        }
-        item {
-            val favouritePlants = remember { mutableStateOf(listOf<Plant>()) }
+        favouritePlants.value = plants
+    }
 
-            LaunchedEffect(Unit) {
-                val plants = user.favouritePlants.mapNotNull { plantId ->
-                    withContext(Dispatchers.IO) {
-                        try {
-                            PlantServiceImp.getInstance().getPlantById(plantId)
-                        } catch (e: Exception) {
-                            Log.e("UserDetailsScreen", "Error loading plant", e)
-                            null
+    DetailBackground {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .clip(RoundedCornerShape(8.dp))
+                .border(
+                    width = 3.0.dp,
+                    color = Color(59, 170, 0, 255),
+                    shape = RoundedCornerShape(8.dp),
+                )
+        ) {
+            item {
+                Box(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .background(Color(226, 237, 169, 255), shape = RoundedCornerShape(8.dp))
+                        .zIndex(0f)
+                ){
+                    Column {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .background(Color.Gray)
+                                .paint(painterResource(id = R.drawable.corte_hierba), contentScale = ContentScale.FillBounds)
+                                .padding(16.dp),
+                            contentAlignment = Alignment.TopCenter
+                        ) {
+                            Column(
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                AsyncImage(
+                                    model = BuildConfig.BACKEND_URL + user.imageUrl,
+                                    placeholder = painterResource(id = R.drawable.default_user),
+                                    error = painterResource(id = R.drawable.default_user),
+                                    contentDescription = null,
+                                    modifier = Modifier
+                                        .size(200.dp)
+                                        .clip(shape = RoundedCornerShape(8.dp))
+                                        .border(
+                                            width = 2.0.dp,
+                                            color = Color(139, 195, 74, 255),
+                                            shape = RoundedCornerShape(8.dp),
+                                        ),
+                                    contentScale = ContentScale.Crop
+                                )
+                                Spacer(modifier = Modifier.width(16.dp))
+                                Column(
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    modifier = Modifier.fillMaxWidth()
+                                ) {
+                                    Text(
+                                        text = user.username,
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 24.sp,
+                                        color = Color.White
+                                    )
+                                    if (user.firstName != null && user.lastName != null) {
+                                        Text(
+                                            text = "${user.firstName} ${user.lastName}",
+                                            fontStyle = FontStyle.Italic,
+                                            fontSize = 18.sp,
+                                            color = Color.White
+                                        )
+                                    }
+                                    if (user.email != null) {
+                                        Text(
+                                            text = user.email,
+                                            fontStyle = FontStyle.Italic,
+                                            fontSize = 12.sp,
+                                            color = Color.White
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                        // Transformar esto en LazyColumn
+                        Column(modifier = Modifier.padding(8.dp)) {
+                            Spacer(modifier = Modifier.height(16.dp))
+                            Text(
+                                text = "Sobre mí...",
+                                fontWeight = FontWeight.Bold,
+                                color = Color.Black,
+                                fontSize = 20.sp,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                            )
+                            HorizontalDivider(
+                                thickness = 2.dp,
+                                color = Color(59, 170, 0, 255),
+                                modifier = Modifier.padding(4.dp)
+                            )
+                            BoxLongText(text = user.aboutMe)
+                        }
+                        Log.d("UserDetailsScreen", "Favourite plants: ${favouritePlants.value}")
+                        NewUserFavoritePlantsSection(plants = favouritePlants.value)
+                        Box(
+                            modifier= Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp),
+                            contentAlignment = Alignment.Center){
+                            DefaultButton(
+                                onClick = { navigator.navigate(UserEditScreenDestination(user)) },
+                                text = "Edit User"
+                            )
                         }
                     }
                 }
-                favouritePlants.value = plants
             }
-            Spacer(modifier = Modifier.height(16.dp))
-            Log.d("UserDetailsScreen", "Favourite plants: ${favouritePlants.value}")
-            UserFavoritePlantsSection(plants = favouritePlants.value, navigator = navigator)
-        }
-        item {
-            Spacer(modifier = Modifier.height(16.dp))
-            DefaultButton(
-                onClick = { navigator.navigate(UserEditScreenDestination(user)) },
-                text = "Edit User"
-            )
         }
     }
 }

@@ -110,8 +110,6 @@ fun Header(user: User?, onClickLogo: () -> Unit, onClickAccount: () -> Unit) {
                                 .clickable { onClickAccount() },
                         )
                     }
-
-
                 } else {
                     Icon(
                         imageVector = Icons.Default.AccountCircle,

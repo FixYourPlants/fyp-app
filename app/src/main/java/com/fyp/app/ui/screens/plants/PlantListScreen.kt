@@ -33,7 +33,7 @@ fun PlantListScreen(navigator: DestinationsNavigator) {
             try {
                 service.getPlants()
             } catch (e: Exception) {
-                emptyList<Plant>()
+                emptyList()
             }
         }
         plants.clear()

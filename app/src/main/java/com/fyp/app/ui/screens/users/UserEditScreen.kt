@@ -6,6 +6,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import com.fyp.app.data.model.db.User
+import com.fyp.app.ui.components.DetailBackground
 import com.fyp.app.ui.screens.FormScreenContent
 import com.fyp.app.ui.screens.destinations.UserCameraScreenDestination
 import com.fyp.app.ui.screens.destinations.UserDetailsScreenDestination
@@ -27,22 +28,23 @@ fun UserEditScreen(
     // TODO: Gestionar las imagenes.
     // viewModel.cameraViewModel.clearBitmaps()
     // viewModel.cameraViewModel.clearSelectedBitmap()
-
-    FormScreenContent(
-        title = "Editar usuario",
-        firstImage = user.imageUrl,
-        updatedImages = updatedImages,
-        onAddImageClick = { navigator.navigate(UserCameraScreenDestination) },
-        fields = viewModel.fields,
-        errors = viewModel.errors,
-        onSaveClick = {
-            coroutineScope.launch {
-                viewModel.onSaveClick {
-                    navigator.navigate(UserDetailsScreenDestination(it))
+    DetailBackground {
+        FormScreenContent(
+            title = "Editar usuario",
+            firstImage = user.imageUrl,
+            updatedImages = updatedImages,
+            onAddImageClick = { navigator.navigate(UserCameraScreenDestination) },
+            fields = viewModel.fields,
+            errors = viewModel.errors,
+            onSaveClick = {
+                coroutineScope.launch {
+                    viewModel.onSaveClick {
+                        navigator.navigate(UserDetailsScreenDestination(it))
+                    }
                 }
             }
-        }
-    )
+        )
+    }
 }
 
 

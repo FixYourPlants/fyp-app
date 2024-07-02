@@ -13,28 +13,20 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun BoxLongText(text: String, modifier: Modifier = Modifier, ) {
-    Surface(
-        modifier = modifier
-            .fillMaxWidth()
-            .background(Color.Black)
-            .padding(2.dp),
-        color = Color(0xFFA5FFA9)
-    ) {
         Column {
             if (text.isEmpty()) {
                 Text(
-                    modifier = Modifier.padding(vertical = 4.dp, horizontal = 2.dp),
+                    modifier = Modifier.padding(vertical = 4.dp, horizontal = 2.dp).background(Color(226, 237, 169, 255)),
                     text = "No data",
                     color = Color.Black
                 )
             }
             else {
                 Text(
-                    modifier = Modifier.padding(vertical = 4.dp, horizontal = 2.dp),
+                    modifier = Modifier.padding(vertical = 4.dp, horizontal = 2.dp).background(Color(226, 237, 169, 255)),
                     text = text,
                     color = Color.Black
                 )
             }
         }
-    }
 }
