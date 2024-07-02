@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
@@ -67,6 +66,7 @@ fun OpinionsSection(navigator: DestinationsNavigator, opinions: List<Opinion>) {
 @Composable
 fun OpinionCard(opinion: Opinion, onClickUserImage: () -> Unit = {}) {
     var expanded by remember { mutableStateOf(false) }
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -82,9 +82,8 @@ fun OpinionCard(opinion: Opinion, onClickUserImage: () -> Unit = {}) {
         ) {
             Column(
                 modifier = Modifier
-                    .width(64.dp)
-                    .align(Alignment.CenterVertically),
-                horizontalAlignment = Alignment.CenterHorizontally
+                    .width(64.dp),
+                horizontalAlignment = Alignment.Start
             ) {
                 AsyncImage(
                     model = opinion.user.imageUrl,
