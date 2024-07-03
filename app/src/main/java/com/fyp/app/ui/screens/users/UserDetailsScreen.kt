@@ -107,7 +107,7 @@ fun UserDetailsScreen(
                                 modifier = Modifier.fillMaxWidth()
                             ) {
                                 AsyncImage(
-                                    model = if(user.imageUrl.contains("http")) user.imageUrl else BuildConfig.BACKEND_URL + user.imageUrl,
+                                    model = if(user.imageUrl.contains("https") || user.imageUrl.contains("http")) user.imageUrl else BuildConfig.BACKEND_URL + user.imageUrl,
                                     placeholder = painterResource(id = R.drawable.default_user),
                                     error = painterResource(id = R.drawable.default_user),
                                     contentDescription = null,

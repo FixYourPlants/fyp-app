@@ -218,10 +218,6 @@ fun HeaderSection(navigator: DestinationsNavigator) {
                         Spacer(modifier = Modifier.width(8.dp))
                         Text("Cerrar Sesión")
                     }
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Button(onClick = { showDialog = false }) {
-                        Text("Cerrar")
-                    }
                 }
             }
         }
