@@ -31,7 +31,7 @@ fun PageCreateScreen(
     FormScreenContent(
         title = "Crear página en ${diary.title.lowercase()} el ${viewModel.formattedDate}",
         updatedImages = updatedImages,
-        onAddImageClick = { navigator.navigate(PageCameraScreenDestination) },
+        onAddImageClick = { navigator.navigateUp() },
         fields = viewModel.fields,
         errors = viewModel.errors,
         onSaveClick = {
