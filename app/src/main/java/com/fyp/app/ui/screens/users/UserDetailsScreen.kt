@@ -89,7 +89,7 @@ fun UserDetailsScreen(
             item {
                 Box(
                     modifier = Modifier
-                        .fillMaxHeight()
+                        .fillParentMaxHeight()
                         .background(Color(226, 237, 169, 255), shape = RoundedCornerShape(8.dp))
                         .zIndex(0f)
                 ){
@@ -170,7 +170,7 @@ fun UserDetailsScreen(
                             BoxLongText(text = user.aboutMe)
                         }
                         Log.d("UserDetailsScreen", "Favourite plants: ${favouritePlants.value}")
-                        NewUserFavoritePlantsSection(plants = favouritePlants.value)
+                        UserFavoritePlantsSection(plants = favouritePlants.value, navigator)
                         Box(
                             modifier= Modifier
                                 .fillMaxWidth()
