@@ -39,7 +39,7 @@ fun Scanner(onClick: () -> Unit = {}) {
             .clickable { isClicked = !isClicked; onClick()}
             .border(width = 3.0.dp, color = Color(0, 120, 0), shape = RoundedCornerShape(16.dp)),
         shape = RoundedCornerShape(16.dp),
-        color = if (isClicked) Color.Red else Color.Green
+        color = if (isClicked) Color.Red else Color(21, 230, 0, 255)
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,

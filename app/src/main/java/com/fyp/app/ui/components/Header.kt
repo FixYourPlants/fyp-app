@@ -121,7 +121,7 @@ fun Header(user: User?, onClickLogo: () -> Unit, onClickAccount: () -> Unit) {
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = Color.Green,
+            containerColor = Color(21, 230, 0, 255),
         ),
         modifier = Modifier
             .fillMaxWidth()
