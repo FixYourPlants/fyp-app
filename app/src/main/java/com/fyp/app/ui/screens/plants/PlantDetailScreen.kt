@@ -48,6 +48,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import coil.compose.AsyncImage
+import com.fyp.app.BuildConfig
 import com.fyp.app.R
 import com.fyp.app.data.api.OpinionServiceImp
 import com.fyp.app.data.api.PlantServiceImp
@@ -211,8 +212,9 @@ fun PlantDetailsHeader(plant: Plant) {
         contentAlignment = Alignment.TopCenter
     ) {
         if (UserPreferencesImp.isAuthenticated()) {
+            Log.d("PlantDetailsScreen", "Status: ${plant.imageUrl}")
             OverlayImageWithClick(
-                defaultImageUrl = plant.imageUrl,
+                defaultImageUrl = if(plant.imageUrl.contains("https") || plant.imageUrl.contains("http")) plant.imageUrl else BuildConfig.BACKEND_URL + plant.imageUrl,
                 clickedImageUrl = if (status.value) R.drawable.hearth else R.drawable.hearth_empty,
                 onClick = {
                     CoroutineScope(Dispatchers.IO).launch {

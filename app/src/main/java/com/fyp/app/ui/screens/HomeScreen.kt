@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -27,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import com.fyp.app.R
 import com.fyp.app.data.api.PlantServiceImp
 import com.fyp.app.data.model.db.Difficulty
+import com.fyp.app.data.model.db.History
 import com.fyp.app.data.model.db.Plant
 import com.fyp.app.data.model.db.Sickness
 import com.fyp.app.ui.components.HeaderSection
@@ -54,6 +56,7 @@ import kotlinx.coroutines.delay
 fun HomeScreen(navigator: DestinationsNavigator) {
     val isLoading = remember { mutableStateOf(false) }
     val viewModel = remember { PredictCameraViewModelImp.getInstance() }
+    val resultScanner: MutableState<History?> = remember { mutableStateOf(null) }
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column {
@@ -67,38 +70,21 @@ fun HomeScreen(navigator: DestinationsNavigator) {
 
         if (isLoading.value) {
             LoadingIndicator()
-        } else if (viewModel.getSelectedBitmap() != null && !isLoading.value) {
+        } else if (viewModel.getSelectedBitmap() != null && !isLoading.value && resultScanner.value != null) {
             // TODO: Cambiar por petición de enfmerdad.
-            val sickness = Sickness(
-                id = "1",
-                name = "Powdery Mildew",
-                description = "This plant may be affected by powdery mildew, a common fungal disease that can cause white, powdery spots on the leaves and stems.",
-                imageUrl = "",
-                treatment = "Apply fungicide and ensure proper air circulation."
-            )
+            val sickness = resultScanner.value!!.sickness
 
-            // TODO: Cambiar por petición de planta.
+            val plant = resultScanner.value!!.plant
 
-            val plant = Plant(
-                id = "1",
-                name = "Sunflower",
-                scientificName = "Helianthus annuus",
-                description = "Sunflowers are large, daisy-like flowers with bright yellow petals. They are known for their ability to track the sun throughout the day.",
-                imageUrl = "https://m.media-amazon.com/images/I/61KTbjfuNIL._AC_UF894,1000_QL80_.jpg",
-                difficulty = Difficulty.EASY,
-                treatment = "Water regularly and provide full sun.",
-                characteristics = listOf(),
-                sicknesses = listOf(sickness)
-            )
-
-            ScannerResult(plant = plant, sickness = sickness, onClickSickness = {navigator.navigate(IllnessDetailsScreenDestination(sickness))}, onClickPlant = {navigator.navigate(PlantDetailsScreenDestination(plant))})
+            ScannerResult(history = resultScanner.value!!, onClickSickness = {
+                if (sickness != null) navigator.navigate(IllnessDetailsScreenDestination(sickness)) }, onClickPlant = {if (plant != null) navigator.navigate(PlantDetailsScreenDestination(plant))})
         }
     }
 
     LaunchedEffect(Unit) {
         val image = viewModel.getSelectedBitmap()?.toMultipartBodyPart("image")
         if (image != null) {
-            Log.d("Hola", PlantServiceImp.getInstance().predictPlant(image).toString())
+            resultScanner.value = PlantServiceImp.getInstance().predictPlant(image)
             isLoading.value = false
         }
     }

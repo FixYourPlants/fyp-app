@@ -1,5 +1,6 @@
 package com.fyp.app.data.api
 
+import com.fyp.app.data.model.db.History
 import com.fyp.app.data.model.db.Plant
 import okhttp3.MultipartBody
 import retrofit2.http.Body
@@ -38,7 +39,7 @@ interface PlantService {
 
     @Multipart
     @POST("api/v1/plants/predict/")
-    suspend fun predictPlant(@Part image: MultipartBody.Part): Map<String, String>
+    suspend fun predictPlant(@Part image: MultipartBody.Part): History
 }
 
 object PlantServiceImp: BaseService<PlantService>(PlantService::class.java)

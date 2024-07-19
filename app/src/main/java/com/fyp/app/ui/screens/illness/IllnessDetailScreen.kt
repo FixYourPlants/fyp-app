@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import coil.compose.AsyncImage
+import com.fyp.app.BuildConfig
 import com.fyp.app.R
 import com.fyp.app.data.api.SicknessServiceImp
 import com.fyp.app.data.model.db.Sickness
@@ -115,7 +116,7 @@ fun IllnessHeader(sickness: Sickness) {
     ) {
         if (UserPreferencesImp.isAuthenticated()) {
             OverlayImageWithClick(
-                defaultImageUrl = sickness.imageUrl,
+                defaultImageUrl = if(sickness.imageUrl.contains("https") || sickness.imageUrl.contains("http")) sickness.imageUrl else BuildConfig.BACKEND_URL + sickness.imageUrl,
                 clickedImageUrl = if (status.value) R.drawable.hearth else R.drawable.hearth_empty,
                 onClick = {
                     CoroutineScope(Dispatchers.IO).launch {
