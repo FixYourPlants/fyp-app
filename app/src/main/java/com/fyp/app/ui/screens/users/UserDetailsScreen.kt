@@ -178,7 +178,7 @@ fun UserDetailsScreen(
                             contentAlignment = Alignment.Center){
                             DefaultButton(
                                 onClick = { navigator.navigate(UserEditScreenDestination(user)) },
-                                text = "Edit User"
+                                text = "Editar Usuario"
                             )
                         }
                     }
