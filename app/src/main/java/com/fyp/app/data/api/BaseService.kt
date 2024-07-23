@@ -1,5 +1,6 @@
 package com.fyp.app.data.api
 
+import android.util.Log
 import com.fyp.app.BuildConfig
 import com.fyp.app.utils.UserPreferencesImp
 import okhttp3.OkHttpClient
@@ -38,6 +39,7 @@ abstract class BaseService<T>(private val serviceClass: Class<T>) {
                 .build()
                 .create(serviceClass)
         } catch (e: Exception) {
+            Log.e("ERROR TOKEN", e.stackTraceToString())
             Retrofit.Builder()
                 .baseUrl(BuildConfig.BACKEND_URL)
                 .addConverterFactory(GsonConverterFactory.create())

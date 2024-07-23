@@ -51,7 +51,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Composable
 fun OpinionsSection(navigator: DestinationsNavigator, opinions: List<Opinion>) {
     Column {
-        Box(modifier = Modifier.verticalScroll(rememberScrollState())) {
+        Box() {
             Column {
                 opinions.forEach { opinion ->
                     OpinionCard(opinion = opinion, onClickUserImage = {

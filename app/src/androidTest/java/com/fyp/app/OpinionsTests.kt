@@ -1,6 +1,8 @@
 package com.fyp.app
 
+import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.performClick
 import com.fyp.app.ui.screens.NavGraphs
 import com.ramcosta.composedestinations.DestinationsNavHost
 import org.junit.Rule
@@ -13,9 +15,12 @@ class OpinionsTests {
     @Test
     fun getOpinions(){
         rule.setContent { DestinationsNavHost(navGraph = NavGraphs.root) }
-        // TODO
         // Actions
+        rule.onNode(hasText("Enciclopedia de Plantas")).performClick()
+        rule.onNode(hasText("Pimiento Morrón")).performClick()
+        rule.onNode(hasText("Opiniones")).performClick()
         // Checking
+        rule.onNode(hasText("Est bueno en un Wok")).assertExists()
     }
 
     @Test

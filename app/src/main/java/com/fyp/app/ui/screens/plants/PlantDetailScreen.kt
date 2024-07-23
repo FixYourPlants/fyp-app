@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -101,46 +102,57 @@ fun PlantDetailsScreen(
                 Spacer(modifier = Modifier
                     .height(130.dp)
                     .fillMaxWidth())
+            }
+            item {
                 Box(
                     modifier = Modifier
-                        .fillParentMaxHeight()
-                        .background(Color(226, 237, 169, 255), shape = RoundedCornerShape(20.dp))
+                        .fillMaxWidth()
+                        .background(Color(226, 237, 169, 255), shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp))
                         .zIndex(0f)
                 ) {
                     Column(
                         modifier = Modifier
                             .padding(16.dp)
+                            .fillMaxWidth()
                     ) {
                         PlantDetailsHeader(plant)
-                        Box(modifier = Modifier
+                    }
+                }
+            }
+            item {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(Color(226, 237, 169, 255), shape = RoundedCornerShape(bottomStart = 20.dp, bottomEnd = 20.dp))
+                        .offset(y = (-70).dp)
+                ) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier
+                            .padding(8.dp)
                             .fillMaxWidth()
-                            .offset(y = (-70).dp)){
-                            Column(horizontalAlignment = Alignment.CenterHorizontally,
-                                modifier = Modifier.padding(8.dp)) {
-                                TabRow(selectedTabIndex = pagerState.currentPage,
+                    ) {
+                        TabRow(selectedTabIndex = pagerState.currentPage,
+                            modifier = Modifier
+                        ) {
+                            listOf("Detalles", "Opiniones").forEachIndexed { index, title ->
+                                Tab(
+                                    text = { Text(title, color = Color.Black) },
+                                    selected = pagerState.currentPage == index,
+                                    onClick = {
+                                        coroutineScope.launch {
+                                            pagerState.animateScrollToPage(index)
+                                        }
+                                    },
                                     modifier = Modifier
-                                ) {
-                                    listOf("Detalles", "Opiniones").forEachIndexed { index, title ->
-                                        Tab(
-                                            text = { Text(title, color = Color.Black) },
-                                            selected = pagerState.currentPage == index,
-                                            onClick = {
-                                                coroutineScope.launch {
-                                                    pagerState.animateScrollToPage(index)
-                                                }
-                                            },
-                                            modifier = Modifier
-                                                .background(Color(226, 237, 169, 255))
-                                        )
-
-                                    }
-                                }
-                                HorizontalPager( state = pagerState) { page ->
-                                    when (page) {
-                                        0 -> PlantDetailsTab(navigator,plant)
-                                        1 -> PlantOpinionsTab(navigator,plant)
-                                    }
-                                }
+                                        .background(Color(226, 237, 169, 255))
+                                )
+                            }
+                        }
+                        HorizontalPager(state = pagerState, modifier = Modifier.height(400.dp)) { page ->
+                            when (page) {
+                                0 -> PlantDetailsTab(navigator, plant)
+                                1 -> PlantOpinionsTab(navigator, plant)
                             }
                         }
                     }
@@ -152,33 +164,40 @@ fun PlantDetailsScreen(
 
 @Composable
 fun PlantDetailsTab(navigator: DestinationsNavigator,plant: Plant){
-    Column {
-        Box(modifier = Modifier
-            .fillMaxWidth()){
-            Column(horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.padding(16.dp)){
-                PlantCharacteristicsSection(plant)
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(12.dp)
+    ) {
+        item{
+            Box(modifier = Modifier
+                .fillMaxWidth()){
+                Column(horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.padding(16.dp)){
+                    PlantCharacteristicsSection(plant)
+                }
             }
         }
-        Box(modifier = Modifier
-            .fillMaxWidth()){
-            Column(modifier = Modifier.padding(12.dp)) {
-                Text(
-                    text = "Cuidado recomendado",
-                    fontWeight = FontWeight.Bold,
-                    color = Color.Black,
-                    fontSize = 20.sp,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                )
-                HorizontalDivider(
-                    thickness = 2.dp,
-                    color = Color(59, 170, 0, 255),
-                    modifier = Modifier.padding(4.dp)
-                )
-                PlantCareSection(plant)
-                Spacer(modifier = Modifier.height(12.dp))
-                PlantSicknessesSection(plant,navigator)
+        item{
+            Box {
+                Column(modifier = Modifier.padding(12.dp)) {
+                    Text(
+                        text = "Cuidado recomendado",
+                        fontWeight = FontWeight.Bold,
+                        color = Color.Black,
+                        fontSize = 20.sp,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    )
+                    HorizontalDivider(
+                        thickness = 2.dp,
+                        color = Color(59, 170, 0, 255),
+                        modifier = Modifier.padding(4.dp)
+                    )
+                    PlantCareSection(plant)
+                    Spacer(modifier = Modifier.height(12.dp))
+                    PlantSicknessesSection(plant,navigator)
+                }
             }
         }
     }
@@ -186,7 +205,15 @@ fun PlantDetailsTab(navigator: DestinationsNavigator,plant: Plant){
 
 @Composable
 fun PlantOpinionsTab(navigator: DestinationsNavigator,plant: Plant) {
-    PlantOpinionsSection(navigator,plant)
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(12.dp)
+    ) {
+        item{
+            PlantOpinionsSection(navigator,plant)
+        }
+    }
 }
 
 @Composable

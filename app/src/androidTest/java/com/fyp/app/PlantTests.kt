@@ -16,11 +16,8 @@ class PlantTests {
     @Test
     fun getListPlants(){
         rule.setContent { DestinationsNavHost(navGraph = NavGraphs.root) }
-
-
         // Actions
         rule.onNode(hasText("Enciclopedia de Plantas")).performClick()
-
         // Checking
         rule.onNode(hasText("Algodón")).assertExists()
         rule.onNode(hasText("Pimiento Morrón")).assertExists()
@@ -29,6 +26,19 @@ class PlantTests {
 
     @Test
     fun getPlantDetails(){
-        // TODO
+        rule.setContent { DestinationsNavHost(navGraph = NavGraphs.root) }
+        // Actions
+        rule.onNode(hasText("Enciclopedia de Plantas")).performClick()
+        rule.onNode(hasText("Algodón")).performClick()
+        // Checking
+        rule.onNode(hasText("Gossypium hirsutum")).assertExists()
+    }
+
+    @Test
+    fun getAddFavorite(){
+        // TODO: User must be logged in
+        rule.setContent { DestinationsNavHost(navGraph = NavGraphs.root) }
+        // Actions
+        // Checking
     }
 }
