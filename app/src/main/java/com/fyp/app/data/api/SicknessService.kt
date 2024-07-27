@@ -16,7 +16,7 @@ interface SicknessService {
     suspend fun addSickness(@Body sickness: Sickness): Sickness
 
     @GET("api/v1/sickness/{sicknessId}/")
-    suspend fun getSicknessById(@Path("sicknessId") sicknessId: Int): Sickness
+    suspend fun getSicknessById(@Path("sicknessId") sicknessId: String): Sickness
 
     @POST("api/v1/sicknesses/{sicknessId}")
     suspend fun updateSickness(@Path("sicknessId") sicknessId: Int, @Body sickness: Sickness): Sickness

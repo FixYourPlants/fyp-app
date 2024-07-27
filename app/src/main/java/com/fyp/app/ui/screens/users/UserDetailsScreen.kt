@@ -22,6 +22,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -40,11 +41,14 @@ import coil.compose.AsyncImage
 import com.fyp.app.BuildConfig
 import com.fyp.app.R
 import com.fyp.app.data.api.PlantServiceImp
+import com.fyp.app.data.api.SicknessServiceImp
 import com.fyp.app.data.model.db.Plant
+import com.fyp.app.data.model.db.Sickness
 import com.fyp.app.data.model.db.User
 import com.fyp.app.ui.components.BoxLongText
 import com.fyp.app.ui.components.DetailBackground
 import com.fyp.app.ui.components.buttons.DefaultButton
+import com.fyp.app.ui.screens.destinations.IllnessDetailsScreenDestination
 import com.fyp.app.ui.screens.destinations.PlantDetailsScreenDestination
 import com.fyp.app.ui.screens.destinations.UserEditScreenDestination
 import com.ramcosta.composedestinations.annotation.Destination
@@ -60,6 +64,7 @@ fun UserDetailsScreen(
     user: User
 ) {
     val favouritePlants = remember { mutableStateOf(listOf<Plant>()) }
+    val affectedSickness = remember { mutableStateListOf<Sickness>() }
 
     LaunchedEffect(Unit) {
         val plants = user.favouritePlants.mapNotNull { plantId ->
@@ -73,6 +78,21 @@ fun UserDetailsScreen(
             }
         }
         favouritePlants.value = plants
+    }
+
+    LaunchedEffect(Unit) {
+        val result = user.affectedSickness.mapNotNull { sicknessId ->
+            withContext(Dispatchers.IO) {
+                try {
+                    SicknessServiceImp.getInstance().getSicknessById(sicknessId)
+                } catch (e: Exception) {
+                    Log.e("AffectedSicknessListScreen", "Error loading sickness", e)
+                    null
+                }
+            }
+        }
+        affectedSickness.clear()
+        affectedSickness.addAll(result)
     }
 
     DetailBackground {
@@ -171,6 +191,8 @@ fun UserDetailsScreen(
                         }
                         Log.d("UserDetailsScreen", "Favourite plants: ${favouritePlants.value}")
                         UserFavoritePlantsSection(plants = favouritePlants.value, navigator)
+                        UserAffectedSicknessSection(sickness = affectedSickness, navigator)
+
                         Box(
                             modifier= Modifier
                                 .fillMaxWidth()
@@ -218,6 +240,46 @@ fun UserFavoritePlantsSection(plants: List<Plant>, navigator: DestinationsNaviga
                 ) {
                     Text(
                         text = plant.name,
+                        color = Color.Black,
+                        fontWeight = FontWeight.Bold,
+                        fontStyle = FontStyle.Italic,
+                        modifier = Modifier.padding(horizontal = 8.dp)
+                    )
+                }
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+fun UserAffectedSicknessSection(sickness: List<Sickness>, navigator: DestinationsNavigator) {
+    Spacer(modifier = Modifier.height(16.dp))
+    Column(
+        modifier = Modifier
+            .padding(8.dp)
+            .background(Color(0xFF2E5805), shape = RoundedCornerShape(8.dp))
+            .padding(8.dp)
+    ) {
+        Text(
+            text = "Mis Enfermedades:",
+            fontWeight = FontWeight.Bold,
+            color = Color.White,
+            modifier = Modifier
+                .padding(bottom = 8.dp)
+                .align(Alignment.CenterHorizontally)
+        )
+        FlowRow(modifier = Modifier.fillMaxWidth()) {
+            sickness.forEach { illness ->
+                Box(
+                    modifier = Modifier
+                        .padding(vertical = 4.dp, horizontal = 8.dp)
+                        .clickable { navigator.navigate(IllnessDetailsScreenDestination(illness)) }
+                        .background(Color(0xFF7CFC00), RoundedCornerShape(8.dp))
+                        .padding(vertical = 4.dp, horizontal = 8.dp)
+                ) {
+                    Text(
+                        text = illness.name,
                         color = Color.Black,
                         fontWeight = FontWeight.Bold,
                         fontStyle = FontStyle.Italic,

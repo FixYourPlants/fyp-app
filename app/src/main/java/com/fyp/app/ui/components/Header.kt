@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
@@ -39,6 +40,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
@@ -57,6 +59,7 @@ import com.fyp.app.ui.screens.destinations.DiariesScreenDestination
 import com.fyp.app.ui.screens.destinations.HomeScreenDestination
 import com.fyp.app.ui.screens.destinations.LoginScreenDestination
 import com.fyp.app.ui.screens.destinations.UserDetailsScreenDestination
+import com.fyp.app.ui.screens.destinations.AffectedSicknessListScreenDestination
 import com.fyp.app.utils.UserPreferencesImp
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
@@ -140,6 +143,7 @@ fun HeaderSection(navigator: DestinationsNavigator) {
 
     LaunchedEffect(Unit) {
         user.value = getLoggedInUserSafely()
+        Log.d("USER DATA",user.value.toString())
     }
 
 
@@ -203,6 +207,18 @@ fun HeaderSection(navigator: DestinationsNavigator) {
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         Text("Mis Diarios")
+                    }
+                    HorizontalDivider(modifier = Modifier.width(128.dp))
+                    Row(modifier = Modifier
+                        .clickable { navigator.navigate(AffectedSicknessListScreenDestination(user = user.value!!)) }
+                        .padding(8.dp)) {
+                        Icon(
+                            painterResource(id = R.drawable.my_sickness),
+                            contentDescription = "Mis Enfermedades",
+                            Modifier.size(16.dp)
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text("Mis Enfermedades")
                     }
                     HorizontalDivider(modifier = Modifier.width(128.dp))
                     Row(modifier = Modifier

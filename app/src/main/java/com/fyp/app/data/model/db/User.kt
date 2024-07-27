@@ -20,6 +20,8 @@ data class User(
     val imageUrl: String,
     @SerializedName("favourite_plant")
     val favouritePlants: List<String>,
+    @SerializedName("affected_sicknesses")
+    val affectedSickness: List<String>,
     @SerializedName("about_me")
     val aboutMe: String
 ) : Serializable {
