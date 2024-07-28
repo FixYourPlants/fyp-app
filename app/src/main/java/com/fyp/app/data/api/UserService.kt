@@ -1,14 +1,11 @@
 package com.fyp.app.data.api
 
-import com.fyp.app.data.api.responses.LoginRequest
-import com.fyp.app.data.api.responses.LoginResponse
-import com.fyp.app.data.api.responses.RegistrationRequest
+import com.fyp.app.data.model.RegistrationRequest
 import com.fyp.app.data.model.db.User
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.http.Body
-import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
@@ -22,17 +19,8 @@ interface UserService {
     @POST("api/v1/create_user/")
     suspend fun registerUser(@Body request: RegistrationRequest): ResponseBody
 
-    @POST("api-auth/login/")
-    suspend fun loginUser(@Body response: LoginRequest): LoginResponse
-
-    @GET("api/v1/users/list")
-    suspend fun getUsers(): List<User>
-
     @GET("api/v1/users/list/get_user_id_by_username/")
     suspend fun getUserIdByUsername(@Query("username") username: String): Map<String, String>
-
-    @GET("user/{userId}")
-    suspend fun getUserById(@Path("userId") userId: String): User
 
     @POST("api/v1/login/")
     suspend fun loginUserVerified(@Body user: Map<String, String>): Map<String, String>
@@ -49,9 +37,6 @@ interface UserService {
         @Part("about_me") aboutMe: RequestBody,
         @Part image: MultipartBody.Part?
     ): User
-
-    @DELETE("api/v1/users/{userId}")
-    suspend fun deleteUser(@Path("userId") userId: Int): User
 
     @GET("api/v1/users/logged/get_logged_in_user/")
     suspend fun getLoggedInUser(): User

@@ -6,14 +6,9 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.ui.platform.LocalContext
 import com.fyp.app.ui.screens.NavGraphs
 import com.fyp.app.utils.NotificationManager
 import com.ramcosta.composedestinations.DestinationsNavHost
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
 class MainActivity : ComponentActivity() {

@@ -22,11 +22,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.fyp.app.data.api.UserServiceImp
-import com.fyp.app.data.api.responses.RegistrationRequest
+import com.fyp.app.data.model.RegistrationRequest
 import com.fyp.app.domain.authenticationGoogle.GoogleAuthUiClient
 import com.fyp.app.ui.components.ErrorMessage
 import com.fyp.app.ui.components.HeaderInit

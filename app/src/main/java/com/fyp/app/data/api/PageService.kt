@@ -4,14 +4,10 @@ import com.fyp.app.data.model.db.Page
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
-import retrofit2.http.Body
-import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
-import retrofit2.http.PUT
 import retrofit2.http.Part
-import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface PageService {
@@ -27,15 +23,6 @@ interface PageService {
         @Part image: MultipartBody.Part?,
         @Part("diary") diary: RequestBody
     ): ResponseBody
-
-    @GET("page/{pageId}")
-    suspend fun getPageById(@Path("pageId") pageId:Int): Page
-
-    @PUT("api/v1/pages/{pageId}/")
-    suspend fun updatePage(@Path("pageId") pageId:String, @Body page: Page): Page
-
-    @DELETE("pages/{pageId}")
-    suspend fun deletePage(@Path("pageId") pageId:Int): Page
 }
 
 object PageServiceImp: BaseService<PageService>(PageService::class.java)

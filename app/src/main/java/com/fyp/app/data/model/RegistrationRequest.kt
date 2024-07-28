@@ -1,4 +1,4 @@
-package com.fyp.app.data.api.responses
+package com.fyp.app.data.model
 
 data class RegistrationRequest(
     val username: String,

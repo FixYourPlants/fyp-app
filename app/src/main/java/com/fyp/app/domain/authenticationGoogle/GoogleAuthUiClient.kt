@@ -3,11 +3,8 @@ package com.fyp.app.domain.authenticationGoogle
 import android.content.Context
 import android.content.Intent
 import android.content.IntentSender
-import android.util.Log
 import com.fyp.app.R
-import com.fyp.app.data.model.SignInResult
 import com.fyp.app.data.model.UserData
-import com.fyp.app.data.model.db.User
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.BeginSignInRequest.GoogleIdTokenRequestOptions
 import com.google.android.gms.auth.api.identity.SignInClient

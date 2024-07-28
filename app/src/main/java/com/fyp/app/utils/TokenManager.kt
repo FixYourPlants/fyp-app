@@ -1,5 +1,4 @@
 import com.fyp.app.data.api.AlertServiceImp
-import com.fyp.app.data.api.CharacteristicServiceImp
 import com.fyp.app.data.api.DiaryServiceImp
 import com.fyp.app.data.api.OpinionServiceImp
 import com.fyp.app.data.api.PageServiceImp
@@ -21,7 +20,6 @@ object TokenManager {
     private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
     private val services = mutableListOf(
         AlertServiceImp,
-        CharacteristicServiceImp,
         DiaryServiceImp,
         OpinionServiceImp,
         PageServiceImp,

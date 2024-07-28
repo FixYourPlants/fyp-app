@@ -6,7 +6,6 @@ import androidx.compose.ui.platform.LocalContext
 import com.fyp.app.R
 import com.fyp.app.ui.components.Camera
 import com.fyp.app.viewmodel.camera.PredictCameraViewModelImp
-import com.fyp.app.viewmodel.camera.UserCameraViewModelImp
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 

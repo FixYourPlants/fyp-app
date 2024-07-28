@@ -1,5 +1,6 @@
 package com.fyp.app.utils
 
+import com.fyp.app.data.model.db.History
 import com.fyp.app.data.model.db.Plant
 import com.fyp.app.data.model.db.Sickness
 import java.text.Normalizer
@@ -20,4 +21,13 @@ fun filterSickness(searchText:String, sickness:MutableList<Sickness>): MutableLi
     val normalizedSearchText = removeAccents(searchText.lowercase())
     var filteredlist: List<Sickness> = sickness.filter { it -> removeAccents(it.name.lowercase()).contains(normalizedSearchText.lowercase()) }
     return filteredlist.toMutableList()
+}
+
+fun filterHistory(query: String, histories: List<History>): List<History> {
+    val normalizedSearchText = removeAccents(query.lowercase())
+    return histories.filter { history ->
+        val plantName = history.plant?.name?.let { removeAccents(it.lowercase()) } ?: ""
+        val sicknessName = history.sickness?.name?.let { removeAccents(it.lowercase()) } ?: ""
+        plantName.contains(normalizedSearchText) || sicknessName.contains(normalizedSearchText)
+    }
 }

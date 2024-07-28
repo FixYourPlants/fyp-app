@@ -1,7 +1,6 @@
 package com.fyp.app.ui.screens.users
 
 import TokenManager
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.IntentSenderRequest
