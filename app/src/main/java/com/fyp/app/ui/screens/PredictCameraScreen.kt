@@ -15,8 +15,8 @@ fun PredictCameraScreen(navigator: DestinationsNavigator) {
     val cameraViewModel = PredictCameraViewModelImp.getInstance()
     val context = LocalContext.current
     Camera { bitmap ->
-        cameraViewModel.onTakePhoto(BitmapFactory.decodeResource(context.resources, R.drawable.apple))
-        cameraViewModel.onSelectBitmap(BitmapFactory.decodeResource(context.resources, R.drawable.apple))
+        cameraViewModel.onTakePhoto(bitmap)
+        cameraViewModel.onSelectBitmap(bitmap)
         navigator.navigateUp()
     }
 }
