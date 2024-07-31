@@ -14,6 +14,10 @@ abstract class BaseService<T>(private val serviceClass: Class<T>) {
 
     fun getInstance(): T {
         return instance ?: synchronized(this) {
+            if (!addedToken) {
+                Log.d("TOKEN ADDING", "Adding token in getInstance")
+                instance = createInstance()
+            }
             instance ?: createInstance().also { instance = it }
         }
     }
@@ -21,6 +25,13 @@ abstract class BaseService<T>(private val serviceClass: Class<T>) {
     private fun createInstance(): T {
         return try {
             val token = UserPreferencesImp.getInstance().access
+
+            if (token.isEmpty()) {
+                throw IllegalArgumentException("Token is missing or invalid")
+            }
+
+            Log.d("TOKEN ADDING", "Creating HTTP client with token: $token")
+
             val httpClient = OkHttpClient.Builder()
             if (!addedToken) {
                 httpClient.addInterceptor { chain ->
@@ -28,10 +39,12 @@ abstract class BaseService<T>(private val serviceClass: Class<T>) {
                     val requestBuilder = original.newBuilder()
                         .header("Authorization", "Bearer $token")
                     val request = requestBuilder.build()
+                    Log.d("REQUEST", request.toString())
                     chain.proceed(request)
                 }
                 addedToken = true
             }
+
             Retrofit.Builder()
                 .baseUrl(BuildConfig.BACKEND_URL)
                 .client(httpClient.build())

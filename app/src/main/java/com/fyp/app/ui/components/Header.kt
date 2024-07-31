@@ -253,6 +253,7 @@ fun HeaderInit(text: String) {
 
 suspend fun getLoggedInUserSafely(): User? {
     return try {
+        Log.d("HeaderSection", UserPreferencesImp.getInstance().access + " " + UserPreferencesImp.getInstance().refresh + " " + UserPreferencesImp.isAuthenticated())
         UserServiceImp.getInstance().getLoggedInUser()
     } catch (e: Exception) {
         Log.e("HeaderSection", "Error loading logged-in user", e)
