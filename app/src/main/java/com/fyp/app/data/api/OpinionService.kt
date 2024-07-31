@@ -18,14 +18,6 @@ interface OpinionService {
     @POST("api/v1/opinions/create/")
     suspend fun addOpinion(@Body opinion: CreateOpinion): CreateOpinion
 
-    @GET("opinion/{opinionId}")
-    suspend fun getOpinionById(@Path("opinionId") opinionId: Int): CreateOpinion
-
-    @PUT("opinions/{opinionId}")
-    suspend fun updateOpinion(@Path("opinionId") opinionId: Int, @Body opinion: CreateOpinion): CreateOpinion
-
-    @DELETE("opinions/{opinionId}")
-    suspend fun deleteOpinion(@Path("opinionId") opinionId: Int): CreateOpinion
 }
 
 object OpinionServiceImp: BaseService<OpinionService>(OpinionService::class.java)

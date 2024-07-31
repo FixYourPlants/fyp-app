@@ -11,7 +11,7 @@ data class Opinion(
     @SerializedName("description")
     val description: String,
     @SerializedName("plant")
-    val plant: String,
+    val plant: Plant,
     @SerializedName("user")
     val user: User
 ): Serializable

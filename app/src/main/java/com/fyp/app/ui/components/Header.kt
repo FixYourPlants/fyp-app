@@ -143,9 +143,7 @@ fun HeaderSection(navigator: DestinationsNavigator) {
 
     LaunchedEffect(Unit) {
         user.value = getLoggedInUserSafely()
-        Log.d("USER DATA",user.value.toString())
     }
-
 
     Header(
         onClickLogo = { navigator.navigate(HomeScreenDestination()) },
