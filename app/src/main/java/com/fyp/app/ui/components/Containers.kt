@@ -4,13 +4,18 @@ import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,6 +32,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.fyp.app.R
 import com.fyp.app.data.model.db.Alert
+import com.fyp.app.data.model.db.History
 import com.fyp.app.data.model.db.Page
 import com.fyp.app.data.model.db.Plant
 import com.fyp.app.data.model.db.Sickness
@@ -77,6 +83,76 @@ fun ContainerIllness(sickness: Sickness, onClick: () -> Unit) {
         }
     }
 }
+
+@Composable
+fun ContainerHistory(history: History, onClick: () -> Unit) {
+    val plant = history.plant
+    val sickness = history.sickness
+
+    Box(
+        contentAlignment = Alignment.CenterStart,
+        modifier = Modifier
+            .fillMaxWidth(1f)
+            .height(100.dp)
+            .clickable { onClick() }
+            .background(color = Color(146, 208, 80))
+            .border(width = 0.5.dp, color = Color.Black)
+            .paint(painter = painterResource(id = R.drawable.fondo_listado_enfermedades3), contentScale = ContentScale.FillBounds),
+    ) {
+        Row(modifier = Modifier.padding(horizontal = 5.dp)) {
+            // Image for the History
+            Surface(
+                modifier = Modifier
+                    .size(84.dp)
+                    .border(width = 1.dp, color = Color.Black)
+            ) {
+                Log.d("ContainerHistory", "Image URL: ${history.image}")
+                AsyncImage(
+                    model = history.image,
+                    contentDescription = "History image",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .background(color = Color.White)
+                )
+            }
+
+            Spacer(modifier = Modifier.width(10.dp))
+
+            Column(
+                verticalArrangement = Arrangement.Center,
+                modifier = Modifier.fillMaxHeight()
+            ) {
+                plant?.let {
+                    Text(
+                        text = "Planta: ${it.name}",
+                        fontSize = 18.sp,
+                        color = Color(0, 176, 80),
+                        fontWeight = FontWeight.Bold,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
+                sickness?.let {
+                    Text(
+                        text = "Enfermedad: ${it.name}",
+                        fontSize = 16.sp,
+                        color = Color(203, 255, 173, 255),
+                        fontWeight = FontWeight.Bold,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
+                Text(
+                    text = history.createdAt,
+                    fontSize = 14.sp,
+                    color = Color(203, 255, 173, 255),
+                    maxLines = 1
+                )
+            }
+        }
+    }
+}
+
 
 @Composable
 fun ContainerPlagueGob(alert: Alert, onClick: () -> Unit) {

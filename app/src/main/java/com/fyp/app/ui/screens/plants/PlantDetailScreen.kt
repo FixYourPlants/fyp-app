@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -25,6 +24,8 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
+import androidx.compose.material3.TabRowDefaults.SecondaryIndicator
+import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -107,7 +108,10 @@ fun PlantDetailsScreen(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(Color(226, 237, 169, 255), shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp))
+                        .background(
+                            Color(226, 237, 169, 255),
+                            shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp)
+                        )
                         .zIndex(0f)
                 ) {
                     Column(
@@ -123,7 +127,10 @@ fun PlantDetailsScreen(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(Color(226, 237, 169, 255), shape = RoundedCornerShape(bottomStart = 20.dp, bottomEnd = 20.dp))
+                        .background(
+                            Color(226, 237, 169, 255),
+                            shape = RoundedCornerShape(bottomStart = 20.dp, bottomEnd = 20.dp)
+                        )
                         .offset(y = (-70).dp)
                 ) {
                     Column(
@@ -133,7 +140,18 @@ fun PlantDetailsScreen(
                             .fillMaxWidth()
                     ) {
                         TabRow(selectedTabIndex = pagerState.currentPage,
-                            modifier = Modifier
+                            modifier = Modifier,
+                            divider = {
+                                HorizontalDivider(
+                                    color = Color(59, 170, 0, 255),
+                                )
+                            },
+                            indicator = { tabPositions ->
+                                SecondaryIndicator(
+                                    modifier = Modifier.tabIndicatorOffset(tabPositions[pagerState.currentPage]),
+                                    color = Color(59, 170, 0, 255),
+                                )
+                            }
                         ) {
                             listOf("Detalles", "Opiniones").forEachIndexed { index, title ->
                                 Tab(
@@ -239,7 +257,6 @@ fun PlantDetailsHeader(plant: Plant) {
         contentAlignment = Alignment.TopCenter
     ) {
         if (UserPreferencesImp.isAuthenticated()) {
-            Log.d("PlantDetailsScreen", "Status: ${plant.imageUrl}")
             OverlayImageWithClick(
                 defaultImageUrl = if(plant.imageUrl.contains("https") || plant.imageUrl.contains("http")) plant.imageUrl else BuildConfig.BACKEND_URL + plant.imageUrl,
                 clickedImageUrl = if (status.value) R.drawable.hearth else R.drawable.hearth_empty,

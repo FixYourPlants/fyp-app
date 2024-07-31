@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
@@ -23,7 +22,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -56,6 +54,7 @@ import com.fyp.app.R
 import com.fyp.app.data.api.UserServiceImp
 import com.fyp.app.data.model.db.User
 import com.fyp.app.ui.screens.destinations.DiariesScreenDestination
+import com.fyp.app.ui.screens.destinations.HistoryListScreenDestination
 import com.fyp.app.ui.screens.destinations.HomeScreenDestination
 import com.fyp.app.ui.screens.destinations.LoginScreenDestination
 import com.fyp.app.ui.screens.destinations.UserDetailsScreenDestination
@@ -179,7 +178,7 @@ fun HeaderSection(navigator: DestinationsNavigator) {
                     }
                     HorizontalDivider(modifier = Modifier.width(128.dp))
                     Row(modifier = Modifier
-                        .clickable { /* Acción para Historial */ }
+                        .clickable { navigator.navigate(HistoryListScreenDestination()) }
                         .padding(8.dp)) {
                         Icon(
                             painterResource(id = R.drawable.history),
