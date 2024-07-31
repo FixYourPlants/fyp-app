@@ -357,7 +357,7 @@ fun PlantSicknessesSection(plant: Plant, navigator: DestinationsNavigator) {
             color = Color(59, 170, 0, 255),
             modifier = Modifier.padding(4.dp)
         )
-        plant.sicknesses.forEach { it ->
+        plant.sicknesses.forEach {
             Text(text = it.name,
                 fontStyle = FontStyle.Italic,
                 modifier = Modifier
