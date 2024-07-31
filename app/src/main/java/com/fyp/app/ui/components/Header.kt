@@ -101,7 +101,8 @@ fun Header(user: User?, onClickLogo: () -> Unit, onClickAccount: () -> Unit) {
                             modifier = Modifier
                                 .requiredSize(32.dp)
                                 .clip(CircleShape)
-                                .clickable { onClickAccount() },
+                                .clickable { onClickAccount() }
+                                .testTag("profile_pic"),
                             contentScale = ContentScale.Crop
                         )
                     } else {
@@ -110,7 +111,8 @@ fun Header(user: User?, onClickLogo: () -> Unit, onClickAccount: () -> Unit) {
                             modifier = Modifier
                                 .requiredSize(32.dp)
                                 .clip(CircleShape)
-                                .clickable { onClickAccount() },
+                                .clickable { onClickAccount() }
+                                .testTag("default_pic"),
                         )
                     }
                 } else {
