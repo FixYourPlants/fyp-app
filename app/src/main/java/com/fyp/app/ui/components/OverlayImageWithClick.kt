@@ -19,6 +19,7 @@ import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -56,7 +57,8 @@ public fun OverlayImageWithClick(
                 .clickable {
                     onClick()
                     isImageClicked = !isImageClicked
-                },
+                }
+                .testTag("favorite"),
             contentAlignment = Alignment.TopStart
         ) {
             // Ajusta el tamaño y la posición de la imagen superpuesta
@@ -72,7 +74,7 @@ public fun OverlayImageWithClick(
                 modifier = Modifier
                     .size(45.dp)
                     .scale(scaleX = scaleX, scaleY= scaleY)
-                    .offset(offsetX, offsetY),  // Ajusta la posición según tus necesidades
+                    .offset(offsetX, offsetY), // Ajusta la posición según tus necesidades
                 contentScale = ContentScale.Fit
             )
         }

@@ -6,6 +6,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import com.fyp.app.data.api.TokenServiceImp
 import com.fyp.app.data.api.UserService
@@ -31,15 +32,14 @@ class DiaryTests {
     @Test
     fun getListDiaries() = runTest {
         login("admin", "admin")
-
+        rule.waitForIdle()
         rule.setContent { DestinationsNavHost(navGraph = NavGraphs.root) }
 
-        while (true) {
-            try {
-                rule.waitForIdle()
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
+        // Actions
+        rule.onNodeWithTag("profile_pic").performClick()
+        rule.onNodeWithText("Mis Diarios").performClick()
+
+        //Checking
+        rule.onNodeWithText("Diario para Pimiento Morrón").assertExists()
     }
 }

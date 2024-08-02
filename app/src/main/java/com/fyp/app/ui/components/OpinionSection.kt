@@ -170,8 +170,6 @@ fun AddOpinionDialog(onDismiss: () -> Unit, onSubmit: (String, String) -> Unit) 
         title = { Text(text = "Añadir Opinión") },
         text = {
             Column {
-                Text("Título")
-                Spacer(modifier = Modifier.height(4.dp))
                 ValidatedTextField(
                     value = title,
                     onValueChange = { title = it },
@@ -181,8 +179,6 @@ fun AddOpinionDialog(onDismiss: () -> Unit, onSubmit: (String, String) -> Unit) 
                     modifier = Modifier.fillMaxWidth()
                 )
                 Spacer(modifier = Modifier.height(8.dp))
-                Text("Descripción")
-                Spacer(modifier = Modifier.height(4.dp))
                 ValidatedTextField(
                     value = description,
                     onValueChange = { description = it },
