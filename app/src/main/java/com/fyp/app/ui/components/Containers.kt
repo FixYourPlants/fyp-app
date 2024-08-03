@@ -238,6 +238,8 @@ fun ContainerPlants(plant: Plant, onClick: (Plant) -> Unit) {
                 color = Color(203, 255, 173, 255),
                 overflow = TextOverflow.Ellipsis,
             )
+
+            Log.d("ContainerPlants", "Difficulty: ${plant.difficulty}, Name: ${plant.name}")
             Text(text = "Dificultad: "+ obtainDifficulty(plant.difficulty),
                 color = Color.White,
                 fontSize = 16.sp,

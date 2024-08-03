@@ -1,5 +1,7 @@
 package com.fyp.app
 
+import androidx.compose.ui.test.ExperimentalTestApi
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.isDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
@@ -20,25 +22,105 @@ class UserTests {
     @get:Rule
     val rule = createComposeRule()
 
+    @OptIn(ExperimentalTestApi::class)
     @Test
-    fun login() = runTest {
-//        rule.setContent { DestinationsNavHost(navGraph = NavGraphs.root) }
-//        // Actions
-//        rule.onNodeWithTag("login").performClick()
-//        rule.onNodeWithText("Nombre de usuario").performTextInput("usertest")
-//        rule.onNodeWithText("Contraseña").performTextInput("testpass12345")
-//        rule.onNodeWithText("Iniciar sesión").performClick()
-//        delay(10000000)
-//        rule.waitForIdle()
-//        rule.waitUntil(timeoutMillis = 100000) {
-//            rule.onNodeWithText("Enciclopedia de Plantas").isDisplayed()
-//        }
-//        // Checking
-//        rule.onNodeWithText("Enciclopedia de Plantas").assertExists()
+    fun loginSuccessful() {
+        runBlocking {
+            rule.setContent {
+                DestinationsNavHost(navGraph = NavGraphs.root)
+            }
+
+            // Actions
+            rule.onNodeWithTag("login").performClick()
+            rule.onNodeWithText("Nombre de usuario").performTextInput("admin")
+            rule.onNodeWithText("Contraseña").performTextInput("admin")
+            rule.onNodeWithText("Iniciar sesión").performClick()
+        }
+
+        while (true) {
+            try {
+                rule.onNodeWithText("Enciclopedia de Plantas").isDisplayed()
+                break
+            } catch (e: Exception) {
+                continue
+            }
+
+        }
+    }
+
+    @OptIn(ExperimentalTestApi::class)
+    @Test
+    fun loginWithInvalidUsername() {
+        runBlocking {
+            rule.setContent {
+                DestinationsNavHost(navGraph = NavGraphs.root)
+            }
+
+            // Actions
+            rule.onNodeWithTag("login").performClick()
+            rule.onNodeWithText("Nombre de usuario").performTextInput("invalidUser")
+            rule.onNodeWithText("Contraseña").performTextInput("admin")
+            rule.onNodeWithText("Iniciar sesión").performClick()
+
+            rule.waitUntilExactlyOneExists(
+                timeoutMillis = 10000,
+                matcher = hasText("Nombre de usuario inválido")
+            )
+        }
+    }
+
+    @OptIn(ExperimentalTestApi::class)
+    @Test
+    fun loginWithInvalidPassword() {
+        runBlocking {
+            rule.setContent {
+                DestinationsNavHost(navGraph = NavGraphs.root)
+            }
+
+            // Actions
+            rule.onNodeWithTag("login").performClick()
+            rule.onNodeWithText("Nombre de usuario").performTextInput("admin")
+            rule.onNodeWithText("Contraseña").performTextInput("w")
+            rule.onNodeWithText("Iniciar sesión").performClick()
+
+            rule.waitForIdle()
+
+            rule.waitUntilExactlyOneExists(timeoutMillis = 10000, matcher = hasText("Contraseña inválida"))
+        }
+
+
     }
 
     @Test
-    fun loginGoogle(){
+    fun loginWithUnverifiedEmail() {
+        runBlocking {
+            rule.setContent {
+                DestinationsNavHost(navGraph = NavGraphs.root)
+            }
+
+            // Actions
+            rule.onNodeWithTag("login").performClick()
+            rule.onNodeWithText("Nombre de usuario").performTextInput("unverifiedUser")
+            rule.onNodeWithText("Contraseña").performTextInput("admin")
+            rule.onNodeWithText("Iniciar sesión").performClick()
+        }
+
+        rule.waitForIdle()
+
+        rule.waitUntil(timeoutMillis = 10000) {
+            try {
+                rule.onNodeWithText("Su cuenta no ha realizado la validación por correo.").isDisplayed()
+                true
+            } catch (e: Exception) {
+                false
+            }
+        }
+
+        rule.onNodeWithText("Su cuenta no ha realizado la validación por correo.").assertIsDisplayed()
+    }
+
+    @Test
+    fun loginGoogle() {
         rule.setContent { DestinationsNavHost(navGraph = NavGraphs.root) }
         // TODO
         // Actions
@@ -46,7 +128,7 @@ class UserTests {
     }
 
     @Test
-    fun logout(){
+    fun logout() {
         rule.setContent { DestinationsNavHost(navGraph = NavGraphs.root) }
         // TODO
         // Actions
@@ -54,7 +136,7 @@ class UserTests {
     }
 
     @Test
-    fun register(){
+    fun register() {
         rule.setContent { DestinationsNavHost(navGraph = NavGraphs.root) }
         // TODO
         // Actions
@@ -62,7 +144,7 @@ class UserTests {
     }
 
     @Test
-    fun registerGoogle(){
+    fun registerGoogle() {
         rule.setContent { DestinationsNavHost(navGraph = NavGraphs.root) }
         // TODO
         // Actions
@@ -70,13 +152,13 @@ class UserTests {
     }
 
     @Test
-    fun updateUser(){
+    fun updateUser() {
         rule.setContent { DestinationsNavHost(navGraph = NavGraphs.root) }
         // TODO
         // Actions
         // Checking
     }
 
-    // LOS TESTS DE VERIFICAR CONTRASEÑA Y CAMBIAR CONTRASEÑA NO SE HARÁN
+// LOS TESTS DE VERIFICAR CONTRASEÑA Y CAMBIAR CONTRASEÑA NO SE HARÁN
 
 }

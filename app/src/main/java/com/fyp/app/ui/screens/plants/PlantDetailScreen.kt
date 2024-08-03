@@ -319,6 +319,7 @@ fun PlantDetailsHeader(plant: Plant) {
                 fontWeight = FontWeight.Bold,
                 color = Color.Black
             )
+            Log.d("PlantDetailsScreen", "Difficulty: ${plant.difficulty}")
             Text(
                 text = obtainDifficulty(plant.difficulty),
                 color = Color.Black
@@ -438,10 +439,11 @@ fun PlantOpinionsSection(navigator: DestinationsNavigator, plant: Plant) {
                 CoroutineScope(Dispatchers.IO).launch {
                     try {
                         val opinion = CreateOpinion(
+                            id = null,
                             title = title,
                             description = description,
-                            user = user.value!!,
-                            plantId = plant.id
+                            user = user.value!!.id,
+                            plant = plant.id
                         )
                         OpinionServiceImp.getInstance().addOpinion(opinion)
                         withContext(Dispatchers.Main) {
