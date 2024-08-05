@@ -1,14 +1,24 @@
 package com.fyp.app
 
 import androidx.compose.ui.test.ExperimentalTestApi
+import androidx.compose.ui.test.SemanticsMatcher
+import androidx.compose.ui.test.assertContentDescriptionEquals
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.isDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onAllNodesWithText
+import androidx.compose.ui.test.onFirst
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performScrollTo
+import androidx.compose.ui.test.performScrollToNode
 import androidx.compose.ui.test.performTextInput
+import androidx.compose.ui.test.performTouchInput
+import androidx.compose.ui.test.swipeDown
+import androidx.compose.ui.test.swipeUp
 import com.fyp.app.ui.screens.NavGraphs
 import com.ramcosta.composedestinations.DestinationsNavHost
 import kotlinx.coroutines.delay
@@ -121,10 +131,23 @@ class UserTests {
 
     @Test
     fun loginGoogle() {
-        rule.setContent { DestinationsNavHost(navGraph = NavGraphs.root) }
-        // TODO
-        // Actions
-        // Checking
+        runBlocking() { // Invalid Inputs
+            login("admin", "admin")
+            rule.waitForIdle()
+            rule.setContent { DestinationsNavHost(navGraph = NavGraphs.root) }
+
+            // Actions
+            rule.onNodeWithTag("profile_pic").performClick()
+            rule.onNode(hasText("Mi Perfil")).performClick()
+            rule.onNode(hasText("Editar Usuario")).performClick()
+
+            rule.onNodeWithText("Guardar").performScrollTo().performClick()
+
+            // Checking
+            while(true){
+                rule.waitForIdle()
+            }
+        }
     }
 
     @Test
@@ -153,10 +176,21 @@ class UserTests {
 
     @Test
     fun updateUser() {
-        rule.setContent { DestinationsNavHost(navGraph = NavGraphs.root) }
-        // TODO
-        // Actions
-        // Checking
+        runBlocking() { // Invalid Inputs
+            login("admin", "admin")
+            rule.waitForIdle()
+            rule.setContent { DestinationsNavHost(navGraph = NavGraphs.root) }
+
+            // Actions
+            rule.onNodeWithTag("profile_pic").performClick()
+            rule.onNode(hasText("Mi Perfil")).performClick()
+            rule.onNode(hasText("Editar Usuario")).performClick()
+            rule.onNodeWithTag("lazy_columnn").performTouchInput { swipeUp() }
+            rule.onNodeWithText("Guardar").performClick()
+
+            // Checking
+//            rule.onNodeWithText("username").assertContentDescriptionEquals("admin")
+        }
     }
 
 // LOS TESTS DE VERIFICAR CONTRASEÑA Y CAMBIAR CONTRASEÑA NO SE HARÁN

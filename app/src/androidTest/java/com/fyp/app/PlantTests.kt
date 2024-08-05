@@ -1,10 +1,15 @@
 package com.fyp.app
 
+import androidx.compose.ui.test.assertContentDescriptionEquals
+import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import com.fyp.app.ui.screens.NavGraphs
 import com.ramcosta.composedestinations.DestinationsNavHost
+import kotlinx.coroutines.test.runTest
 import okhttp3.internal.wait
 import org.junit.Rule
 import org.junit.Test
@@ -35,10 +40,20 @@ class PlantTests {
     }
 
     @Test
-    fun getAddFavorite(){
-        // TODO: User must be logged in
+    fun getAddFavorite()= runTest {
+        login("admin", "admin")
+        rule.waitForIdle()
         rule.setContent { DestinationsNavHost(navGraph = NavGraphs.root) }
+
         // Actions
+        rule.onNode(hasText("Enciclopedia de Plantas")).performClick()
+        rule.onNode(hasText("Algodón")).performClick()
+        rule.onNodeWithTag("favorite").performClick()
+
         // Checking
+        // TODO: Comprobación desde el backend
+
+        //Reversing changes
+        rule.onNodeWithTag("favorite").performClick()
     }
 }

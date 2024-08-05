@@ -1,6 +1,7 @@
 package com.fyp.app
 
 import androidx.compose.ui.test.hasText
+import androidx.compose.ui.test.isDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onFirst
@@ -51,8 +52,10 @@ class OpinionsTests {
             rule.onNodeWithText("Añadir").performClick()
             rule.waitForIdle()
             // Checking
-
-//            rule.onAllNodesWithText("Prueba").onFirst().assertExists()
+            rule.waitUntil(){
+                rule.onNodeWithText("Prueba").isDisplayed()
+            }
+            rule.onAllNodesWithText("Prueba").onFirst().assertExists()
         }
     }
 

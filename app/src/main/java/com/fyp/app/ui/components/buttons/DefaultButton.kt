@@ -8,6 +8,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -18,6 +19,7 @@ fun DefaultButton(onClick: () -> Unit, text: String) {
         shape = RoundedCornerShape(4.dp),
         modifier = Modifier
             .width(200.dp)
+            .testTag("save_button")
     ) {
         Text(
             text = text,
