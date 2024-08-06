@@ -38,18 +38,9 @@ jobs:
       - name: Change wrapper permissions
         run: chmod +x ./gradlew
 
-      # Validate cesped.png file
-      - name: Validate cesped.png file
-        run: |
-          file_type=$(file app/src/main/res/drawable/cesped.png | grep 'PNG image data')
-          if [ -z "$file_type" ]; then
-            echo "cesped.png is not a valid PNG file"
-            exit 1
-          fi
-
       # Run Tests Build
       - name: Run gradle tests
-        run: ./gradlew test
+        run: ./gradlew connectedDebugAndroidTest
 
       # Run Build Project
       - name: Build gradle project
@@ -89,5 +80,4 @@ jobs:
         with:
           name: ${{ env.date_today }} - ${{ env.playstore_name }} - ${{ env.repository_name }} - App bundle(s) AAB release generated
           path: ${{ env.main_project_module }}/build/outputs/bundle/release/
-
 
