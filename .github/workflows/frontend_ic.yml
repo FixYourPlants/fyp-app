@@ -34,11 +34,7 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Set up Android SDK
-        uses: android-actions/setup-android@v2
-        with:
-          api-level: 33
-          target: android-33
-          arch: x86_64
+        uses: android-actions/setup-android@v3
 
       - name: Install SDK packages
         run: sdkmanager "platform-tools" "platforms;android-33" "build-tools;33.0.0" "system-images;android-33;google_apis;x86_64" "emulator"
@@ -55,7 +51,7 @@ jobs:
       - name: Create and start an emulator
         run: |
           echo "no" | avdmanager create avd -n test -k "system-images;android-33;google_apis;x86_64" --force
-          nohup /usr/local/lib/android/sdk/emulator/emulator -avd test -no-audio -no-window &
+          nohup /usr/local/lib/android/sdk/emulator/emulator -avd test -no-accel -no-audio -no-window &
 
       - name: Wait for emulator to boot
         run: |
@@ -101,6 +97,7 @@ jobs:
         with:
           name: ${{ env.date_today }} - ${{ env.playstore_name }} - ${{ env.repository_name }} - App bundle(s) AAB release generated
           path: ${{ env.main_project_module }}/build/outputs/bundle/release/
+
 
 
 
