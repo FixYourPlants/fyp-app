@@ -50,6 +50,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -141,6 +142,7 @@ fun Camera(onPhotoClick: (Bitmap) -> Unit) {
                     }
                 ) {
                     Icon(
+                        modifier = Modifier.testTag("open_gallery_button"),
                         imageVector = Icons.Default.Photo,
                         contentDescription = "Open gallery"
                     )
@@ -155,6 +157,7 @@ fun Camera(onPhotoClick: (Bitmap) -> Unit) {
                     }
                 ) {
                     Icon(
+                        modifier = Modifier.testTag("take_photo_button"),
                         imageVector = Icons.Default.PhotoCamera,
                         contentDescription = "Take photo"
                     )

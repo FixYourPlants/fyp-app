@@ -1,8 +1,12 @@
 package com.fyp.app
 
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
 import com.fyp.app.ui.screens.NavGraphs
 import com.ramcosta.composedestinations.DestinationsNavHost
+import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
 
@@ -11,18 +15,24 @@ class IATests {
     val rule = createComposeRule()
 
     @Test
-    fun getPrediction(){
+    fun getPrediction() = runTest {
+        login("admin", "admin")
+        rule.waitForIdle()
         rule.setContent { DestinationsNavHost(navGraph = NavGraphs.root) }
-        // TODO
-        // Actions
-        // Checking
+
+        // Acciones
+        rule.onNodeWithTag("scanner_button").performClick() // Abrir la cámara
+
+        rule.waitForIdle()
     }
 
     @Test
-    fun getPredictionNegative(){ // User is not logged in
+    fun getPredictionNegative() = runTest { // User is not logged in
+        login("admin", "admin")
+        rule.waitForIdle()
         rule.setContent { DestinationsNavHost(navGraph = NavGraphs.root) }
-        // TODO
-        // Actions
+
         // Checking
+        rule.onNodeWithTag("scanner_button").assertDoesNotExist()
     }
 }

@@ -21,6 +21,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -37,7 +38,8 @@ fun Scanner(onClick: () -> Unit = {}) {
             .height(120.dp)
             .padding(16.dp)
             .clickable { isClicked = !isClicked; onClick()}
-            .border(width = 3.0.dp, color = Color(0, 120, 0), shape = RoundedCornerShape(16.dp)),
+            .border(width = 3.0.dp, color = Color(0, 120, 0), shape = RoundedCornerShape(16.dp))
+            .testTag("scanner_button"),
         shape = RoundedCornerShape(16.dp),
         color = if (isClicked) Color.Red else Color(21, 230, 0, 255)
     ) {
