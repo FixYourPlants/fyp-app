@@ -41,7 +41,10 @@ jobs:
           arch: x86_64
 
       - name: Install SDK packages
-        run: sdkmanager "platform-tools" "platforms;android-33" "build-tools;33.0.0" "system-images;android-33;google_apis;x86_64"
+        run: sdkmanager "platform-tools" "platforms;android-33" "build-tools;33.0.0" "system-images;android-33;google_apis;x86_64" "emulator"
+
+      - name: Add Android SDK to PATH
+        run: echo "export PATH=$PATH:/usr/local/lib/android/sdk/emulator" >> $GITHUB_ENV
 
       - name: Create and start an emulator
         run: |
@@ -92,6 +95,7 @@ jobs:
         with:
           name: ${{ env.date_today }} - ${{ env.playstore_name }} - ${{ env.repository_name }} - App bundle(s) AAB release generated
           path: ${{ env.main_project_module }}/build/outputs/bundle/release/
+
 
 
 
