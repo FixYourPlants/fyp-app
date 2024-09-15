@@ -1,6 +1,5 @@
 package com.fyp.app.data.api
 
-import android.util.Log
 import com.fyp.app.BuildConfig
 import com.fyp.app.utils.UserPreferencesImp
 import okhttp3.OkHttpClient

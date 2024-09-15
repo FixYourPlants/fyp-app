@@ -38,7 +38,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
@@ -53,12 +52,12 @@ import com.fyp.app.BuildConfig
 import com.fyp.app.R
 import com.fyp.app.data.api.UserServiceImp
 import com.fyp.app.data.model.db.User
+import com.fyp.app.ui.screens.destinations.AffectedSicknessListScreenDestination
 import com.fyp.app.ui.screens.destinations.DiariesScreenDestination
 import com.fyp.app.ui.screens.destinations.HistoryListScreenDestination
 import com.fyp.app.ui.screens.destinations.HomeScreenDestination
 import com.fyp.app.ui.screens.destinations.LoginScreenDestination
 import com.fyp.app.ui.screens.destinations.UserDetailsScreenDestination
-import com.fyp.app.ui.screens.destinations.AffectedSicknessListScreenDestination
 import com.fyp.app.utils.UserPreferencesImp
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 

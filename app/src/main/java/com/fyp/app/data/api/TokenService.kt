@@ -1,6 +1,5 @@
 package com.fyp.app.data.api
 
-import com.fyp.app.data.model.db.User
 import retrofit2.http.Body
 import retrofit2.http.POST
 
