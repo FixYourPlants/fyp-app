@@ -46,10 +46,16 @@ jobs:
       - name: Add Android SDK to PATH
         run: echo "export PATH=$PATH:/usr/local/lib/android/sdk/emulator" >> $GITHUB_ENV
 
+      - name: Verify emulator installation
+        run: ls /usr/local/lib/android/sdk/emulator
+
+      - name: Set permissions for emulator
+        run: chmod +x /usr/local/lib/android/sdk/emulator/emulator
+
       - name: Create and start an emulator
         run: |
           echo "no" | avdmanager create avd -n test -k "system-images;android-33;google_apis;x86_64" --force
-          nohup emulator -avd test -no-audio -no-window &
+          nohup /usr/local/lib/android/sdk/emulator/emulator -avd test -no-audio -no-window &
 
       - name: Wait for emulator to boot
         run: |
@@ -95,6 +101,7 @@ jobs:
         with:
           name: ${{ env.date_today }} - ${{ env.playstore_name }} - ${{ env.repository_name }} - App bundle(s) AAB release generated
           path: ${{ env.main_project_module }}/build/outputs/bundle/release/
+
 
 
 
