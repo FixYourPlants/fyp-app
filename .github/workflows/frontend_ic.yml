@@ -1,10 +1,7 @@
 name: Frontend CI
 
 env:
-  # The name of the main module repository
   main_project_module: app
-
-  # The name of the Play Store
   playstore_name: Fix Your Plants
 
 on:
@@ -31,12 +28,15 @@ jobs:
       - name: Set Up JDK
         uses: actions/setup-java@v3
         with:
-          distribution: 'zulu' # See 'Supported distributions' for available options
+          distribution: 'zulu'
           java-version: '17'
           cache: 'gradle'
 
+      - name: Set Gradle JVM Options
+        run: echo "GRADLE_OPTS=-Xmx2048m" >> $GITHUB_ENV
+
       - name: Change wrapper permissions
-        run: chmod +x ./gradlew
+        run: chmod -R 755 . && chmod +x ./gradlew
 
       # Clean Gradle Cache
       - name: Clean Gradle Cache
@@ -53,6 +53,7 @@ jobs:
       # Run gradle tests
       - name: Run gradle tests
         run: ./gradlew test
+
 
 
 
