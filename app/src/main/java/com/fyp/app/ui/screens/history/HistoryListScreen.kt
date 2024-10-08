@@ -1,5 +1,6 @@
 package com.fyp.app.ui.screens.history
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -27,6 +28,7 @@ fun HistoryListScreen(navigator: DestinationsNavigator) {
     val histories = remember { mutableStateListOf<History>() }
     val service = HistoryServiceImp.getInstance()
     var searchText by remember { mutableStateOf("") }
+    Log.e("HistoryListScreen", "HistoryListScreen")
 
     LaunchedEffect(Unit) {
         val result = withContext(Dispatchers.IO) {

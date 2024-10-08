@@ -212,7 +212,39 @@ fun HistoryDetailsScreen(
                             }
                         } else {
                             // Mostrar solo la información de la planta cuando no hay enfermedad
-                            PlantDetailsTab(navigator, plant)
+                            TabRow(selectedTabIndex = pagerState.currentPage,
+                                modifier = Modifier,
+                                divider = {
+                                    HorizontalDivider(
+                                        color = Color(59, 170, 0, 255),
+                                    )
+                                },
+                                indicator = { tabPositions ->
+                                    SecondaryIndicator(
+                                        modifier = Modifier.tabIndicatorOffset(tabPositions[pagerState.currentPage]),
+                                        color = Color(59, 170, 0, 255),
+                                    )
+                                }
+                            ) {
+                                listOf("Cuidado de la Planta").forEachIndexed { index, title ->
+                                    Tab(
+                                        text = { Text(title, color = Color.Black) },
+                                        selected = pagerState.currentPage == index,
+                                        onClick = {
+                                            coroutineScope.launch {
+                                                pagerState.animateScrollToPage(index)
+                                            }
+                                        },
+                                        modifier = Modifier
+                                            .background(Color(226, 237, 169, 255))
+                                    )
+                                }
+                            }
+                            HorizontalPager(state = pagerState, modifier = Modifier.height(400.dp)) { page ->
+                                when (page) {
+                                    0 -> PlantDetailsTab(navigator, plant)
+                                }
+                            }
                         }
                     }
                 }
