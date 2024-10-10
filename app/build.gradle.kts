@@ -95,6 +95,7 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
+
     implementation("com.github.cdimascio:java-dotenv:5.1.3") // Para cargar las variables de entorn
     implementation("androidx.navigation:navigation-compose:2.7.7")
     implementation("io.github.raamcosta.compose-destinations:core:1.10.2")
@@ -123,5 +124,4 @@ dependencies {
 
     implementation("androidx.camera:camera-view:$cameraxVersion")
     implementation("androidx.camera:camera-extensions:$cameraxVersion")
-
 }
