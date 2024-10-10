@@ -1,6 +1,7 @@
 package com.fyp.app.ui.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -20,15 +21,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fyp.app.R
 
 @Composable
-fun Scanner() {
+fun Scanner(onClick: () -> Unit = {}) {
     var isClicked by remember { mutableStateOf(false) }
 
     Surface(
@@ -36,9 +37,11 @@ fun Scanner() {
             .fillMaxWidth()
             .height(120.dp)
             .padding(16.dp)
-            .clickable { isClicked = !isClicked },
+            .clickable { isClicked = !isClicked; onClick()}
+            .border(width = 3.0.dp, color = Color(0, 120, 0), shape = RoundedCornerShape(16.dp))
+            .testTag("scanner_button"),
         shape = RoundedCornerShape(16.dp),
-        color = if (isClicked) Color.Red else Color.Green
+        color = if (isClicked) Color.Red else Color(21, 230, 0, 255)
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -53,7 +56,7 @@ fun Scanner() {
             )
             Spacer(modifier = Modifier.width(16.dp))
             Text(
-                text = "Scanner",
+                text = "Escanea",
                 fontSize = 24.sp,
                 color = Color.White,
                 fontWeight = FontWeight.Bold,
@@ -61,12 +64,4 @@ fun Scanner() {
             )
         }
     }
-}
-
-
-
-@Preview
-@Composable
-fun PreviewScanner() {
-    Scanner()
 }

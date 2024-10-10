@@ -1,0 +1,65 @@
+name: Frontend CI
+
+env:
+  main_project_module: app
+  playstore_name: Fix Your Plants
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      # Set Current Date As Env Variable
+      - name: Set current date as env variable
+        run: echo "date_today=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+
+      # Set Repository Name As Env Variable
+      - name: Set repository name as env variable
+        run: echo "repository_name=$(echo '${{ github.repository }}' | awk -F '/' '{print $2}')" >> $GITHUB_ENV
+
+      - name: Set Up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+          cache: 'gradle'
+
+      - name: Set Gradle JVM Options
+        run: echo "GRADLE_OPTS=-Xmx2048m" >> $GITHUB_ENV
+
+      - name: Change wrapper permissions
+        run: chmod -R 755 . && chmod +x ./gradlew
+
+      # Clean Gradle Cache
+      - name: Clean Gradle Cache
+        run: rm -rf $HOME/.gradle/caches/
+
+      # Clean Project
+      - name: Clean Project
+        run: ./gradlew clean
+
+      # Build with Gradle
+      - name: Build with Gradle
+        run: ./gradlew build --info --stacktrace
+
+      # Run gradle tests
+      - name: Run gradle tests
+        run: ./gradlew test
+
+
+
+
+
+
+
+
+
+
