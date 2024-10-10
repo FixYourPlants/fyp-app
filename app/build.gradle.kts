@@ -25,7 +25,7 @@ android {
     }
 
     buildTypes.forEach { buildType ->
-        buildType.buildConfigField("String", "BACKEND_URL", "\"http://10.0.2.2:8000/\"")
+        buildType.buildConfigField("String", "BACKEND_URL", "\"https://fyp-api-0yf4.onrender.com/\"")
     }
 
     buildFeatures {

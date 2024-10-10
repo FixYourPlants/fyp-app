@@ -28,7 +28,6 @@ fun HistoryListScreen(navigator: DestinationsNavigator) {
     val histories = remember { mutableStateListOf<History>() }
     val service = HistoryServiceImp.getInstance()
     var searchText by remember { mutableStateOf("") }
-    Log.e("HistoryListScreen", "HistoryListScreen")
 
     LaunchedEffect(Unit) {
         val result = withContext(Dispatchers.IO) {
